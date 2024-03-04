@@ -1,15 +1,12 @@
 package ru.vsouth.wellbeingdiary.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.vsouth.wellbeingdiary.dto.UserResponse;
 import ru.vsouth.wellbeingdiary.model.User;
 import ru.vsouth.wellbeingdiary.service.UserService;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/user")
+@RequestMapping("api/user")
 public class UserController {
     private final UserService userService;
 
@@ -17,9 +14,28 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public String getAllUsers() {
-        List<User> allUsers = userService.getAllUsers();
-        return allUsers.toString();
+    @GetMapping("/get_users_count")
+    public Integer getUsersCount() {
+        return userService.getUsersCount();
+    }
+
+    @GetMapping("/{id}")
+    public UserResponse findUserById(@PathVariable int id) {
+        return userService.getUserById(id);
+    }
+
+    @PutMapping("/update")
+    public UserResponse updateUser(@RequestBody User user) {
+        return userService.updateUser(user);
+    }
+
+    @PutMapping("/update_password")
+    public UserResponse updateUserPassword(@RequestBody User user) {
+        return userService.updateUserPassword(user);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public UserResponse deleteUser(@PathVariable int id) {
+        return userService.deleteUser(id);
     }
 }
