@@ -6,7 +6,7 @@ import ru.vsouth.wellbeingdiary.model.User;
 import ru.vsouth.wellbeingdiary.service.UserService;
 
 @RestController
-@RequestMapping("api/user")
+@RequestMapping("api/users")
 public class UserController {
     private final UserService userService;
 

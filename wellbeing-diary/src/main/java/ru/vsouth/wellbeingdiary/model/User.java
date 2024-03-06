@@ -1,6 +1,7 @@
 package ru.vsouth.wellbeingdiary.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="users")
@@ -13,6 +14,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean allowsDataAccess;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name="userId")
+    private Set<DiaryEntry> diaryEntries;
 
     public User(int id, String username, String password, Role role, boolean allowsDataAccess) {
         this.id = id;

@@ -47,12 +47,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse getUserById(int id) {
         User foundUser = userRepository.findById(id).orElse(null);
+        if (foundUser == null) {
+            return null;
+        }
         return userResponseMapper.mapUserToUserResponse(foundUser);
     }
 
     @Override
     public UserResponse getUserByUsername(String username) {
         User foundUser = userRepository.findByUsername(username).orElse(null);
+        if (foundUser == null) {
+            return null;
+        }
         return userResponseMapper.mapUserToUserResponse(foundUser);
     }
 
@@ -65,6 +71,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse deleteUser(int id) {
         User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            return null;
+        }
         userRepository.deleteById(id);
         return userResponseMapper.mapUserToUserResponse(user);
     }
@@ -72,6 +81,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUser(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
+        if (existingUser == null) {
+            return null;
+        }
         existingUser.setUsername(user.getUsername());
         existingUser.setRole(user.getRole());
         existingUser.setAllowsDataAccess(user.isAllowsDataAccess());
@@ -82,6 +94,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse updateUserPassword(User user) {
         User existingUser = userRepository.findById(user.getId()).orElse(null);
+        if (existingUser == null) {
+            return null;
+        }
         // TODO: add password encoder!
         String encodedPassword = user.getPassword();
         existingUser.setPassword(encodedPassword);
