@@ -42,8 +42,6 @@ public class DiaryEntryController {
         return diaryEntryService.getEntryByUserIdAndDiaryEntryId(userId, diaryEntryId);
     }
 
-
-
     @PutMapping("/update")
     public EntryResponse updateEntry(@RequestBody DiaryEntry diaryEntry) {
         return diaryEntryService.updateEntry(diaryEntry);
@@ -53,5 +51,10 @@ public class DiaryEntryController {
     @DeleteMapping("/delete/{id}")
     public EntryResponse deleteEntry(@PathVariable int id) {
         return diaryEntryService.deleteEntry(id);
+    }
+
+    @PostMapping("/")
+    public EntryResponse addEntry(@RequestBody DiaryEntry diaryEntry) {
+        return diaryEntryService.saveEntry(diaryEntry);
     }
 }

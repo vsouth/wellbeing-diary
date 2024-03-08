@@ -8,8 +8,8 @@ import ru.vsouth.wellbeingdiary.repository.DiaryEntryRepository;
 import ru.vsouth.wellbeingdiary.utils.DiaryEntryResponseMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+
 @Service
 public class DiaryEntryServiceImpl implements EntryService {
     private final DiaryEntryRepository diaryEntryRepository;
@@ -29,7 +29,7 @@ public class DiaryEntryServiceImpl implements EntryService {
 
     @Override
     public List<EntryResponse> getAllOpenEntries() {
-        return diaryEntryRepository.findAll().stream()
+        return diaryEntryRepository.findOpenDiaryEntries().stream()
                 .map(diaryEntryResponseMapper::mapOpenDiaryEntry)
                 .collect(Collectors.toList());
     }
@@ -45,12 +45,13 @@ public class DiaryEntryServiceImpl implements EntryService {
 
     @Override
     public List<EntryResponse> getEntriesByUserId(int userId) {
-        // TODO: add impl
-        return null;
+        return diaryEntryRepository.findByUserId(userId).stream()
+                .map(diaryEntryResponseMapper::mapOpenDiaryEntry)
+                .collect(Collectors.toList());
     }
 
     public EntryResponse getEntryByUserIdAndDiaryEntryId(int userId, int diaryEntryId) {
-        DiaryEntry entry = diaryEntryRepository.findByUserIdAndDiaryEntryId(userId, diaryEntryId).orElse(null);
+        DiaryEntry entry = diaryEntryRepository.findByUserIdAndId(userId, diaryEntryId).orElse(null);
         if (entry == null) {
             return null;
         }
@@ -59,19 +60,31 @@ public class DiaryEntryServiceImpl implements EntryService {
 
     @Override
     public EntryResponse saveEntry(Entry entry) {
-        // TODO: add impl
-        return null;
+        DiaryEntry savedEntry = diaryEntryRepository.save((DiaryEntry) entry);
+        return diaryEntryResponseMapper.mapDiaryEntry(savedEntry);
     }
 
     @Override
     public EntryResponse deleteEntry(int id) {
-        // TODO: add impl
-        return null;
+        DiaryEntry entry = diaryEntryRepository.findById(id).orElse(null);
+        if (entry == null) {
+            return null;
+        }
+        diaryEntryRepository.deleteById(id);
+        return diaryEntryResponseMapper.mapDiaryEntry(entry);
     }
 
     @Override
     public EntryResponse updateEntry(Entry entry) {
-        // TODO: add impl
-        return null;
+        DiaryEntry existingEntry = diaryEntryRepository.findById(((DiaryEntry) entry).getId()).orElse(null);
+        if (existingEntry == null) {
+            return null;
+        }
+        existingEntry.setEntryText(((DiaryEntry) entry).getEntryText());
+        existingEntry.setMood(((DiaryEntry) entry).getMood());
+        existingEntry.setStateOfHealth(((DiaryEntry) entry).getStateOfHealth());
+        existingEntry.setActivityAmount(((DiaryEntry) entry).getActivityAmount());
+        DiaryEntry savedEntry = diaryEntryRepository.save(existingEntry);
+        return diaryEntryResponseMapper.mapDiaryEntry(savedEntry);
     }
 }
