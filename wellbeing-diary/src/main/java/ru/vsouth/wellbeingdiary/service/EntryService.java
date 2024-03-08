@@ -1,26 +1,25 @@
 package ru.vsouth.wellbeingdiary.service;
 
 import ru.vsouth.wellbeingdiary.dto.EntryResponse;
-import ru.vsouth.wellbeingdiary.dto.UserResponse;
 import ru.vsouth.wellbeingdiary.model.Entry;
-import ru.vsouth.wellbeingdiary.model.User;
 
 import java.util.List;
 
-public interface EntryService {
+public interface EntryService<T extends Entry, R extends EntryResponse, O extends EntryResponse> {
 
-    List<EntryResponse> getAllEntries();
-    List<EntryResponse> getAllOpenEntries();
+    List<R> getAllEntries();
 
-    EntryResponse getEntryById(int id);
+    List<O> getAllOpenEntries();
 
-    List<EntryResponse> getEntriesByUserId(int userId);
+    R getEntryById(int id);
 
-    EntryResponse getEntryByUserIdAndDiaryEntryId(int userId, int diaryEntryId);
+    List<R> getEntriesByUserId(int userId);
 
-    EntryResponse saveEntry(Entry entry);
+    R getEntryByUserIdAndDiaryEntryId(int userId, int diaryEntryId);
 
-    EntryResponse deleteEntry(int id);
+    R saveEntry(T entry);
 
-    EntryResponse updateEntry(Entry entry);
+    R deleteEntry(int id);
+
+    R updateEntry(T entry);
 }
