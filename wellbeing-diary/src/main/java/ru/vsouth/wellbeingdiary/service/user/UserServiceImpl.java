@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.service;
+package ru.vsouth.wellbeingdiary.service.user;
 
 import org.springframework.stereotype.Service;
 import ru.vsouth.wellbeingdiary.dto.UserResponse;

@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.service;
+package ru.vsouth.wellbeingdiary.service.user;
 
 import ru.vsouth.wellbeingdiary.dto.UserResponse;
 import ru.vsouth.wellbeingdiary.model.User;

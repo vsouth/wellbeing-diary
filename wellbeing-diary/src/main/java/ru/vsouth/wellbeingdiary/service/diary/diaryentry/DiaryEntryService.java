@@ -1,8 +1,9 @@
-package ru.vsouth.wellbeingdiary.service;
+package ru.vsouth.wellbeingdiary.service.diary.diaryentry;
 
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.DiaryEntry;
+import ru.vsouth.wellbeingdiary.service.diary.EntryService;
 
 import java.util.List;
 

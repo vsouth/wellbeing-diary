@@ -3,7 +3,7 @@ package ru.vsouth.wellbeingdiary.controller;
 import org.springframework.web.bind.annotation.*;
 import ru.vsouth.wellbeingdiary.dto.UserResponse;
 import ru.vsouth.wellbeingdiary.model.User;
-import ru.vsouth.wellbeingdiary.service.UserService;
+import ru.vsouth.wellbeingdiary.service.user.UserService;
 
 @RestController
 @RequestMapping("api/users")
