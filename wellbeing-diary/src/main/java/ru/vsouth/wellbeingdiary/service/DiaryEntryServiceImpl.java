@@ -8,10 +8,11 @@ import ru.vsouth.wellbeingdiary.repository.DiaryEntryRepository;
 import ru.vsouth.wellbeingdiary.utils.DiaryEntryResponseMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class DiaryEntryServiceImpl implements EntryService<DiaryEntry, DiaryEntryResponse, OpenDiaryEntryResponse> {
+public class DiaryEntryServiceImpl implements DiaryEntryService {
     private final DiaryEntryRepository diaryEntryRepository;
     private final DiaryEntryResponseMapper diaryEntryResponseMapper;
 
@@ -22,40 +23,39 @@ public class DiaryEntryServiceImpl implements EntryService<DiaryEntry, DiaryEntr
 
     @Override
     public List<DiaryEntryResponse> getAllEntries() {
-        return diaryEntryRepository.findAll().stream()
-                .map(diaryEntryResponseMapper::mapDiaryEntry)
-                .collect(Collectors.toList());
+        return diaryEntryRepository.findAll().stream().map(diaryEntryResponseMapper::mapDiaryEntry).collect(Collectors.toList());
     }
 
     @Override
     public List<OpenDiaryEntryResponse> getAllOpenEntries() {
-        return diaryEntryRepository.findOpenDiaryEntries().stream()
-                .map(diaryEntryResponseMapper::mapOpenDiaryEntry)
-                .collect(Collectors.toList());
+        return diaryEntryRepository.findOpenDiaryEntries().stream().map(diaryEntryResponseMapper::mapOpenDiaryEntry).collect(Collectors.toList());
     }
 
     @Override
     public DiaryEntryResponse getEntryById(int id) {
-        DiaryEntry diaryEntry = diaryEntryRepository.findById(id).orElse(null);
-        if (diaryEntry == null) {
+        Optional<DiaryEntry> optionalDiaryEntry = diaryEntryRepository.findById(id);
+        if (optionalDiaryEntry.isPresent()) {
+            DiaryEntry diaryEntry = optionalDiaryEntry.get();
+            return diaryEntryResponseMapper.mapDiaryEntry(diaryEntry);
+        } else {
             return null;
         }
-        return diaryEntryResponseMapper.mapDiaryEntry(diaryEntry);
     }
 
     @Override
     public List<DiaryEntryResponse> getEntriesByUserId(int userId) {
-        return diaryEntryRepository.findByUserId(userId).stream()
-                .map(diaryEntryResponseMapper::mapDiaryEntry)
-                .collect(Collectors.toList());
+        return diaryEntryRepository.findByUserId(userId).stream().map(diaryEntryResponseMapper::mapDiaryEntry).collect(Collectors.toList());
     }
 
+    @Override
     public DiaryEntryResponse getEntryByUserIdAndDiaryEntryId(int userId, int diaryEntryId) {
-        DiaryEntry entry = diaryEntryRepository.findByUserIdAndId(userId, diaryEntryId).orElse(null);
-        if (entry == null) {
+        Optional<DiaryEntry> optionalEntry = diaryEntryRepository.findByUserIdAndId(userId, diaryEntryId);
+        if (optionalEntry.isPresent()) {
+            DiaryEntry entry = optionalEntry.get();
+            return diaryEntryResponseMapper.mapDiaryEntry(entry);
+        } else {
             return null;
         }
-        return diaryEntryResponseMapper.mapDiaryEntry(entry);
     }
 
     @Override
@@ -66,25 +66,29 @@ public class DiaryEntryServiceImpl implements EntryService<DiaryEntry, DiaryEntr
 
     @Override
     public DiaryEntryResponse deleteEntry(int id) {
-        DiaryEntry entry = diaryEntryRepository.findById(id).orElse(null);
-        if (entry == null) {
+        Optional<DiaryEntry> optionalEntry = diaryEntryRepository.findById(id);
+        if (optionalEntry.isPresent()) {
+            DiaryEntry entry = optionalEntry.get();
+            diaryEntryRepository.deleteById(id);
+            return diaryEntryResponseMapper.mapDiaryEntry(entry);
+        } else {
             return null;
         }
-        diaryEntryRepository.deleteById(id);
-        return diaryEntryResponseMapper.mapDiaryEntry(entry);
     }
 
     @Override
     public DiaryEntryResponse updateEntry(DiaryEntry entry) {
-        DiaryEntry existingEntry = diaryEntryRepository.findById(entry.getId()).orElse(null);
-        if (existingEntry == null) {
+        Optional<DiaryEntry> optionalExistingEntry = diaryEntryRepository.findById(entry.getId());
+        if (optionalExistingEntry.isPresent()) {
+            DiaryEntry existingEntry = optionalExistingEntry.get();
+            existingEntry.setEntryText(entry.getEntryText());
+            existingEntry.setMood(entry.getMood());
+            existingEntry.setStateOfHealth(entry.getStateOfHealth());
+            existingEntry.setActivityAmount(entry.getActivityAmount());
+            DiaryEntry savedEntry = diaryEntryRepository.save(existingEntry);
+            return diaryEntryResponseMapper.mapDiaryEntry(savedEntry);
+        } else {
             return null;
         }
-        existingEntry.setEntryText(entry.getEntryText());
-        existingEntry.setMood(entry.getMood());
-        existingEntry.setStateOfHealth(entry.getStateOfHealth());
-        existingEntry.setActivityAmount(entry.getActivityAmount());
-        DiaryEntry savedEntry = diaryEntryRepository.save(existingEntry);
-        return diaryEntryResponseMapper.mapDiaryEntry(savedEntry);
     }
 }

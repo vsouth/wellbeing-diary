@@ -1,21 +1,22 @@
 package ru.vsouth.wellbeingdiary.dto;
 
 import ru.vsouth.wellbeingdiary.model.Grade;
+import ru.vsouth.wellbeingdiary.model.HealthEntry;
 
 import java.util.Date;
 
 public class OpenDiaryEntryResponse extends EntryResponse{
     private int id;
-    private Integer healthEntryId;
+    private HealthEntry healthEntry;
     private Integer weatherEntryId;
     private Date createdAt;
     private Grade mood;
     private Grade stateOfHealth;
     private Grade activityAmount;
 
-    public OpenDiaryEntryResponse(int id, Integer healthEntryId, Integer weatherEntryId, Date createdAt, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+    public OpenDiaryEntryResponse(int id, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, Grade mood, Grade stateOfHealth, Grade activityAmount) {
         this.id = id;
-        this.healthEntryId = healthEntryId;
+        this.healthEntry = healthEntry;
         this.weatherEntryId = weatherEntryId;
         this.createdAt = createdAt;
         this.mood = mood;
@@ -27,8 +28,8 @@ public class OpenDiaryEntryResponse extends EntryResponse{
         return id;
     }
 
-    public Integer getHealthEntryId() {
-        return healthEntryId;
+    public HealthEntry getHealthEntry() {
+        return healthEntry;
     }
 
     public Integer getWeatherEntryId() {
