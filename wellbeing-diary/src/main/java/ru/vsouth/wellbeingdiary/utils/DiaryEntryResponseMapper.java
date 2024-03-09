@@ -10,7 +10,7 @@ public class DiaryEntryResponseMapper {
     public DiaryEntryResponse mapDiaryEntry(DiaryEntry diaryEntry) {
         return new DiaryEntryResponse(
                 diaryEntry.getId(),
-                diaryEntry.getUserId(),
+                diaryEntry.getUser().getId(),
                 diaryEntry.getHealthEntry(),
                 diaryEntry.getWeatherEntryId(),
                 diaryEntry.getCreatedAt(),

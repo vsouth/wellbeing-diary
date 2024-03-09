@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface DiaryEntryRepository  extends JpaRepository<DiaryEntry, Integer> {
     Optional<DiaryEntry> findByUserIdAndId(int userId, int diaryEntryId);
-    @Query("SELECT de FROM DiaryEntry de WHERE de.userId IN (SELECT u.id FROM User u WHERE u.allowsDataAccess = true)")
+    @Query("SELECT de FROM DiaryEntry de WHERE de.user.id IN (SELECT u.id FROM User u WHERE u.allowsDataAccess = true)")
     List<DiaryEntry> findOpenDiaryEntries();
     List<DiaryEntry> findByUserId(int userId);
 }

@@ -14,8 +14,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean allowsDataAccess;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name="userId")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<DiaryEntry> diaryEntries;
 
     public User(int id, String username, String password, Role role, boolean allowsDataAccess) {

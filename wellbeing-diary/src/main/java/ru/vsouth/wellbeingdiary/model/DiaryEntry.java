@@ -1,5 +1,7 @@
 package ru.vsouth.wellbeingdiary.model;
 
+import org.springframework.lang.NonNull;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -10,7 +12,10 @@ public class DiaryEntry extends Entry {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int userId;
+    @ManyToOne()
+    @JoinColumn(name = "userId", referencedColumnName = "id", nullable = false)
+    @NonNull
+    private User user;
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "healthEntryId", referencedColumnName = "id")
     private HealthEntry healthEntry;
@@ -27,9 +32,9 @@ public class DiaryEntry extends Entry {
     public DiaryEntry() {
     }
 
-    public DiaryEntry(int id, int userId, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+    public DiaryEntry(int id, User user, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
         this.id = id;
-        this.userId = userId;
+        this.user = user;
         this.healthEntry = healthEntry;
         this.weatherEntryId = weatherEntryId;
         this.createdAt = createdAt;
@@ -39,8 +44,8 @@ public class DiaryEntry extends Entry {
         this.activityAmount = activityAmount;
     }
 
-    public DiaryEntry(int userId, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
-        this.userId = userId;
+    public DiaryEntry(User user, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+        this.user = user;
         this.healthEntry = healthEntry;
         this.weatherEntryId = weatherEntryId;
         this.createdAt = createdAt;
@@ -58,12 +63,12 @@ public class DiaryEntry extends Entry {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public HealthEntry getHealthEntry() {
@@ -127,11 +132,11 @@ public class DiaryEntry extends Entry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DiaryEntry that = (DiaryEntry) o;
-        return getId() == that.getId() && getUserId() == that.getUserId() && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntryId(), that.getWeatherEntryId()) && Objects.equals(getCreatedAt(), that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
+        return getId() == that.getId() && getUser().equals(that.getUser()) && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntryId(), that.getWeatherEntryId()) && getCreatedAt().equals(that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getHealthEntry(), getWeatherEntryId(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
+        return Objects.hash(getId(), getUser(), getHealthEntry(), getWeatherEntryId(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
     }
 }
