@@ -7,6 +7,7 @@ import ru.vsouth.wellbeingdiary.repository.UserRepository;
 import ru.vsouth.wellbeingdiary.utils.UserResponseMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,20 +47,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse getUserById(int id) {
-        User foundUser = userRepository.findById(id).orElse(null);
-        if (foundUser == null) {
+        Optional<User> optionalFoundUser = userRepository.findById(id);
+        if (optionalFoundUser.isPresent()) {
+            User foundUser = optionalFoundUser.get();
+            return userResponseMapper.mapUserToUserResponse(foundUser);
+        } else {
             return null;
         }
-        return userResponseMapper.mapUserToUserResponse(foundUser);
     }
 
     @Override
     public UserResponse getUserByUsername(String username) {
-        User foundUser = userRepository.findByUsername(username).orElse(null);
-        if (foundUser == null) {
+        Optional<User> optionalFoundUser = userRepository.findByUsername(username);
+        if (optionalFoundUser.isPresent()) {
+            User foundUser = optionalFoundUser.get();
+            return userResponseMapper.mapUserToUserResponse(foundUser);
+        } else {
             return null;
         }
-        return userResponseMapper.mapUserToUserResponse(foundUser);
     }
 
     @Override
@@ -70,38 +75,48 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse deleteUser(int id) {
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            userRepository.deleteById(id);
+            return userResponseMapper.mapUserToUserResponse(user);
+        } else {
             return null;
         }
-        userRepository.deleteById(id);
-        return userResponseMapper.mapUserToUserResponse(user);
     }
 
     @Override
     public UserResponse updateUser(User user) {
-        User existingUser = userRepository.findById(user.getId()).orElse(null);
-        if (existingUser == null) {
+        Optional<User> optionalExistingUser = userRepository.findById(user.getId());
+        if (optionalExistingUser.isPresent()) {
+            User existingUser = optionalExistingUser.get();
+
+            existingUser.setUsername(user.getUsername());
+            existingUser.setRole(user.getRole());
+            existingUser.setAllowsDataAccess(user.isAllowsDataAccess());
+
+            User savedUser = userRepository.save(existingUser);
+            return userResponseMapper.mapUserToUserResponse(savedUser);
+        } else {
             return null;
         }
-        existingUser.setUsername(user.getUsername());
-        existingUser.setRole(user.getRole());
-        existingUser.setAllowsDataAccess(user.isAllowsDataAccess());
-        User savedUser = userRepository.save(existingUser);
-        return userResponseMapper.mapUserToUserResponse(savedUser);
     }
 
     @Override
     public UserResponse updateUserPassword(User user) {
-        User existingUser = userRepository.findById(user.getId()).orElse(null);
-        if (existingUser == null) {
+        Optional<User> optionalExistingUser = userRepository.findById(user.getId());
+        if (optionalExistingUser.isPresent()) {
+            User existingUser = optionalExistingUser.get();
+
+            // TODO: add password encoder!
+            String encodedPassword = user.getPassword();
+            existingUser.setPassword(encodedPassword);
+
+            User savedUser = userRepository.save(existingUser);
+            return userResponseMapper.mapUserToUserResponse(savedUser);
+        } else {
             return null;
         }
-        // TODO: add password encoder!
-        String encodedPassword = user.getPassword();
-        existingUser.setPassword(encodedPassword);
-        User savedUser = userRepository.save(existingUser);
-        return userResponseMapper.mapUserToUserResponse(savedUser);
     }
 
     @Override
