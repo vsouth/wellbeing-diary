@@ -1,10 +1,11 @@
 package ru.vsouth.wellbeingdiary.service.user;
 
 import org.springframework.stereotype.Service;
+import ru.vsouth.wellbeingdiary.dto.UserRequest;
 import ru.vsouth.wellbeingdiary.dto.UserResponse;
 import ru.vsouth.wellbeingdiary.model.User;
 import ru.vsouth.wellbeingdiary.repository.UserRepository;
-import ru.vsouth.wellbeingdiary.utils.UserResponseMapper;
+import ru.vsouth.wellbeingdiary.utils.UserMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,12 +14,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final UserResponseMapper userResponseMapper;
+    private final UserMapper userMapper;
     // TODO: add password encoder!
 
-    public UserServiceImpl(UserRepository userRepository, UserResponseMapper userResponseMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
-        this.userResponseMapper = userResponseMapper;
+        this.userMapper = userMapper;
     }
 
     @Override
@@ -26,14 +27,14 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).isPresent();
     }
 
-    @Override
-    public UserResponse registerUser(User user) {
-        if (!existsByUsername(user.getUsername())) {
+    public UserResponse registerUser(UserRequest userRequest) {
+        if (!existsByUsername(userRequest.getUsername())) {
             // TODO: add password encoder!
+            User user = userMapper.toUser(userRequest);
             String encodedPassword = user.getPassword();
             user.setPassword(encodedPassword);
             User savedUser = userRepository.save(user);
-            return userResponseMapper.mapUserToUserResponse(savedUser);
+            return userMapper.toUserResponse(savedUser);
         }
         return null;
     }
@@ -41,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
-                .map(userResponseMapper::mapUserToUserResponse)
+                .map(userMapper::toUserResponse)
                 .collect(Collectors.toList());
     }
 
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalFoundUser = userRepository.findById(id);
         if (optionalFoundUser.isPresent()) {
             User foundUser = optionalFoundUser.get();
-            return userResponseMapper.mapUserToUserResponse(foundUser);
+            return userMapper.toUserResponse(foundUser);
         } else {
             return null;
         }
@@ -61,16 +62,17 @@ public class UserServiceImpl implements UserService {
         Optional<User> optionalFoundUser = userRepository.findByUsername(username);
         if (optionalFoundUser.isPresent()) {
             User foundUser = optionalFoundUser.get();
-            return userResponseMapper.mapUserToUserResponse(foundUser);
+            return userMapper.toUserResponse(foundUser);
         } else {
             return null;
         }
     }
 
     @Override
-    public UserResponse saveUser(User user) {
+    public UserResponse saveUser(UserRequest userRequest) {
+        User user = userMapper.toUser(userRequest);
         User savedUser = userRepository.save(user);
-        return userResponseMapper.mapUserToUserResponse(savedUser);
+        return userMapper.toUserResponse(savedUser);
     }
 
     @Override
@@ -79,14 +81,14 @@ public class UserServiceImpl implements UserService {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             userRepository.deleteById(id);
-            return userResponseMapper.mapUserToUserResponse(user);
+            return userMapper.toUserResponse(user);
         } else {
             return null;
         }
     }
 
     @Override
-    public UserResponse updateUser(User user) {
+    public UserResponse updateUser(UserRequest user) {
         Optional<User> optionalExistingUser = userRepository.findById(user.getId());
         if (optionalExistingUser.isPresent()) {
             User existingUser = optionalExistingUser.get();
@@ -96,14 +98,14 @@ public class UserServiceImpl implements UserService {
             existingUser.setAllowsDataAccess(user.isAllowsDataAccess());
 
             User savedUser = userRepository.save(existingUser);
-            return userResponseMapper.mapUserToUserResponse(savedUser);
+            return userMapper.toUserResponse(savedUser);
         } else {
             return null;
         }
     }
 
     @Override
-    public UserResponse updateUserPassword(User user) {
+    public UserResponse updateUserPassword(UserRequest user) {
         Optional<User> optionalExistingUser = userRepository.findById(user.getId());
         if (optionalExistingUser.isPresent()) {
             User existingUser = optionalExistingUser.get();
@@ -113,7 +115,7 @@ public class UserServiceImpl implements UserService {
             existingUser.setPassword(encodedPassword);
 
             User savedUser = userRepository.save(existingUser);
-            return userResponseMapper.mapUserToUserResponse(savedUser);
+            return userMapper.toUserResponse(savedUser);
         } else {
             return null;
         }

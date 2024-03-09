@@ -1,14 +1,14 @@
 package ru.vsouth.wellbeingdiary.service.user;
 
+import ru.vsouth.wellbeingdiary.dto.UserRequest;
 import ru.vsouth.wellbeingdiary.dto.UserResponse;
-import ru.vsouth.wellbeingdiary.model.User;
 
 import java.util.List;
 
 public interface UserService {
     Boolean existsByUsername(String username);
 
-    UserResponse registerUser(User user);
+    UserResponse registerUser(UserRequest user);
 
     List<UserResponse> getAllUsers();
 
@@ -16,13 +16,13 @@ public interface UserService {
 
     UserResponse getUserByUsername(String username);
 
-    UserResponse saveUser(User user);
+    UserResponse saveUser(UserRequest user);
 
     UserResponse deleteUser(int id);
 
-    UserResponse updateUser(User user);
+    UserResponse updateUser(UserRequest user);
 
-    UserResponse updateUserPassword (User user);
+    UserResponse updateUserPassword (UserRequest user);
 
     Integer getUsersCount();
 

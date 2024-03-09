@@ -1,8 +1,8 @@
 package ru.vsouth.wellbeingdiary.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsouth.wellbeingdiary.dto.UserRequest;
 import ru.vsouth.wellbeingdiary.dto.UserResponse;
-import ru.vsouth.wellbeingdiary.model.User;
 import ru.vsouth.wellbeingdiary.service.user.UserService;
 
 @RestController
@@ -25,12 +25,12 @@ public class UserController {
     }
 
     @PutMapping("/update")
-    public UserResponse updateUser(@RequestBody User user) {
+    public UserResponse updateUser(@RequestBody UserRequest user) {
         return userService.updateUser(user);
     }
 
     @PutMapping("/update_password")
-    public UserResponse updateUserPassword(@RequestBody User user) {
+    public UserResponse updateUserPassword(@RequestBody UserRequest user) {
         return userService.updateUserPassword(user);
     }
 
