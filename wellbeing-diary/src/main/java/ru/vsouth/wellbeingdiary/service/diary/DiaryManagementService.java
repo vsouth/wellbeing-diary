@@ -1,11 +1,9 @@
 package ru.vsouth.wellbeingdiary.service.diary;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.model.DiaryEntry;
 import ru.vsouth.wellbeingdiary.model.HealthEntry;
 import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.healthentry.HealthEntryService;
@@ -45,11 +43,14 @@ public class DiaryManagementService {
     public DiaryEntryResponse updateDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
         DiaryEntryResponse diaryEntry = diaryEntryService.getEntryById(diaryEntryRequest.getId());
         HealthEntry healthEntry = diaryEntry.getHealthEntry();
-        System.out.println(healthEntry.getId());
         HealthEntry updatedHealthEntry = diaryEntryRequest.getHealthEntry();
-        updatedHealthEntry.setId(healthEntry.getId());
-
-        healthEntryService.updateEntry(updatedHealthEntry);
+        if (healthEntry != null && updatedHealthEntry != null) {
+            updatedHealthEntry.setId(healthEntry.getId());
+            healthEntryService.updateEntry(updatedHealthEntry);
+        }
+        if (healthEntry == null && updatedHealthEntry != null){
+            healthEntryService.saveEntry(updatedHealthEntry);
+        }
         return diaryEntryService.updateEntry(diaryEntryRequest);
     }
 

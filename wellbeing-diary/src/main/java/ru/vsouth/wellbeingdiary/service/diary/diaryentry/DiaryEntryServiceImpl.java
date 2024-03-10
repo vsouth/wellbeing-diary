@@ -83,6 +83,9 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         Optional<DiaryEntry> optionalExistingEntry = diaryEntryRepository.findById(diaryEntryRequest.getId());
         if (optionalExistingEntry.isPresent()) {
             DiaryEntry existingEntry = optionalExistingEntry.get();
+            if (existingEntry.getHealthEntry() == null) {
+                existingEntry.setHealthEntry(diaryEntryRequest.getHealthEntry());
+            }
             existingEntry.setEntryText(diaryEntryRequest.getEntryText());
             existingEntry.setMood(diaryEntryRequest.getMood());
             existingEntry.setStateOfHealth(diaryEntryRequest.getStateOfHealth());
