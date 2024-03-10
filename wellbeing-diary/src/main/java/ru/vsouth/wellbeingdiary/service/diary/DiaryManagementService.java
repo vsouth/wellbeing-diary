@@ -58,6 +58,7 @@ public class DiaryManagementService {
     }
 
     public DiaryEntryResponse addDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
+        healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
         return diaryEntryService.saveEntry(diaryEntryRequest);
     }
 }

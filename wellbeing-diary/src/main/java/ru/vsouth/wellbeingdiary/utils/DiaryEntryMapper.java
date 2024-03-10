@@ -7,6 +7,8 @@ import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.DiaryEntry;
 import ru.vsouth.wellbeingdiary.model.User;
 
+import java.util.Optional;
+
 @Component
 public class DiaryEntryMapper {
     public DiaryEntryResponse toDiaryEntryResponse(DiaryEntry diaryEntry) {
@@ -37,7 +39,7 @@ public class DiaryEntryMapper {
 
     public DiaryEntry toDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
         DiaryEntry diaryEntry = new DiaryEntry();
-        diaryEntry.setId(diaryEntryRequest.getId());
+        diaryEntry.setId(Optional.ofNullable(diaryEntryRequest.getId()).orElse(0));
         User user = new User();
         user.setId(diaryEntryRequest.getUserId());
         diaryEntry.setUser(user);
