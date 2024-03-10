@@ -16,6 +16,9 @@ public class HealthEntryResponse extends EntryResponse {
         this.diastolicBloodPressure = diastolicBloodPressure;
     }
 
+    public HealthEntryResponse() {
+    }
+
     public int getId() {
         return id;
     }
@@ -30,5 +33,21 @@ public class HealthEntryResponse extends EntryResponse {
 
     public Integer getDiastolicBloodPressure() {
         return diastolicBloodPressure;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setHeartRate(Integer heartRate) {
+        this.heartRate = heartRate;
+    }
+
+    public void setSystolicBloodPressure(Integer systolicBloodPressure) {
+        this.systolicBloodPressure = systolicBloodPressure;
+    }
+
+    public void setDiastolicBloodPressure(Integer diastolicBloodPressure) {
+        this.diastolicBloodPressure = diastolicBloodPressure;
     }
 }

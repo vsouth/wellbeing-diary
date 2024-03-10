@@ -3,6 +3,7 @@ package ru.vsouth.wellbeingdiary.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "health_entries")
@@ -65,5 +66,18 @@ public class HealthEntry extends Entry{
 
     public void setDiastolicBloodPressure(Integer diastolicBloodPressure) {
         this.diastolicBloodPressure = diastolicBloodPressure;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HealthEntry that = (HealthEntry) o;
+        return getId() == that.getId() && Objects.equals(getHeartRate(), that.getHeartRate()) && Objects.equals(getSystolicBloodPressure(), that.getSystolicBloodPressure()) && Objects.equals(getDiastolicBloodPressure(), that.getDiastolicBloodPressure());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getHeartRate(), getSystolicBloodPressure(), getDiastolicBloodPressure());
     }
 }

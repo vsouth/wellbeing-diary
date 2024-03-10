@@ -28,6 +28,9 @@ public class DiaryEntryResponse extends EntryResponse{
         this.activityAmount = activityAmount;
     }
 
+    public DiaryEntryResponse() {
+    }
+
     public int getId() {
         return id;
     }
@@ -62,5 +65,41 @@ public class DiaryEntryResponse extends EntryResponse{
 
     public Grade getActivityAmount() {
         return activityAmount;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public void setHealthEntry(HealthEntry healthEntry) {
+        this.healthEntry = healthEntry;
+    }
+
+    public void setWeatherEntryId(Integer weatherEntryId) {
+        this.weatherEntryId = weatherEntryId;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setEntryText(String entryText) {
+        this.entryText = entryText;
+    }
+
+    public void setMood(Grade mood) {
+        this.mood = mood;
+    }
+
+    public void setStateOfHealth(Grade stateOfHealth) {
+        this.stateOfHealth = stateOfHealth;
+    }
+
+    public void setActivityAmount(Grade activityAmount) {
+        this.activityAmount = activityAmount;
     }
 }
