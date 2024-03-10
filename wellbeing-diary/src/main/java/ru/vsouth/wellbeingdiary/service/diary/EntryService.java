@@ -1,11 +1,10 @@
 package ru.vsouth.wellbeingdiary.service.diary;
 
 import ru.vsouth.wellbeingdiary.dto.EntryResponse;
-import ru.vsouth.wellbeingdiary.model.Entry;
 
 import java.util.List;
 
-public interface EntryService<T extends Entry, R extends EntryResponse> {
+public interface EntryService<T, R extends EntryResponse> {
 
     List<R> getAllEntries();
 

@@ -1,11 +1,12 @@
 package ru.vsouth.wellbeingdiary.service.diary.diaryentry;
 
 import org.springframework.stereotype.Service;
+import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.DiaryEntry;
 import ru.vsouth.wellbeingdiary.repository.DiaryEntryRepository;
-import ru.vsouth.wellbeingdiary.utils.DiaryEntryResponseMapper;
+import ru.vsouth.wellbeingdiary.utils.DiaryEntryMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,21 +15,21 @@ import java.util.stream.Collectors;
 @Service
 public class DiaryEntryServiceImpl implements DiaryEntryService {
     private final DiaryEntryRepository diaryEntryRepository;
-    private final DiaryEntryResponseMapper diaryEntryResponseMapper;
+    private final DiaryEntryMapper diaryEntryMapper;
 
-    public DiaryEntryServiceImpl(DiaryEntryRepository diaryEntryRepository, DiaryEntryResponseMapper diaryEntryResponseMapper) {
+    public DiaryEntryServiceImpl(DiaryEntryRepository diaryEntryRepository, DiaryEntryMapper diaryEntryMapper) {
         this.diaryEntryRepository = diaryEntryRepository;
-        this.diaryEntryResponseMapper = diaryEntryResponseMapper;
+        this.diaryEntryMapper = diaryEntryMapper;
     }
 
     @Override
     public List<DiaryEntryResponse> getAllEntries() {
-        return diaryEntryRepository.findAll().stream().map(diaryEntryResponseMapper::mapDiaryEntry).collect(Collectors.toList());
+        return diaryEntryRepository.findAll().stream().map(diaryEntryMapper::toDiaryEntryResponse).collect(Collectors.toList());
     }
 
     @Override
     public List<OpenDiaryEntryResponse> getAllOpenEntries() {
-        return diaryEntryRepository.findOpenDiaryEntries().stream().map(diaryEntryResponseMapper::mapOpenDiaryEntry).collect(Collectors.toList());
+        return diaryEntryRepository.findOpenDiaryEntries().stream().map(diaryEntryMapper::toOpenDiaryEntryResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -36,7 +37,7 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         Optional<DiaryEntry> optionalDiaryEntry = diaryEntryRepository.findById(id);
         if (optionalDiaryEntry.isPresent()) {
             DiaryEntry diaryEntry = optionalDiaryEntry.get();
-            return diaryEntryResponseMapper.mapDiaryEntry(diaryEntry);
+            return diaryEntryMapper.toDiaryEntryResponse(diaryEntry);
         } else {
             return null;
         }
@@ -44,7 +45,7 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
 
     @Override
     public List<DiaryEntryResponse> getEntriesByUserId(int userId) {
-        return diaryEntryRepository.findByUserId(userId).stream().map(diaryEntryResponseMapper::mapDiaryEntry).collect(Collectors.toList());
+        return diaryEntryRepository.findByUserId(userId).stream().map(diaryEntryMapper::toDiaryEntryResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -52,16 +53,17 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         Optional<DiaryEntry> optionalEntry = diaryEntryRepository.findByUserIdAndId(userId, diaryEntryId);
         if (optionalEntry.isPresent()) {
             DiaryEntry entry = optionalEntry.get();
-            return diaryEntryResponseMapper.mapDiaryEntry(entry);
+            return diaryEntryMapper.toDiaryEntryResponse(entry);
         } else {
             return null;
         }
     }
 
     @Override
-    public DiaryEntryResponse saveEntry(DiaryEntry entry) {
-        DiaryEntry savedEntry = diaryEntryRepository.save(entry);
-        return diaryEntryResponseMapper.mapDiaryEntry(savedEntry);
+    public DiaryEntryResponse saveEntry(DiaryEntryRequest diaryEntryRequest) {
+        DiaryEntry diaryEntryToSave = diaryEntryMapper.toDiaryEntry(diaryEntryRequest);
+        DiaryEntry savedEntry = diaryEntryRepository.save(diaryEntryToSave);
+        return diaryEntryMapper.toDiaryEntryResponse(savedEntry);
     }
 
     @Override
@@ -70,23 +72,23 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         if (optionalEntry.isPresent()) {
             DiaryEntry entry = optionalEntry.get();
             diaryEntryRepository.deleteById(id);
-            return diaryEntryResponseMapper.mapDiaryEntry(entry);
+            return diaryEntryMapper.toDiaryEntryResponse(entry);
         } else {
             return null;
         }
     }
 
     @Override
-    public DiaryEntryResponse updateEntry(DiaryEntry entry) {
-        Optional<DiaryEntry> optionalExistingEntry = diaryEntryRepository.findById(entry.getId());
+    public DiaryEntryResponse updateEntry(DiaryEntryRequest diaryEntryRequest) {
+        Optional<DiaryEntry> optionalExistingEntry = diaryEntryRepository.findById(diaryEntryRequest.getId());
         if (optionalExistingEntry.isPresent()) {
             DiaryEntry existingEntry = optionalExistingEntry.get();
-            existingEntry.setEntryText(entry.getEntryText());
-            existingEntry.setMood(entry.getMood());
-            existingEntry.setStateOfHealth(entry.getStateOfHealth());
-            existingEntry.setActivityAmount(entry.getActivityAmount());
+            existingEntry.setEntryText(diaryEntryRequest.getEntryText());
+            existingEntry.setMood(diaryEntryRequest.getMood());
+            existingEntry.setStateOfHealth(diaryEntryRequest.getStateOfHealth());
+            existingEntry.setActivityAmount(diaryEntryRequest.getActivityAmount());
             DiaryEntry savedEntry = diaryEntryRepository.save(existingEntry);
-            return diaryEntryResponseMapper.mapDiaryEntry(savedEntry);
+            return diaryEntryMapper.toDiaryEntryResponse(savedEntry);
         } else {
             return null;
         }

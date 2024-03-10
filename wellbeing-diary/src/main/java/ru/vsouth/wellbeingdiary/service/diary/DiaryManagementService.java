@@ -2,9 +2,11 @@ package ru.vsouth.wellbeingdiary.service.diary;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.DiaryEntry;
+import ru.vsouth.wellbeingdiary.model.HealthEntry;
 import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.healthentry.HealthEntryService;
 
@@ -40,15 +42,22 @@ public class DiaryManagementService {
         return diaryEntryService.getEntryById(id);
     }
 
-    public DiaryEntryResponse updateDiaryEntry(DiaryEntry diaryEntry) {
-        return diaryEntryService.updateEntry(diaryEntry);
+    public DiaryEntryResponse updateDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
+        DiaryEntryResponse diaryEntry = diaryEntryService.getEntryById(diaryEntryRequest.getId());
+        HealthEntry healthEntry = diaryEntry.getHealthEntry();
+        System.out.println(healthEntry.getId());
+        HealthEntry updatedHealthEntry = diaryEntryRequest.getHealthEntry();
+        updatedHealthEntry.setId(healthEntry.getId());
+
+        healthEntryService.updateEntry(updatedHealthEntry);
+        return diaryEntryService.updateEntry(diaryEntryRequest);
     }
 
     public DiaryEntryResponse deleteDiaryEntry(int id) {
         return diaryEntryService.deleteEntry(id);
     }
 
-    public DiaryEntryResponse addDiaryEntry(DiaryEntry diaryEntry) {
-        return diaryEntryService.saveEntry(diaryEntry);
+    public DiaryEntryResponse addDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
+        return diaryEntryService.saveEntry(diaryEntryRequest);
     }
 }

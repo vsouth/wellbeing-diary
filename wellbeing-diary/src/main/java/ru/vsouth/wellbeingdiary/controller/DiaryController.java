@@ -1,6 +1,7 @@
 package ru.vsouth.wellbeingdiary.controller;
 
 import org.springframework.web.bind.annotation.*;
+import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.DiaryEntry;
@@ -39,13 +40,14 @@ public class DiaryController {
 
 
     @GetMapping("/{user_id}/{diary_entry_id}")
-    public DiaryEntryResponse findEntryByUserId(@PathVariable("user_id") int userId, @PathVariable("diary_entry_id") int diaryEntryId) {
+    public DiaryEntryResponse findEntryByUserId(@PathVariable("user_id") int userId,
+                                                @PathVariable("diary_entry_id") int diaryEntryId) {
         return diaryManagementService.getDiaryEntry(userId, diaryEntryId);
     }
 
     @PutMapping("/update")
-    public DiaryEntryResponse updateEntry(@RequestBody DiaryEntry diaryEntry) {
-        return diaryManagementService.updateDiaryEntry(diaryEntry);
+    public DiaryEntryResponse updateEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) {
+        return diaryManagementService.updateDiaryEntry(diaryEntryRequest);
     }
 
 
@@ -55,7 +57,7 @@ public class DiaryController {
     }
 
     @PostMapping("/")
-    public DiaryEntryResponse addEntry(@RequestBody DiaryEntry diaryEntry) {
-        return diaryManagementService.addDiaryEntry(diaryEntry);
+    public DiaryEntryResponse addEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) {
+        return diaryManagementService.addDiaryEntry(diaryEntryRequest);
     }
 }
