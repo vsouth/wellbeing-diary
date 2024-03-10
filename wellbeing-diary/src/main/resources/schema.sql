@@ -9,6 +9,21 @@ CREATE TABLE IF NOT EXISTS users
     allows_data_access boolean NOT NULL
 );
 
+
+DROP TABLE IF EXISTS public.weather_entries CASCADE;
+
+CREATE TABLE IF NOT EXISTS public.weather_entries
+(
+    id SERIAL PRIMARY KEY,
+    lat DOUBLE PRECISION,
+    lon DOUBLE PRECISION,
+    date DATE,
+    part_of_day VARCHAR(255),
+    temperature DOUBLE PRECISION,
+    weather_type VARCHAR(255),
+    moon_phase VARCHAR(255)
+);
+
 DROP TABLE IF EXISTS public.diary_entries;
 
 CREATE TABLE IF NOT EXISTS public.diary_entries
@@ -33,3 +48,5 @@ CREATE TABLE IF NOT EXISTS public.health_entries
     heart_rate integer,
     systolic_blood_pressure integer
 )
+
+

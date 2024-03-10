@@ -2,6 +2,7 @@ package ru.vsouth.wellbeingdiary.dto;
 
 import ru.vsouth.wellbeingdiary.model.Grade;
 import ru.vsouth.wellbeingdiary.model.HealthEntry;
+import ru.vsouth.wellbeingdiary.model.WeatherEntry;
 
 import java.util.Date;
 
@@ -9,18 +10,18 @@ public class DiaryEntryResponse extends EntryResponse{
     private int id;
     private int userId;
     private HealthEntry healthEntry;
-    private Integer weatherEntryId;
+    private WeatherEntry weatherEntry;
     private Date createdAt;
     private String entryText;
     private Grade mood;
     private Grade stateOfHealth;
     private Grade activityAmount;
 
-    public DiaryEntryResponse(int id, int userId, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+    public DiaryEntryResponse(int id, int userId, HealthEntry healthEntry, WeatherEntry weatherEntry, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
         this.id = id;
         this.userId = userId;
         this.healthEntry = healthEntry;
-        this.weatherEntryId = weatherEntryId;
+        this.weatherEntry = weatherEntry;
         this.createdAt = createdAt;
         this.entryText = entryText;
         this.mood = mood;
@@ -43,8 +44,8 @@ public class DiaryEntryResponse extends EntryResponse{
         return healthEntry;
     }
 
-    public Integer getWeatherEntryId() {
-        return weatherEntryId;
+    public WeatherEntry getWeatherEntry() {
+        return weatherEntry;
     }
 
     public Date getCreatedAt() {
@@ -79,8 +80,8 @@ public class DiaryEntryResponse extends EntryResponse{
         this.healthEntry = healthEntry;
     }
 
-    public void setWeatherEntryId(Integer weatherEntryId) {
-        this.weatherEntryId = weatherEntryId;
+    public void setWeatherEntry(WeatherEntry weatherEntry) {
+        this.weatherEntry = weatherEntry;
     }
 
     public void setCreatedAt(Date createdAt) {

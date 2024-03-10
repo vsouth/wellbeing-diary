@@ -1,5 +1,6 @@
 package ru.vsouth.wellbeingdiary.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.lang.NonNull;
 
 import javax.persistence.*;
@@ -19,7 +20,10 @@ public class DiaryEntry extends Entry {
     @OneToOne(orphanRemoval = true)
     @JoinColumn(name = "healthEntryId", referencedColumnName = "id")
     private HealthEntry healthEntry;
-    private Integer weatherEntryId;
+    @ManyToOne
+    @JoinColumn(name = "weatherEntryId", referencedColumnName = "id")
+    private WeatherEntry weatherEntry;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
     private String entryText;
     @Enumerated(EnumType.STRING)
@@ -32,11 +36,11 @@ public class DiaryEntry extends Entry {
     public DiaryEntry() {
     }
 
-    public DiaryEntry(int id, User user, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+    public DiaryEntry(int id, @NonNull User user, HealthEntry healthEntry, WeatherEntry weatherEntry, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
         this.id = id;
         this.user = user;
         this.healthEntry = healthEntry;
-        this.weatherEntryId = weatherEntryId;
+        this.weatherEntry = weatherEntry;
         this.createdAt = createdAt;
         this.entryText = entryText;
         this.mood = mood;
@@ -44,10 +48,10 @@ public class DiaryEntry extends Entry {
         this.activityAmount = activityAmount;
     }
 
-    public DiaryEntry(User user, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+    public DiaryEntry(@NonNull User user, HealthEntry healthEntry, WeatherEntry weatherEntry, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
         this.user = user;
         this.healthEntry = healthEntry;
-        this.weatherEntryId = weatherEntryId;
+        this.weatherEntry = weatherEntry;
         this.createdAt = createdAt;
         this.entryText = entryText;
         this.mood = mood;
@@ -63,11 +67,12 @@ public class DiaryEntry extends Entry {
         this.id = id;
     }
 
+    @NonNull
     public User getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(@NonNull User user) {
         this.user = user;
     }
 
@@ -79,12 +84,12 @@ public class DiaryEntry extends Entry {
         this.healthEntry = healthEntry;
     }
 
-    public Integer getWeatherEntryId() {
-        return weatherEntryId;
+    public WeatherEntry getWeatherEntry() {
+        return weatherEntry;
     }
 
-    public void setWeatherEntryId(Integer weatherEntryId) {
-        this.weatherEntryId = weatherEntryId;
+    public void setWeatherEntry(WeatherEntry weatherEntry) {
+        this.weatherEntry = weatherEntry;
     }
 
     public Date getCreatedAt() {
@@ -132,11 +137,11 @@ public class DiaryEntry extends Entry {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DiaryEntry that = (DiaryEntry) o;
-        return getId() == that.getId() && getUser().equals(that.getUser()) && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntryId(), that.getWeatherEntryId()) && getCreatedAt().equals(that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
+        return getId() == that.getId() && getUser().equals(that.getUser()) && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntry(), that.getWeatherEntry()) && getCreatedAt().equals(that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUser(), getHealthEntry(), getWeatherEntryId(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
+        return Objects.hash(getId(), getUser(), getHealthEntry(), getWeatherEntry(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
     }
 }

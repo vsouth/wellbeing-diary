@@ -3,6 +3,7 @@ package ru.vsouth.wellbeingdiary.dto;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import ru.vsouth.wellbeingdiary.model.Grade;
 import ru.vsouth.wellbeingdiary.model.HealthEntry;
+import ru.vsouth.wellbeingdiary.model.WeatherEntry;
 
 import java.util.Date;
 import java.util.Objects;
@@ -12,18 +13,18 @@ public class DiaryEntryRequest {
     private Integer id;
     private int userId;
     private HealthEntry healthEntry;
-    private Integer weatherEntryId;
+    private WeatherEntry weatherEntry;
     private Date createdAt;
     private String entryText;
     private Grade mood;
     private Grade stateOfHealth;
     private Grade activityAmount;
 
-    public DiaryEntryRequest(Integer id, int userId, HealthEntry healthEntry, Integer weatherEntryId, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
+    public DiaryEntryRequest(Integer id, int userId, HealthEntry healthEntry, WeatherEntry weatherEntry, Date createdAt, String entryText, Grade mood, Grade stateOfHealth, Grade activityAmount) {
         this.id = id;
         this.userId = userId;
         this.healthEntry = healthEntry;
-        this.weatherEntryId = weatherEntryId;
+        this.weatherEntry = weatherEntry;
         this.createdAt = createdAt;
         this.entryText = entryText;
         this.mood = mood;
@@ -46,8 +47,8 @@ public class DiaryEntryRequest {
         return healthEntry;
     }
 
-    public Integer getWeatherEntryId() {
-        return weatherEntryId;
+    public WeatherEntry getWeatherEntry() {
+        return weatherEntry;
     }
 
     public Date getCreatedAt() {
@@ -82,8 +83,8 @@ public class DiaryEntryRequest {
         this.healthEntry = healthEntry;
     }
 
-    public void setWeatherEntryId(Integer weatherEntryId) {
-        this.weatherEntryId = weatherEntryId;
+    public void setWeatherEntry(WeatherEntry weatherEntry) {
+        this.weatherEntry = weatherEntry;
     }
 
     public void setCreatedAt(Date createdAt) {
@@ -111,11 +112,11 @@ public class DiaryEntryRequest {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DiaryEntryRequest that = (DiaryEntryRequest) o;
-        return getUserId() == that.getUserId() && Objects.equals(getId(), that.getId()) && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntryId(), that.getWeatherEntryId()) && Objects.equals(getCreatedAt(), that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
+        return getUserId() == that.getUserId() && Objects.equals(getId(), that.getId()) && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntry(), that.getWeatherEntry()) && Objects.equals(getCreatedAt(), that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getUserId(), getHealthEntry(), getWeatherEntryId(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
+        return Objects.hash(getId(), getUserId(), getHealthEntry(), getWeatherEntry(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
     }
 }

@@ -16,7 +16,7 @@ public class DiaryEntryMapper {
                 diaryEntry.getId(),
                 diaryEntry.getUser().getId(),
                 diaryEntry.getHealthEntry(),
-                diaryEntry.getWeatherEntryId(),
+                diaryEntry.getWeatherEntry(),
                 diaryEntry.getCreatedAt(),
                 diaryEntry.getEntryText(),
                 diaryEntry.getMood(),
@@ -29,7 +29,7 @@ public class DiaryEntryMapper {
         return new OpenDiaryEntryResponse(
                 diaryEntry.getId(),
                 diaryEntry.getHealthEntry(),
-                diaryEntry.getWeatherEntryId(),
+                diaryEntry.getWeatherEntry(),
                 diaryEntry.getCreatedAt(),
                 diaryEntry.getMood(),
                 diaryEntry.getStateOfHealth(),
@@ -44,7 +44,7 @@ public class DiaryEntryMapper {
         user.setId(diaryEntryRequest.getUserId());
         diaryEntry.setUser(user);
         diaryEntry.setHealthEntry(diaryEntryRequest.getHealthEntry());
-        diaryEntry.setWeatherEntryId(diaryEntryRequest.getWeatherEntryId());
+        diaryEntry.setWeatherEntry(diaryEntryRequest.getWeatherEntry());
         diaryEntry.setCreatedAt(diaryEntryRequest.getCreatedAt());
         diaryEntry.setEntryText(diaryEntryRequest.getEntryText());
         diaryEntry.setMood(diaryEntryRequest.getMood());
