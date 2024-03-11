@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import ru.vsouth.wellbeingdiary.dto.HealthEntryResponse;
 import ru.vsouth.wellbeingdiary.model.HealthEntry;
 import ru.vsouth.wellbeingdiary.repository.HealthEntryRepository;
-import ru.vsouth.wellbeingdiary.utils.HealthEntryResponseMapper;
+import ru.vsouth.wellbeingdiary.utils.HealthEntryMapper;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,16 +12,16 @@ import java.util.stream.Collectors;
 @Service
 public class HealthEntryServiceImpl implements HealthEntryService {
     private final HealthEntryRepository healthEntryRepository;
-    private final HealthEntryResponseMapper healthEntryResponseMapper;
+    private final HealthEntryMapper healthEntryMapper;
 
-    public HealthEntryServiceImpl(HealthEntryRepository healthEntryRepository, HealthEntryResponseMapper healthEntryResponseMapper) {
+    public HealthEntryServiceImpl(HealthEntryRepository healthEntryRepository, HealthEntryMapper healthEntryMapper) {
         this.healthEntryRepository = healthEntryRepository;
-        this.healthEntryResponseMapper = healthEntryResponseMapper;
+        this.healthEntryMapper = healthEntryMapper;
     }
 
     @Override
     public List<HealthEntryResponse> getAllEntries() {
-        return healthEntryRepository.findAll().stream().map(healthEntryResponseMapper::mapHealthEntryResponse).collect(Collectors.toList());
+        return healthEntryRepository.findAll().stream().map(healthEntryMapper::mapHealthEntryResponse).collect(Collectors.toList());
     }
 
     @Override
@@ -29,7 +29,7 @@ public class HealthEntryServiceImpl implements HealthEntryService {
         Optional<HealthEntry> optionalHealthEntry = healthEntryRepository.findById(id);
         if (optionalHealthEntry.isPresent()) {
             HealthEntry healthEntry = optionalHealthEntry.get();
-            return healthEntryResponseMapper.mapHealthEntryResponse(healthEntry);
+            return healthEntryMapper.mapHealthEntryResponse(healthEntry);
         } else {
             return null;
         }
@@ -38,7 +38,7 @@ public class HealthEntryServiceImpl implements HealthEntryService {
     @Override
     public HealthEntryResponse saveEntry(HealthEntry entry) {
         HealthEntry savedEntry = healthEntryRepository.save(entry);
-        return healthEntryResponseMapper.mapHealthEntryResponse(savedEntry);
+        return healthEntryMapper.mapHealthEntryResponse(savedEntry);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class HealthEntryServiceImpl implements HealthEntryService {
         if (optionalEntry.isPresent()) {
             HealthEntry entry = optionalEntry.get();
             healthEntryRepository.deleteById(id);
-            return healthEntryResponseMapper.mapHealthEntryResponse(entry);
+            return healthEntryMapper.mapHealthEntryResponse(entry);
         } else {
             return null;
         }

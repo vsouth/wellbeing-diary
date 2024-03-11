@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.vsouth.wellbeingdiary.dto.HealthEntryResponse;
 import ru.vsouth.wellbeingdiary.model.HealthEntry;
 @Component
-public class HealthEntryResponseMapper {
+public class HealthEntryMapper {
     public HealthEntryResponse mapHealthEntryResponse(HealthEntry healthEntry) {
         return new HealthEntryResponse(
                 healthEntry.getId(),
