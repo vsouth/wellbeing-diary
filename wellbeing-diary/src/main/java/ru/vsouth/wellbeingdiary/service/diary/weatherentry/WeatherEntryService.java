@@ -18,7 +18,4 @@ public interface WeatherEntryService extends EntryService<WeatherEntry, WeatherE
 
     @Override
     WeatherEntryResponse deleteEntry(int id);
-
-    @Override
-    WeatherEntryResponse updateEntry(WeatherEntry entry);
 }

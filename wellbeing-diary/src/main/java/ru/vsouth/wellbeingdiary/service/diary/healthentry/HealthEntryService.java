@@ -19,6 +19,4 @@ public interface HealthEntryService extends EntryService<HealthEntry, HealthEntr
     @Override
     HealthEntryResponse deleteEntry(int id);
 
-    @Override
-    HealthEntryResponse updateEntry(HealthEntry entry);
 }

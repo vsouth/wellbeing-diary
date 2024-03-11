@@ -77,23 +77,4 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
             return null;
         }
     }
-
-    @Override
-    public DiaryEntryResponse updateEntry(DiaryEntryRequest diaryEntryRequest) {
-        Optional<DiaryEntry> optionalExistingEntry = diaryEntryRepository.findById(diaryEntryRequest.getId());
-        if (optionalExistingEntry.isPresent()) {
-            DiaryEntry existingEntry = optionalExistingEntry.get();
-            if (existingEntry.getHealthEntry() == null) {
-                existingEntry.setHealthEntry(diaryEntryRequest.getHealthEntry());
-            }
-            existingEntry.setEntryText(diaryEntryRequest.getEntryText());
-            existingEntry.setMood(diaryEntryRequest.getMood());
-            existingEntry.setStateOfHealth(diaryEntryRequest.getStateOfHealth());
-            existingEntry.setActivityAmount(diaryEntryRequest.getActivityAmount());
-            DiaryEntry savedEntry = diaryEntryRepository.save(existingEntry);
-            return diaryEntryMapper.toDiaryEntryResponse(savedEntry);
-        } else {
-            return null;
-        }
-    }
 }

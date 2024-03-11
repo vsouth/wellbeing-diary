@@ -1,5 +1,6 @@
 package ru.vsouth.wellbeingdiary.service.diary.weatherentry;
 
+import org.springframework.stereotype.Service;
 import ru.vsouth.wellbeingdiary.dto.WeatherEntryResponse;
 import ru.vsouth.wellbeingdiary.model.WeatherEntry;
 import ru.vsouth.wellbeingdiary.repository.WeatherEntryRepository;
@@ -8,7 +9,7 @@ import ru.vsouth.wellbeingdiary.utils.WeatherEntryMapper;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
+@Service
 public class WeatherEntryServiceImpl implements WeatherEntryService {
     private final WeatherEntryRepository weatherEntryRepository;
     private final WeatherEntryMapper weatherEntryMapper;
@@ -47,27 +48,6 @@ public class WeatherEntryServiceImpl implements WeatherEntryService {
             WeatherEntry entry = optionalEntry.get();
             weatherEntryRepository.deleteById(id);
             return weatherEntryMapper.toWeatherEntryResponse(entry);
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    public WeatherEntryResponse updateEntry(WeatherEntry entry) {
-        Optional<WeatherEntry> optionalExistingEntry = weatherEntryRepository.findById(entry.getId());
-        if (optionalExistingEntry.isPresent()) {
-            WeatherEntry existingEntry = optionalExistingEntry.get();
-
-            existingEntry.setLat(entry.getLat());
-            existingEntry.setLon(entry.getLon());
-            existingEntry.setDate(entry.getDate());
-            existingEntry.setPartOfDay(entry.getPartOfDay());
-            existingEntry.setTemperature(entry.getTemperature());
-            existingEntry.setWeatherType(entry.getWeatherType());
-            existingEntry.setMoonPhase(entry.getMoonPhase());
-
-            WeatherEntry savedEntry = weatherEntryRepository.save(existingEntry);
-            return weatherEntryMapper.toWeatherEntryResponse(savedEntry);
         } else {
             return null;
         }

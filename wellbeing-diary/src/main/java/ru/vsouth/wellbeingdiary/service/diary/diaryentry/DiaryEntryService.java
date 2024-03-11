@@ -21,9 +21,6 @@ public interface DiaryEntryService extends EntryService<DiaryEntryRequest, Diary
     @Override
     DiaryEntryResponse deleteEntry(int id);
 
-    @Override
-    DiaryEntryResponse updateEntry(DiaryEntryRequest diaryEntryRequest);
-
     List<DiaryEntryResponse> getEntriesByUserId(int userId);
 
     List<OpenDiaryEntryResponse> getAllOpenEntries();

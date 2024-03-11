@@ -52,21 +52,4 @@ public class HealthEntryServiceImpl implements HealthEntryService {
             return null;
         }
     }
-
-    @Override
-    public HealthEntryResponse updateEntry(HealthEntry entry) {
-        Optional<HealthEntry> optionalExistingEntry = healthEntryRepository.findById(entry.getId());
-        if (optionalExistingEntry.isPresent()) {
-            HealthEntry existingEntry = optionalExistingEntry.get();
-
-            existingEntry.setHeartRate(entry.getHeartRate());
-            existingEntry.setSystolicBloodPressure(entry.getSystolicBloodPressure());
-            existingEntry.setDiastolicBloodPressure(entry.getDiastolicBloodPressure());
-
-            HealthEntry savedEntry = healthEntryRepository.save(existingEntry);
-            return healthEntryResponseMapper.mapHealthEntryResponse(savedEntry);
-        } else {
-            return null;
-        }
-    }
 }

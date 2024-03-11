@@ -13,6 +13,4 @@ public interface EntryService<T, R extends EntryResponse> {
     R saveEntry(T entry);
 
     R deleteEntry(int id);
-
-    R updateEntry(T entry);
 }
