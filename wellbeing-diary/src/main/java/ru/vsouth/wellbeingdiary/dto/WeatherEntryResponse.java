@@ -1,5 +1,7 @@
 package ru.vsouth.wellbeingdiary.dto;
 
+import ru.vsouth.wellbeingdiary.model.PartOfDay;
+
 import java.util.Date;
 
 public class WeatherEntryResponse extends EntryResponse {
@@ -12,7 +14,7 @@ public class WeatherEntryResponse extends EntryResponse {
 
     private Date date;
 
-    private String partOfDay;
+    private PartOfDay partOfDay;
 
     private Double temperature;
 
@@ -23,7 +25,7 @@ public class WeatherEntryResponse extends EntryResponse {
     public WeatherEntryResponse() {
     }
 
-    public WeatherEntryResponse(int id, Double lat, Double lon, Date date, String partOfDay, Double temperature, String weatherType, String moonPhase) {
+    public WeatherEntryResponse(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -66,11 +68,11 @@ public class WeatherEntryResponse extends EntryResponse {
         this.date = date;
     }
 
-    public String getPartOfDay() {
+    public PartOfDay getPartOfDay() {
         return partOfDay;
     }
 
-    public void setPartOfDay(String partOfDay) {
+    public void setPartOfDay(PartOfDay partOfDay) {
         this.partOfDay = partOfDay;
     }
 
@@ -97,6 +99,5 @@ public class WeatherEntryResponse extends EntryResponse {
     public void setMoonPhase(String moonPhase) {
         this.moonPhase = moonPhase;
     }
-
 
 }

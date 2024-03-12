@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -22,8 +23,8 @@ public class WeatherEntry {
 
     @Temporal(TemporalType.DATE)
     private Date date;
-
-    private String partOfDay;
+    @Enumerated(EnumType.STRING)
+    private PartOfDay partOfDay;
 
     private Double temperature;
 
@@ -34,7 +35,7 @@ public class WeatherEntry {
     public WeatherEntry() {
     }
 
-    public WeatherEntry(int id, Double lat, Double lon, Date date, String partOfDay, Double temperature, String weatherType, String moonPhase) {
+    public WeatherEntry(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -77,11 +78,11 @@ public class WeatherEntry {
         this.date = date;
     }
 
-    public String getPartOfDay() {
+    public PartOfDay getPartOfDay() {
         return partOfDay;
     }
 
-    public void setPartOfDay(String partOfDay) {
+    public void setPartOfDay(PartOfDay partOfDay) {
         this.partOfDay = partOfDay;
     }
 
