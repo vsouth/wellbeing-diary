@@ -10,6 +10,10 @@ import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.healthentry.HealthEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.weatherentry.WeatherEntryService;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -66,6 +70,11 @@ public class DiaryManagementService {
     }
 
     public DiaryEntryResponse addDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
+        if (diaryEntryRequest.getCreatedAt() == null) {
+            ZoneId zoneId = ZoneId.of("UTC+3");
+            Date currentDateTime = Date.from(LocalDateTime.now(zoneId).toInstant(ZoneOffset.UTC));
+            diaryEntryRequest.setCreatedAt(currentDateTime);
+        }
         weatherEntryService.saveEntry(diaryEntryRequest.getWeatherEntry());
         healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
         return diaryEntryService.saveEntry(diaryEntryRequest);
