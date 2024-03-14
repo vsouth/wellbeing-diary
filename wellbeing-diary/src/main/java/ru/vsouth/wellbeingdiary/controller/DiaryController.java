@@ -1,10 +1,10 @@
 package ru.vsouth.wellbeingdiary.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.model.DiaryEntry;
 import ru.vsouth.wellbeingdiary.service.diary.DiaryManagementService;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public class DiaryController {
     }
 
     @PostMapping("/")
-    public DiaryEntryResponse addEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) {
+    public DiaryEntryResponse addEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
         return diaryManagementService.addDiaryEntry(diaryEntryRequest);
     }
 }

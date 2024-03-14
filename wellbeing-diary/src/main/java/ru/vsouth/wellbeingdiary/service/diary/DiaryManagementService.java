@@ -1,9 +1,11 @@
 package ru.vsouth.wellbeingdiary.service.diary;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.WeatherEntryResponse;
 import ru.vsouth.wellbeingdiary.model.HealthEntry;
 import ru.vsouth.wellbeingdiary.model.WeatherEntry;
 import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
@@ -52,15 +54,11 @@ public class DiaryManagementService {
         DiaryEntryResponse diaryEntry = diaryEntryService.getEntryById(diaryEntryRequest.getId());
         HealthEntry healthEntry = diaryEntry.getHealthEntry();
         WeatherEntry weatherEntry = diaryEntry.getWeatherEntry();
+        diaryEntryRequest.setWeatherEntry(weatherEntry);
         HealthEntry updatedHealthEntry = diaryEntryRequest.getHealthEntry();
-        WeatherEntry updatedWeatherEntry = diaryEntryRequest.getWeatherEntry();
         if (healthEntry != null && updatedHealthEntry != null) {
             updatedHealthEntry.setId(healthEntry.getId());
         }
-        if (weatherEntry != null && updatedWeatherEntry != null) {
-            updatedWeatherEntry.setId(weatherEntry.getId());
-        }
-        weatherEntryService.saveEntry(updatedWeatherEntry);
         healthEntryService.saveEntry(updatedHealthEntry);
         return diaryEntryService.saveEntry(diaryEntryRequest);
     }
@@ -69,13 +67,23 @@ public class DiaryManagementService {
         return diaryEntryService.deleteEntry(id);
     }
 
-    public DiaryEntryResponse addDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
+    public DiaryEntryResponse addDiaryEntry(DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
         if (diaryEntryRequest.getCreatedAt() == null) {
             ZoneId zoneId = ZoneId.of("UTC+3");
             Date currentDateTime = Date.from(LocalDateTime.now(zoneId).toInstant(ZoneOffset.UTC));
             diaryEntryRequest.setCreatedAt(currentDateTime);
         }
-        weatherEntryService.saveEntry(diaryEntryRequest.getWeatherEntry());
+        WeatherEntryResponse weatherEntryResponse = weatherEntryService.saveNewEntry(diaryEntryRequest.getCity(), diaryEntryRequest.getCreatedAt());
+        WeatherEntry weatherEntry = new WeatherEntry(
+                weatherEntryResponse.getId(),
+                weatherEntryResponse.getLat(),
+                weatherEntryResponse.getLon(),
+                weatherEntryResponse.getDate(),
+                weatherEntryResponse.getPartOfDay(),
+                weatherEntryResponse.getTemperature(),
+                weatherEntryResponse.getWeatherType(),
+                weatherEntryResponse.getMoonPhase());
+        diaryEntryRequest.setWeatherEntry(weatherEntry);
         healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
         return diaryEntryService.saveEntry(diaryEntryRequest);
     }

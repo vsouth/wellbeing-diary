@@ -1,13 +1,11 @@
 package ru.vsouth.wellbeingdiary.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "weather_entries")
@@ -22,6 +20,7 @@ public class WeatherEntry {
     private Double lon;
 
     @Temporal(TemporalType.DATE)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date date;
     @Enumerated(EnumType.STRING)
     private PartOfDay partOfDay;
@@ -37,6 +36,16 @@ public class WeatherEntry {
 
     public WeatherEntry(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
         this.id = id;
+        this.lat = lat;
+        this.lon = lon;
+        this.date = date;
+        this.partOfDay = partOfDay;
+        this.temperature = temperature;
+        this.weatherType = weatherType;
+        this.moonPhase = moonPhase;
+    }
+
+    public WeatherEntry(Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
         this.lat = lat;
         this.lon = lon;
         this.date = date;
@@ -121,5 +130,19 @@ public class WeatherEntry {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getLat(), getLon(), getDate(), getPartOfDay(), getTemperature(), getWeatherType(), getMoonPhase());
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherEntry{" +
+                "id=" + id +
+                ", lat=" + lat +
+                ", lon=" + lon +
+                ", date=" + date +
+                ", partOfDay=" + partOfDay +
+                ", temperature=" + temperature +
+                ", weatherType='" + weatherType + '\'' +
+                ", moonPhase='" + moonPhase + '\'' +
+                '}';
     }
 }
