@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Запись дневника</title>
+</head>
+<body>
+<h1>Запись дневника</h1>
+<p>Создано: <span th:text="${diaryEntryResponse.createdAt}"></span></p>
+<p>Заметка: <span th:text="${diaryEntryResponse.entryText}"></span></p>
+<p>Настроение: <span th:text="${diaryEntryResponse.mood}"></span></p>
+<p>Самочувствие: <span th:text="${diaryEntryResponse.stateOfHealth}"></span></p>
+<p>Количество физической активности: <span th:text="${diaryEntryResponse.activityAmount}"></span></p>
+
+<h2>Здоровье</h2>
+<p th:if="${diaryEntryResponse.healthEntry != null}">
+  Пульс: <span th:text="${diaryEntryResponse.healthEntry.heartRate}"></span><br>
+  Верхнее давление: <span th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure}"></span><br>
+  Нижнее давление: <span th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure}"></span><br>
+</p>
+<p th:unless="${diaryEntryResponse.healthEntry != null}">
+  Данных нет
+</p>
+
+<h2>Погода</h2>
+<p th:if="${diaryEntryResponse.weatherEntry != null}">
+  Температура: <span th:text="${diaryEntryResponse.weatherEntry.temperature}"></span><br>
+  Тип погоды: <span th:text="${diaryEntryResponse.weatherEntry.weatherType}"></span><br>
+</p>
+<p th:unless="${diaryEntryResponse.weatherEntry != null}">
+  Данных нет
+</p>
+</body>
+</html>

@@ -1,63 +1,68 @@
 package ru.vsouth.wellbeingdiary.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.model.user.User;
+import ru.vsouth.wellbeingdiary.security.CustomUserDetailsService;
 import ru.vsouth.wellbeingdiary.service.diary.DiaryManagementService;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("api/diary")
+@Controller
+@RequestMapping("diary")
 public class DiaryController {
     private final DiaryManagementService diaryManagementService;
+    private final CustomUserDetailsService userDetailsService;
 
-    public DiaryController(DiaryManagementService diaryManagementService) {
+    public DiaryController(DiaryManagementService diaryManagementService, CustomUserDetailsService userDetailsService) {
         this.diaryManagementService = diaryManagementService;
+        this.userDetailsService = userDetailsService;
     }
 
-    @GetMapping("/open_list")
-    public List<OpenDiaryEntryResponse> getAllOpenEntries() {
-        return diaryManagementService.getOpenDiaryEntries();
-    }
-
+//    @GetMapping("/open_list")
+//    public List<OpenDiaryEntryResponse> getAllOpenEntries() {
+//        return diaryManagementService.getOpenDiaryEntries();
+//    }
+//
     @GetMapping("/list")
-    public List<DiaryEntryResponse> getAllEntries() {
-        return diaryManagementService.getDiaryEntries();
+    public String getAllEntries(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDetailsService.loadUserDetailsByUsername(username);
+        int userId = user.getId();
+        List<DiaryEntryResponse> diaryEntries = diaryManagementService.getDiaryEntries(userId);
+        model.addAttribute("diaryEntries", diaryEntries);
+        return "diary_entry_list";
     }
 
     @GetMapping("/{id}")
-    public DiaryEntryResponse findEntryById(@PathVariable int id) {
-        return diaryManagementService.getDiaryEntry(id);
+    public String showDiaryEntry(@PathVariable("id") int id, Model model) {
+        DiaryEntryResponse diaryEntryResponse = diaryManagementService.getDiaryEntry(id);
+
+        if (diaryEntryResponse == null) {
+            return "error";
+        }
+
+        model.addAttribute("diaryEntryResponse", diaryEntryResponse);
+        return "diary_entry";
     }
 
-    @GetMapping("/{user_id}/list")
-    public List<DiaryEntryResponse> findAllEntriesByUserId(@PathVariable("user_id") int userId) {
-        return diaryManagementService.getDiaryEntries(userId);
-    }
-
-
-    @GetMapping("/{user_id}/{diary_entry_id}")
-    public DiaryEntryResponse findEntryByUserId(@PathVariable("user_id") int userId,
-                                                @PathVariable("diary_entry_id") int diaryEntryId) {
-        return diaryManagementService.getDiaryEntry(userId, diaryEntryId);
-    }
-
-    @PutMapping("/update")
-    public DiaryEntryResponse updateEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) {
-        return diaryManagementService.updateDiaryEntry(diaryEntryRequest);
-    }
-
-
-    @DeleteMapping("/delete/{id}")
-    public DiaryEntryResponse deleteEntry(@PathVariable int id) {
-        return diaryManagementService.deleteDiaryEntry(id);
-    }
-
-    @PostMapping("/")
-    public DiaryEntryResponse addEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
-        return diaryManagementService.addDiaryEntry(diaryEntryRequest);
-    }
+//    @PutMapping("/update")
+//    public DiaryEntryResponse updateEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) {
+//        return diaryManagementService.updateDiaryEntry(diaryEntryRequest);
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public DiaryEntryResponse deleteEntry(@PathVariable int id) {
+//        return diaryManagementService.deleteDiaryEntry(id);
+//    }
+//
+//    @PostMapping("/")
+//    public DiaryEntryResponse addEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
+//        return diaryManagementService.addDiaryEntry(diaryEntryRequest);
+//    }
 }

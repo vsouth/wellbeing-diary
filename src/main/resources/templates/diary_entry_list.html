@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Записи дневника</title>
+</head>
+<body>
+<h1>Записи дневника</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Создано</th>
+    <th>Настроение</th>
+    <th>Самочувствие</th>
+    <th>Активность</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="entry : ${diaryEntries}">
+    <td th:text="${entry.createdAt}"></td>
+    <td th:text="${entry.mood}"></td>
+    <td th:text="${entry.stateOfHealth}"></td>
+    <td th:text="${entry.activityAmount}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
