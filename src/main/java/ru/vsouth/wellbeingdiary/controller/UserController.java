@@ -49,13 +49,22 @@ public class UserController {
         int userId = user.getId();
         UserResponse userResponse = userService.getUserById(userId);
         model.addAttribute("userResponse", userResponse);
+        return "user_info";
+    }
+    @GetMapping("/update")
+    public String showUpdateUser(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDetailsService.loadUserDetailsByUsername(username);
+        int userId = user.getId();
+        UserResponse userResponse = userService.getUserById(userId);
+        model.addAttribute("userResponse", userResponse);
         List<String> roles = Arrays.stream(Role.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
         model.addAttribute("roles", roles);
-        return "user_info";
+        return "update_user";
     }
-
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("userRequest") UserRequest user, Model model, RedirectAttributes redirectAttributes) {
         UserResponse updatedUser = userService.updateUser(user);

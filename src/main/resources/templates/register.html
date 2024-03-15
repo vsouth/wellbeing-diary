@@ -2,24 +2,24 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Register</title>
+  <title>Зарегистрироваться</title>
 </head>
 <body>
-<h2>Registration Form</h2>
+<h2>Регистрация</h2>
 <form th:action="@{/register_user}" method="post">
-  <label for="username">Username:</label>
-  <input type="text" id="username" name="username" required>
-  <label for="password">Password:</label>
-  <input type="password" id="password" name="password" required>
-  <label for="role">Role:</label>
+  <label for="username">Логин:</label>
+  <input type="text" id="username" name="username" required><br>
+  <label for="password">Пароль:</label>
+  <input type="password" id="password" name="password" required><br>
+  <label for="role">Роль:</label>
   <select id="role" name="role">
     <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"></option>
-  </select>
+  </select><br>
 
-  <label for="allowsDataAccess">Allows Data Access:</label>
+  <label for="allowsDataAccess">Даю согласие на доступ к данным (необязательно):</label>
   <input type="checkbox" id="allowsDataAccess" name="allowsDataAccess"/><br>
 
-  <button type="submit">Register</button>
+  <button type="submit">Зарегистрироваться</button>
 </form>
 </body>
 </html>
