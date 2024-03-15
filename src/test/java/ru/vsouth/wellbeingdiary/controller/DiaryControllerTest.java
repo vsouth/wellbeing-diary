@@ -96,7 +96,7 @@ class DiaryControllerTest {
 
     @Test
     void testUpdateEntry() throws Exception {
-        DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest(1, 1, new HealthEntry(70, 80, 90), null, new Date(1212121212121L), null, Grade.AWFUL, Grade.AWFUL, Grade.AWFUL);
+        DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest(1, 1, new HealthEntry(70, 80, 90), null, "Ryazan", new Date(1212121212121L), null, Grade.AWFUL, Grade.AWFUL, Grade.AWFUL);
         DiaryEntryResponse updatedEntry = new DiaryEntryResponse(1, 1, new HealthEntry(70, 80, 90), null, new Date(1212121212121L), null, Grade.AWFUL, Grade.AWFUL, Grade.AWFUL);
         when(diaryManagementService.updateDiaryEntry(diaryEntryRequest)).thenReturn(updatedEntry);
         mockMvc.perform(MockMvcRequestBuilders.put("/api/diary/update")
@@ -117,7 +117,7 @@ class DiaryControllerTest {
 
     @Test
     void testAddEntry() throws Exception {
-        DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest(1, 1, new HealthEntry(70, 80, 90), null, new Date(1212121212121L), "AAA", Grade.AWFUL, Grade.AWFUL, Grade.AWFUL);
+        DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest(1, 1, new HealthEntry(70, 80, 90), null, "Ryazan", new Date(1212121212121L), "AAA", Grade.AWFUL, Grade.AWFUL, Grade.AWFUL);
         DiaryEntryResponse addedEntry = new DiaryEntryResponse(1, 1, new HealthEntry(70, 80, 90), null, new Date(1212121212121L), "AAA", Grade.AWFUL, Grade.AWFUL, Grade.AWFUL);
         when(diaryManagementService.addDiaryEntry(diaryEntryRequest)).thenReturn(addedEntry);
 

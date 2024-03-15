@@ -1,32 +1,48 @@
 package ru.vsouth.wellbeingdiary.controller;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.ui.ConcurrentModel;
+import org.springframework.ui.Model;
 import ru.vsouth.wellbeingdiary.dto.user.UserRequest;
 import ru.vsouth.wellbeingdiary.dto.user.UserResponse;
 import ru.vsouth.wellbeingdiary.model.user.Role;
+import ru.vsouth.wellbeingdiary.model.user.User;
+import ru.vsouth.wellbeingdiary.security.CustomUserDetailsService;
 import ru.vsouth.wellbeingdiary.service.user.UserService;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
-
     @InjectMocks
     private UserController userController;
 
     @Mock
     private UserService userService;
+
+    @Mock
+    private CustomUserDetailsService userDetailsService;
 
     private MockMvc mockMvc;
 
@@ -36,29 +52,15 @@ class UserControllerTest {
     }
 
     @Test
-    void getUsersCount() throws Exception {
-        when(userService.getUsersCount()).thenReturn(5);
-
-        mockMvc.perform(get("/api/users/get_users_count"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$").value(5));
-
-        verify(userService, times(1)).getUsersCount();
-    }
-
-    @Test
     void findUserById() throws Exception {
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.USER, true);
         when(userService.getUserById(1)).thenReturn(mockResponse);
 
-        mockMvc.perform(get("/api/users/1"))
+        mockMvc.perform(get("/user/1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.username").value("test_user"))
-                .andExpect(jsonPath("$.role").value("USER"))
-                .andExpect(jsonPath("$.allowsDataAccess").value(true));
+                .andExpect(view().name("user_info"))
+                .andExpect(model().attribute("userResponse", mockResponse))
+                .andExpect(model().attributeExists("roles"));
 
         verify(userService, times(1)).getUserById(1);
     }
@@ -69,15 +71,14 @@ class UserControllerTest {
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.ANALYST, true);
         when(userService.updateUser(userRequest)).thenReturn(mockResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/update")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\": 1, \"username\": \"test_user\", \"role\": \"ANALYST\", \"allowsDataAccess\": true}"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.username").value("test_user"))
-                .andExpect(jsonPath("$.role").value("ANALYST"))
-                .andExpect(jsonPath("$.allowsDataAccess").value(true));
+        mockMvc.perform(post("/user/update")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "1")
+                        .param("username", "test_user")
+                        .param("role", "ANALYST")
+                        .param("allowsDataAccess", "true"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/user/profile?id=1"));
 
         verify(userService, times(1)).updateUser(userRequest);
     }
@@ -88,15 +89,15 @@ class UserControllerTest {
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.USER, true);
         when(userService.updateUserPassword(userRequest)).thenReturn(mockResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/api/users/update_password")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"id\": 1, \"username\": \"test_user\", \"password\": \"new_password\", \"role\": \"USER\", \"allowsDataAccess\": true}"))
+        mockMvc.perform(post("/user/update_password")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "1")
+                        .param("username", "test_user")
+                        .param("password", "new_password")
+                        .param("role", "USER")
+                        .param("allowsDataAccess", "true"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.username").value("test_user"))
-                .andExpect(jsonPath("$.role").value("USER"))
-                .andExpect(jsonPath("$.allowsDataAccess").value(true));
+                .andExpect(content().string("?????? ???????"));
 
         verify(userService, times(1)).updateUserPassword(userRequest);
     }
@@ -106,14 +107,50 @@ class UserControllerTest {
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.USER, true);
         when(userService.deleteUser(1)).thenReturn(mockResponse);
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("/api/users/delete/1"))
+        mockMvc.perform(post("/user/delete")
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                        .param("id", "1"))
                 .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1))
-                .andExpect(jsonPath("$.username").value("test_user"))
-                .andExpect(jsonPath("$.role").value("USER"))
-                .andExpect(jsonPath("$.allowsDataAccess").value(true));
+                .andExpect(content().string("???????????? ??????? ??????"));
 
         verify(userService, times(1)).deleteUser(1);
+    }
+
+    @Test
+    public void testUserProfile() {
+        Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        User user = new User();
+        user.setId(1);
+
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(1);
+        userResponse.setUsername("username");
+
+        List<String> roles = Arrays.stream(Role.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+
+        Mockito.when(userDetailsService.loadUserDetailsByUsername("username")).thenReturn(user);
+        Mockito.when(userService.getUserById(1)).thenReturn(userResponse);
+
+        Model model = new ConcurrentModel();
+
+        String viewName = userController.userProfile(model);
+
+        // Проверка добавления атрибутов в модель
+        Assert.assertEquals("user_info", viewName);
+        Assert.assertTrue(model.containsAttribute("userResponse"));
+        Assert.assertTrue(model.containsAttribute("roles"));
+
+        // Проверка значений атрибутов
+        UserResponse retrievedUserResponse = (UserResponse) model.asMap().get("userResponse");
+        Assert.assertEquals(userResponse.getId(), retrievedUserResponse.getId());
+        Assert.assertEquals(userResponse.getUsername(), retrievedUserResponse.getUsername());
+
+        List<String> retrievedRoles = (List<String>) model.asMap().get("roles");
+        Assert.assertEquals(roles.size(), retrievedRoles.size());
+        Assert.assertTrue(retrievedRoles.containsAll(roles));
     }
 }
