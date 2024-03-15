@@ -16,4 +16,15 @@ public class WeatherEntryMapper {
         weatherEntryResponse.setWeatherType(weatherEntry.getWeatherType());
         return weatherEntryResponse;
     }
+    public WeatherEntry toWeatherEntry(WeatherEntryResponse weatherEntryResponse) {
+        WeatherEntry weatherEntry = new WeatherEntry();
+        weatherEntry.setId(weatherEntryResponse.getId());
+        weatherEntry.setLat(weatherEntryResponse.getLat());
+        weatherEntry.setLon(weatherEntryResponse.getLon());
+        weatherEntry.setDate(weatherEntryResponse.getDate());
+        weatherEntry.setPartOfDay(weatherEntryResponse.getPartOfDay());
+        weatherEntry.setTemperature(weatherEntryResponse.getTemperature());
+        weatherEntry.setWeatherType(weatherEntryResponse.getWeatherType());
+        return weatherEntry;
+    }
 }

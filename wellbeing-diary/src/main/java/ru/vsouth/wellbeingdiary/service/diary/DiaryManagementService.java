@@ -11,6 +11,7 @@ import ru.vsouth.wellbeingdiary.model.WeatherEntry;
 import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.healthentry.HealthEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.weatherentry.WeatherEntryService;
+import ru.vsouth.wellbeingdiary.utils.WeatherEntryMapper;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -23,11 +24,12 @@ public class DiaryManagementService {
     private final DiaryEntryService diaryEntryService;
     private final HealthEntryService healthEntryService;
     private final WeatherEntryService weatherEntryService;
-
-    public DiaryManagementService(DiaryEntryService diaryEntryService, HealthEntryService healthEntryService, WeatherEntryService weatherEntryService) {
+    private final WeatherEntryMapper weatherEntryMapper;
+    public DiaryManagementService(DiaryEntryService diaryEntryService, HealthEntryService healthEntryService, WeatherEntryService weatherEntryService, WeatherEntryMapper weatherEntryMapper) {
         this.diaryEntryService = diaryEntryService;
         this.healthEntryService = healthEntryService;
         this.weatherEntryService = weatherEntryService;
+        this.weatherEntryMapper = weatherEntryMapper;
     }
 
     public List<OpenDiaryEntryResponse> getOpenDiaryEntries() {
@@ -74,15 +76,7 @@ public class DiaryManagementService {
             diaryEntryRequest.setCreatedAt(currentDateTime);
         }
         WeatherEntryResponse weatherEntryResponse = weatherEntryService.saveNewEntry(diaryEntryRequest.getCity(), diaryEntryRequest.getCreatedAt());
-        WeatherEntry weatherEntry = new WeatherEntry(
-                weatherEntryResponse.getId(),
-                weatherEntryResponse.getLat(),
-                weatherEntryResponse.getLon(),
-                weatherEntryResponse.getDate(),
-                weatherEntryResponse.getPartOfDay(),
-                weatherEntryResponse.getTemperature(),
-                weatherEntryResponse.getWeatherType()
-        );
+        WeatherEntry weatherEntry = weatherEntryMapper.toWeatherEntry(weatherEntryResponse);
         diaryEntryRequest.setWeatherEntry(weatherEntry);
         healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
         return diaryEntryService.saveEntry(diaryEntryRequest);
