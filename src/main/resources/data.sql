@@ -12,10 +12,10 @@ VALUES
 (2, null, 3, '2024-03-06 01:15:15', 'How to use it?', null, null, 'NORMAL');
 
 
-INSERT INTO public.health_entries (diastolic_blood_pressure, heart_rate, systolic_blood_pressure)
+INSERT INTO public.health_entries (diastolic_blood_pressure, systolic_blood_pressure, heart_rate)
 VALUES
-(76, 120, 80),
-(60, 110, 70);
+(80, 120, 76),
+(70, 100, 60);
 
 
 INSERT INTO public.weather_entries (lat, lon, date, part_of_day, temperature, weather_type)
