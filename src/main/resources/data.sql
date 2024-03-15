@@ -1,8 +1,8 @@
 INSERT INTO users
 (username, password, role, allows_data_access)
 VALUES
-('vsouth', 'admin', 'USER', TRUE),
-('admin', 'adm', 'ANALYST', FALSE);
+('vsouth', '$2a$10$BU5bQX1hFBi2.fUsrEINf.NwBZ2W6cfOAq1xIcaDd0wE84/XCGBDS', 'USER', TRUE),
+('admin', '$2a$10$M0cpmsJy6DwzMUwsTkLncO7BNt7gL9skBg.ArpdsQUO6D3SblVOnm', 'ANALYST', FALSE);
 
 INSERT INTO diary_entries
 (user_id, health_entry_id, weather_entry_id, created_at, entry_text, mood, state_of_health, activity_amount)
@@ -18,8 +18,8 @@ VALUES
 (110, 60, 70);
 
 
-INSERT INTO public.weather_entries (lat, lon, date, part_of_day, temperature, weather_type, moon_phase)
+INSERT INTO public.weather_entries (lat, lon, date, part_of_day, temperature, weather_type)
 VALUES
-(40.7128, -74.0060, '2022-01-01', 'MORNING', 20.5, 'Sunny', 'Full Moon'),
-(34.0522, -118.2437, '2022-01-02', 'AFTERNOON', 25.3, 'Cloudy', 'New Moon'),
-(51.5074, -0.1278, '2022-01-03', 'EVENING', 15.8, 'Rainy', 'First Quarter');
+(40.7128, -74.0060, '2022-01-01', 'MORNING', 20.5, 'Sunny'),
+(34.0522, -118.2437, '2022-01-02', 'AFTERNOON', 25.3, 'Cloudy'),
+(51.5074, -0.1278, '2022-01-03', 'EVENING', 15.8, 'Rainy');
