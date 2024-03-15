@@ -1,12 +1,12 @@
 package ru.vsouth.wellbeingdiary.service.diary.diaryentry;
 
 import org.springframework.stereotype.Service;
-import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
-import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.model.DiaryEntry;
+import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
+import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.DiaryEntry;
 import ru.vsouth.wellbeingdiary.repository.DiaryEntryRepository;
-import ru.vsouth.wellbeingdiary.utils.DiaryEntryMapper;
+import ru.vsouth.wellbeingdiary.utils.diary.DiaryEntryMapper;
 
 import java.util.List;
 import java.util.Optional;

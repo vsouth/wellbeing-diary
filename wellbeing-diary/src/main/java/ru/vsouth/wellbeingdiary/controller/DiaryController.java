@@ -2,9 +2,9 @@ package ru.vsouth.wellbeingdiary.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.bind.annotation.*;
-import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
-import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
+import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.service.diary.DiaryManagementService;
 
 import java.util.List;

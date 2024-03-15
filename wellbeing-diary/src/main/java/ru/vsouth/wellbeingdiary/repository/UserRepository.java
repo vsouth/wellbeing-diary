@@ -2,7 +2,7 @@ package ru.vsouth.wellbeingdiary.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import ru.vsouth.wellbeingdiary.model.User;
+import ru.vsouth.wellbeingdiary.model.user.User;
 
 import java.util.Optional;
 

@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.dto;
+package ru.vsouth.wellbeingdiary.dto.diary;
 
 public class HealthEntryResponse extends EntryResponse {
     private int id;

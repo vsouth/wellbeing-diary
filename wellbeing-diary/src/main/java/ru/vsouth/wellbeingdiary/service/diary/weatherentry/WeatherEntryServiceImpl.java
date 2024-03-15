@@ -2,16 +2,16 @@ package ru.vsouth.wellbeingdiary.service.diary.weatherentry;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
-import ru.vsouth.wellbeingdiary.dto.WeatherApiCurrentResponse;
-import ru.vsouth.wellbeingdiary.dto.WeatherApiGeoResponse;
-import ru.vsouth.wellbeingdiary.dto.WeatherEntryResponse;
-import ru.vsouth.wellbeingdiary.model.PartOfDay;
-import ru.vsouth.wellbeingdiary.model.WeatherEntry;
+import ru.vsouth.wellbeingdiary.dto.integration.WeatherApiCurrentResponse;
+import ru.vsouth.wellbeingdiary.dto.integration.WeatherApiGeoResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.WeatherEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.PartOfDay;
+import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 import ru.vsouth.wellbeingdiary.repository.WeatherEntryRepository;
-import ru.vsouth.wellbeingdiary.utils.PartOfDayIdentifier;
-import ru.vsouth.wellbeingdiary.utils.WeatherApiClient;
-import ru.vsouth.wellbeingdiary.utils.WeatherEntryMapper;
-import ru.vsouth.wellbeingdiary.utils.WeatherTypeIdentifier;
+import ru.vsouth.wellbeingdiary.utils.diary.PartOfDayIdentifier;
+import ru.vsouth.wellbeingdiary.utils.integration.WeatherApiClient;
+import ru.vsouth.wellbeingdiary.utils.diary.WeatherEntryMapper;
+import ru.vsouth.wellbeingdiary.utils.diary.WeatherTypeIdentifier;
 
 import java.util.Date;
 import java.util.List;

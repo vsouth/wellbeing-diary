@@ -1,11 +1,11 @@
-package ru.vsouth.wellbeingdiary.utils;
+package ru.vsouth.wellbeingdiary.utils.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
-import ru.vsouth.wellbeingdiary.dto.WeatherApiCurrentResponse;
-import ru.vsouth.wellbeingdiary.dto.WeatherApiGeoResponse;
+import ru.vsouth.wellbeingdiary.dto.integration.WeatherApiCurrentResponse;
+import ru.vsouth.wellbeingdiary.dto.integration.WeatherApiGeoResponse;
 
 @Component
 public class WeatherApiMapper {

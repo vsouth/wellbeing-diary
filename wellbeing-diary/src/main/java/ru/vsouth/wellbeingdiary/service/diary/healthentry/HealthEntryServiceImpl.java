@@ -1,10 +1,10 @@
 package ru.vsouth.wellbeingdiary.service.diary.healthentry;
 
 import org.springframework.stereotype.Service;
-import ru.vsouth.wellbeingdiary.dto.HealthEntryResponse;
-import ru.vsouth.wellbeingdiary.model.HealthEntry;
+import ru.vsouth.wellbeingdiary.dto.diary.HealthEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
 import ru.vsouth.wellbeingdiary.repository.HealthEntryRepository;
-import ru.vsouth.wellbeingdiary.utils.HealthEntryMapper;
+import ru.vsouth.wellbeingdiary.utils.diary.HealthEntryMapper;
 
 import java.util.List;
 import java.util.Optional;

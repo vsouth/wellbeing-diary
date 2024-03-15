@@ -1,8 +1,8 @@
-package ru.vsouth.wellbeingdiary.utils;
+package ru.vsouth.wellbeingdiary.utils.diary;
 
 import org.springframework.stereotype.Component;
-import ru.vsouth.wellbeingdiary.dto.WeatherEntryResponse;
-import ru.vsouth.wellbeingdiary.model.WeatherEntry;
+import ru.vsouth.wellbeingdiary.dto.diary.WeatherEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 @Component
 public class WeatherEntryMapper {
     public WeatherEntryResponse toWeatherEntryResponse(WeatherEntry weatherEntry) {

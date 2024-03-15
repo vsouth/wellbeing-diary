@@ -1,8 +1,8 @@
 package ru.vsouth.wellbeingdiary.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.vsouth.wellbeingdiary.model.PartOfDay;
-import ru.vsouth.wellbeingdiary.model.WeatherEntry;
+import ru.vsouth.wellbeingdiary.model.diary.PartOfDay;
+import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 
 import java.util.Date;
 import java.util.Optional;

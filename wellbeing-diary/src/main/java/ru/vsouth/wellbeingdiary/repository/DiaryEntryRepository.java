@@ -3,7 +3,7 @@ package ru.vsouth.wellbeingdiary.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import ru.vsouth.wellbeingdiary.model.DiaryEntry;
+import ru.vsouth.wellbeingdiary.model.diary.DiaryEntry;
 
 import java.util.List;
 import java.util.Optional;

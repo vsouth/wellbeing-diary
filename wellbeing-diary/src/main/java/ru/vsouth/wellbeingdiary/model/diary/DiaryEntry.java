@@ -1,6 +1,7 @@
-package ru.vsouth.wellbeingdiary.model;
+package ru.vsouth.wellbeingdiary.model.diary;
 
 import org.springframework.lang.NonNull;
+import ru.vsouth.wellbeingdiary.model.user.User;
 
 import javax.persistence.*;
 import java.util.Date;

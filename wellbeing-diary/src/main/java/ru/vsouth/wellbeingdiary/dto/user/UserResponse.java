@@ -1,6 +1,6 @@
-package ru.vsouth.wellbeingdiary.dto;
+package ru.vsouth.wellbeingdiary.dto.user;
 
-import ru.vsouth.wellbeingdiary.model.Role;
+import ru.vsouth.wellbeingdiary.model.user.Role;
 
 public class UserResponse {
     private int id;

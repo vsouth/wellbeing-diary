@@ -1,7 +1,7 @@
-package ru.vsouth.wellbeingdiary.utils;
+package ru.vsouth.wellbeingdiary.utils.diary;
 
 import org.springframework.stereotype.Component;
-import ru.vsouth.wellbeingdiary.model.PartOfDay;
+import ru.vsouth.wellbeingdiary.model.diary.PartOfDay;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.model;
+package ru.vsouth.wellbeingdiary.model.user;
 
 public enum Role {
     USER,

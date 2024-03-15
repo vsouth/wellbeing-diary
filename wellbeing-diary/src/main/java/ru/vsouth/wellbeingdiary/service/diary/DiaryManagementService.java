@@ -2,16 +2,16 @@ package ru.vsouth.wellbeingdiary.service.diary;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Service;
-import ru.vsouth.wellbeingdiary.dto.DiaryEntryRequest;
-import ru.vsouth.wellbeingdiary.dto.DiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.dto.OpenDiaryEntryResponse;
-import ru.vsouth.wellbeingdiary.dto.WeatherEntryResponse;
-import ru.vsouth.wellbeingdiary.model.HealthEntry;
-import ru.vsouth.wellbeingdiary.model.WeatherEntry;
+import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
+import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.WeatherEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
+import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.healthentry.HealthEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.weatherentry.WeatherEntryService;
-import ru.vsouth.wellbeingdiary.utils.WeatherEntryMapper;
+import ru.vsouth.wellbeingdiary.utils.diary.WeatherEntryMapper;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;

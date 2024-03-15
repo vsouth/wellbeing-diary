@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.utils;
+package ru.vsouth.wellbeingdiary.utils.diary;
 
 import org.springframework.stereotype.Component;
 

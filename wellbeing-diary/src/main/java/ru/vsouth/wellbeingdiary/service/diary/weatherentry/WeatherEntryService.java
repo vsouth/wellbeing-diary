@@ -1,8 +1,8 @@
 package ru.vsouth.wellbeingdiary.service.diary.weatherentry;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import ru.vsouth.wellbeingdiary.dto.WeatherEntryResponse;
-import ru.vsouth.wellbeingdiary.model.WeatherEntry;
+import ru.vsouth.wellbeingdiary.dto.diary.WeatherEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 import ru.vsouth.wellbeingdiary.service.diary.EntryService;
 
 import java.util.Date;

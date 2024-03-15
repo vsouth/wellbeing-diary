@@ -1,6 +1,6 @@
-package ru.vsouth.wellbeingdiary.dto;
+package ru.vsouth.wellbeingdiary.dto.diary;
 
-import ru.vsouth.wellbeingdiary.model.PartOfDay;
+import ru.vsouth.wellbeingdiary.model.diary.PartOfDay;
 
 import java.util.Date;
 

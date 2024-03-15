@@ -8,10 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.vsouth.wellbeingdiary.dto.UserRequest;
-import ru.vsouth.wellbeingdiary.dto.UserResponse;
-import ru.vsouth.wellbeingdiary.model.Role;
-import ru.vsouth.wellbeingdiary.model.User;
+import ru.vsouth.wellbeingdiary.dto.user.UserRequest;
+import ru.vsouth.wellbeingdiary.dto.user.UserResponse;
+import ru.vsouth.wellbeingdiary.model.user.Role;
+import ru.vsouth.wellbeingdiary.model.user.User;
 import ru.vsouth.wellbeingdiary.security.CustomUserDetailsService;
 import ru.vsouth.wellbeingdiary.service.user.UserService;
 

@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.model;
+package ru.vsouth.wellbeingdiary.model.diary;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

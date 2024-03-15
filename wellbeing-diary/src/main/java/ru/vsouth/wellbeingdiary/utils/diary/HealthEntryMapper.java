@@ -1,8 +1,8 @@
-package ru.vsouth.wellbeingdiary.utils;
+package ru.vsouth.wellbeingdiary.utils.diary;
 
 import org.springframework.stereotype.Component;
-import ru.vsouth.wellbeingdiary.dto.HealthEntryResponse;
-import ru.vsouth.wellbeingdiary.model.HealthEntry;
+import ru.vsouth.wellbeingdiary.dto.diary.HealthEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
 @Component
 public class HealthEntryMapper {
     public HealthEntryResponse mapHealthEntryResponse(HealthEntry healthEntry) {

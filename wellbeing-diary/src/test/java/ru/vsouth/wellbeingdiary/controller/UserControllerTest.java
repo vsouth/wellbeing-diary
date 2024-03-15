@@ -10,9 +10,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import ru.vsouth.wellbeingdiary.dto.UserRequest;
-import ru.vsouth.wellbeingdiary.dto.UserResponse;
-import ru.vsouth.wellbeingdiary.model.Role;
+import ru.vsouth.wellbeingdiary.dto.user.UserRequest;
+import ru.vsouth.wellbeingdiary.dto.user.UserResponse;
+import ru.vsouth.wellbeingdiary.model.user.Role;
 import ru.vsouth.wellbeingdiary.service.user.UserService;
 
 import static org.mockito.Mockito.*;

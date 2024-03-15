@@ -1,7 +1,7 @@
-package ru.vsouth.wellbeingdiary.dto;
+package ru.vsouth.wellbeingdiary.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import ru.vsouth.wellbeingdiary.model.Role;
+import ru.vsouth.wellbeingdiary.model.user.Role;
 
 import java.util.Objects;
 

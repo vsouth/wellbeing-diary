@@ -2,11 +2,11 @@ package ru.vsouth.wellbeingdiary.service.user;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.vsouth.wellbeingdiary.dto.UserRequest;
-import ru.vsouth.wellbeingdiary.dto.UserResponse;
-import ru.vsouth.wellbeingdiary.model.User;
+import ru.vsouth.wellbeingdiary.dto.user.UserRequest;
+import ru.vsouth.wellbeingdiary.dto.user.UserResponse;
+import ru.vsouth.wellbeingdiary.model.user.User;
 import ru.vsouth.wellbeingdiary.repository.UserRepository;
-import ru.vsouth.wellbeingdiary.utils.UserMapper;
+import ru.vsouth.wellbeingdiary.utils.user.UserMapper;
 
 import java.util.List;
 import java.util.Optional;

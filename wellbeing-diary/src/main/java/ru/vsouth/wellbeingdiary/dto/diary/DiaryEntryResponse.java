@@ -1,8 +1,8 @@
-package ru.vsouth.wellbeingdiary.dto;
+package ru.vsouth.wellbeingdiary.dto.diary;
 
-import ru.vsouth.wellbeingdiary.model.Grade;
-import ru.vsouth.wellbeingdiary.model.HealthEntry;
-import ru.vsouth.wellbeingdiary.model.WeatherEntry;
+import ru.vsouth.wellbeingdiary.model.diary.Grade;
+import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
+import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 
 import java.util.Date;
 

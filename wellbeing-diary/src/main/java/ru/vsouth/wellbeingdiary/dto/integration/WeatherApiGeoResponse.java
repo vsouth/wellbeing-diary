@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.dto;
+package ru.vsouth.wellbeingdiary.dto.integration;
 
 public class WeatherApiGeoResponse {
     private Double lat;

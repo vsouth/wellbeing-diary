@@ -1,12 +1,10 @@
-package ru.vsouth.wellbeingdiary.utils;
+package ru.vsouth.wellbeingdiary.utils.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
-import ru.vsouth.wellbeingdiary.dto.WeatherApiCurrentResponse;
-import ru.vsouth.wellbeingdiary.dto.WeatherApiGeoResponse;
-
-import java.util.Map;
+import ru.vsouth.wellbeingdiary.dto.integration.WeatherApiCurrentResponse;
+import ru.vsouth.wellbeingdiary.dto.integration.WeatherApiGeoResponse;
 
 @Component
 public class WeatherApiClient {
