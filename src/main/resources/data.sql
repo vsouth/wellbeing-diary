@@ -14,8 +14,8 @@ VALUES
 
 INSERT INTO public.health_entries (diastolic_blood_pressure, heart_rate, systolic_blood_pressure)
 VALUES
-(120, 76, 80),
-(110, 60, 70);
+(76, 120, 80),
+(60, 110, 70);
 
 
 INSERT INTO public.weather_entries (lat, lon, date, part_of_day, temperature, weather_type)
