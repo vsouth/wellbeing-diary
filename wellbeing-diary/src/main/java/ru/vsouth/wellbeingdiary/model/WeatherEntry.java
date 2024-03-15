@@ -29,12 +29,10 @@ public class WeatherEntry {
 
     private String weatherType;
 
-    private String moonPhase;
-
     public WeatherEntry() {
     }
 
-    public WeatherEntry(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
+    public WeatherEntry(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -42,17 +40,15 @@ public class WeatherEntry {
         this.partOfDay = partOfDay;
         this.temperature = temperature;
         this.weatherType = weatherType;
-        this.moonPhase = moonPhase;
     }
 
-    public WeatherEntry(Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
+    public WeatherEntry(Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType) {
         this.lat = lat;
         this.lon = lon;
         this.date = date;
         this.partOfDay = partOfDay;
         this.temperature = temperature;
         this.weatherType = weatherType;
-        this.moonPhase = moonPhase;
     }
 
     public int getId() {
@@ -111,38 +107,16 @@ public class WeatherEntry {
         this.weatherType = weatherType;
     }
 
-    public String getMoonPhase() {
-        return moonPhase;
-    }
-
-    public void setMoonPhase(String moonPhase) {
-        this.moonPhase = moonPhase;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WeatherEntry that = (WeatherEntry) o;
-        return getId() == that.getId() && Objects.equals(getLat(), that.getLat()) && Objects.equals(getLon(), that.getLon()) && Objects.equals(getDate(), that.getDate()) && Objects.equals(getPartOfDay(), that.getPartOfDay()) && Objects.equals(getTemperature(), that.getTemperature()) && Objects.equals(getWeatherType(), that.getWeatherType()) && Objects.equals(getMoonPhase(), that.getMoonPhase());
+        return getId() == that.getId() && Objects.equals(getLat(), that.getLat()) && Objects.equals(getLon(), that.getLon()) && Objects.equals(getDate(), that.getDate()) && Objects.equals(getPartOfDay(), that.getPartOfDay()) && Objects.equals(getTemperature(), that.getTemperature()) && Objects.equals(getWeatherType(), that.getWeatherType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getLat(), getLon(), getDate(), getPartOfDay(), getTemperature(), getWeatherType(), getMoonPhase());
-    }
-
-    @Override
-    public String toString() {
-        return "WeatherEntry{" +
-                "id=" + id +
-                ", lat=" + lat +
-                ", lon=" + lon +
-                ", date=" + date +
-                ", partOfDay=" + partOfDay +
-                ", temperature=" + temperature +
-                ", weatherType='" + weatherType + '\'' +
-                ", moonPhase='" + moonPhase + '\'' +
-                '}';
+        return Objects.hash(getId(), getLat(), getLon(), getDate(), getPartOfDay(), getTemperature(), getWeatherType());
     }
 }

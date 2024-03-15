@@ -20,12 +20,10 @@ public class WeatherEntryResponse extends EntryResponse {
 
     private String weatherType;
 
-    private String moonPhase;
-
     public WeatherEntryResponse() {
     }
 
-    public WeatherEntryResponse(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType, String moonPhase) {
+    public WeatherEntryResponse(int id, Double lat, Double lon, Date date, PartOfDay partOfDay, Double temperature, String weatherType) {
         this.id = id;
         this.lat = lat;
         this.lon = lon;
@@ -33,7 +31,6 @@ public class WeatherEntryResponse extends EntryResponse {
         this.partOfDay = partOfDay;
         this.temperature = temperature;
         this.weatherType = weatherType;
-        this.moonPhase = moonPhase;
     }
 
     public int getId() {
@@ -90,14 +87,6 @@ public class WeatherEntryResponse extends EntryResponse {
 
     public void setWeatherType(String weatherType) {
         this.weatherType = weatherType;
-    }
-
-    public String getMoonPhase() {
-        return moonPhase;
-    }
-
-    public void setMoonPhase(String moonPhase) {
-        this.moonPhase = moonPhase;
     }
 
 }

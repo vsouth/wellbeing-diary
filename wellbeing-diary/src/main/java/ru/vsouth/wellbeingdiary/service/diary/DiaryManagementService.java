@@ -81,8 +81,8 @@ public class DiaryManagementService {
                 weatherEntryResponse.getDate(),
                 weatherEntryResponse.getPartOfDay(),
                 weatherEntryResponse.getTemperature(),
-                weatherEntryResponse.getWeatherType(),
-                weatherEntryResponse.getMoonPhase());
+                weatherEntryResponse.getWeatherType()
+        );
         diaryEntryRequest.setWeatherEntry(weatherEntry);
         healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
         return diaryEntryService.saveEntry(diaryEntryRequest);

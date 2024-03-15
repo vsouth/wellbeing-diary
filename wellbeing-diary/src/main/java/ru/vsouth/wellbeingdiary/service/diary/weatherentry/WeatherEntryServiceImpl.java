@@ -79,6 +79,6 @@ public class WeatherEntryServiceImpl implements WeatherEntryService {
         }
         WeatherApiCurrentResponse currentWeather = weatherApiClient.getCurrentWeather(lat, lon);
         String weatherType = weatherTypeIdentifier.getWeatherType(currentWeather.getWeatherCode());
-        return saveEntry(new WeatherEntry(lat, lon, createdAt, partOfDay, currentWeather.getTemperature(), weatherType, ""));
+        return saveEntry(new WeatherEntry(lat, lon, createdAt, partOfDay, currentWeather.getTemperature(), weatherType));
     }
 }

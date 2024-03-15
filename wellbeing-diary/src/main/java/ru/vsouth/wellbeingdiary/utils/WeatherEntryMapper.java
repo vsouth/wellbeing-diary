@@ -14,7 +14,6 @@ public class WeatherEntryMapper {
         weatherEntryResponse.setPartOfDay(weatherEntry.getPartOfDay());
         weatherEntryResponse.setTemperature(weatherEntry.getTemperature());
         weatherEntryResponse.setWeatherType(weatherEntry.getWeatherType());
-        weatherEntryResponse.setMoonPhase(weatherEntry.getMoonPhase());
         return weatherEntryResponse;
     }
 }
