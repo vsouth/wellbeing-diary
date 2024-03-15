@@ -120,35 +120,24 @@ class UserControllerTest {
     public void testUserProfile() {
         Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         User user = new User();
         user.setId(1);
-
         UserResponse userResponse = new UserResponse();
         userResponse.setId(1);
         userResponse.setUsername("username");
-
         List<String> roles = Arrays.stream(Role.values())
                 .map(Enum::name)
                 .collect(Collectors.toList());
-
         Mockito.when(userDetailsService.loadUserDetailsByUsername("username")).thenReturn(user);
         Mockito.when(userService.getUserById(1)).thenReturn(userResponse);
-
         Model model = new ConcurrentModel();
-
         String viewName = userController.userProfile(model);
-
-        // Проверка добавления атрибутов в модель
         Assert.assertEquals("user_info", viewName);
         Assert.assertTrue(model.containsAttribute("userResponse"));
         Assert.assertTrue(model.containsAttribute("roles"));
-
-        // Проверка значений атрибутов
         UserResponse retrievedUserResponse = (UserResponse) model.asMap().get("userResponse");
         Assert.assertEquals(userResponse.getId(), retrievedUserResponse.getId());
         Assert.assertEquals(userResponse.getUsername(), retrievedUserResponse.getUsername());
-
         List<String> retrievedRoles = (List<String>) model.asMap().get("roles");
         Assert.assertEquals(roles.size(), retrievedRoles.size());
         Assert.assertTrue(retrievedRoles.containsAll(roles));
