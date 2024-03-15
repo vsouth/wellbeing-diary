@@ -1,5 +1,6 @@
 package ru.vsouth.wellbeingdiary.service.user;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.vsouth.wellbeingdiary.dto.UserRequest;
 import ru.vsouth.wellbeingdiary.dto.UserResponse;
@@ -15,11 +16,12 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    // TODO: add password encoder!
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -29,9 +31,8 @@ public class UserServiceImpl implements UserService {
 
     public UserResponse registerUser(UserRequest userRequest) {
         if (!existsByUsername(userRequest.getUsername())) {
-            // TODO: add password encoder!
             User user = userMapper.toUser(userRequest);
-            String encodedPassword = user.getPassword();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
             user.setPassword(encodedPassword);
             User savedUser = userRepository.save(user);
             return userMapper.toUserResponse(savedUser);
@@ -110,8 +111,7 @@ public class UserServiceImpl implements UserService {
         if (optionalExistingUser.isPresent()) {
             User existingUser = optionalExistingUser.get();
 
-            // TODO: add password encoder!
-            String encodedPassword = user.getPassword();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
             existingUser.setPassword(encodedPassword);
 
             User savedUser = userRepository.save(existingUser);
