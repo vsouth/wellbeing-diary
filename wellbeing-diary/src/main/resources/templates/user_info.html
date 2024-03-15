@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Профиль</title>
+</head>
+<body>
+<h1>Информация о пользователе</h1>
+<form action="/user/update" method="post">
+    <input type="hidden" name="id" th:value="${userResponse.id}" />
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" th:value="${userResponse.username}" /><br>
+
+    <label for="role">Role:</label>
+    <select id="role" name="role">
+        <option th:each="role : ${roles}" th:value="${role}" th:text="${role}" th:selected="${role == userResponse.role.name()}"></option>
+    </select><br>
+
+    <label for="allowsDataAccess">Allows Data Access:</label>
+    <input type="checkbox" id="allowsDataAccess" name="allowsDataAccess" th:checked="${userResponse.allowsDataAccess}" /><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<form action="/user/update_password" method="post">
+    <input type="hidden" name="id" th:value="${userResponse.id}" />
+    <label for="password">Новый пароль:</label>
+    <input type="password" id="password" name="password"><br><br>
+    <button type="submit">Submit</button>
+</form>
+
+<form id="deleteForm" action="/user/delete" method="post">
+    <input type="hidden" name="id" th:value="${userResponse.id}" />
+    <button type="submit">Удалить пользователя</button>
+</form>
+
+
+</body>
+</html>
