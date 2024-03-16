@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Обновить запись</title>
+</head>
+<body>
+<h1>Обновить запись</h1>
+
+
+<label>Создано: <span th:text="${diaryEntryResponse.createdAt}"></span></label><br><br>
+
+<form th:action="@{/diary/update}" th:object="${diaryEntryResponse}" method="post">
+  <input type="hidden" id="id" name="id" th:value="${diaryEntryResponse.id}" />
+  <input type="hidden" id="userid" name="userId" th:value="${diaryEntryResponse.userId}" />
+  <input type="hidden" id="createdAt" name="createdAt" th:value="${#dates.format(diaryEntryResponse.createdAt, 'yyyy-MM-dd''T''HH:mm')}">
+
+  <label for="entryText">Заметка:</label>
+  <textarea id="entryText" name="entryText" th:text="${diaryEntryResponse.entryText}"></textarea><br><br>
+
+
+  <label for="mood">Настроение:</label><br>
+  <div th:each="grade : ${grades}">
+    <input type="radio" id="mood" name="mood" th:value="${grade}" th:checked="${grade == diaryEntryResponse.mood}" />
+    <label th:text="${grade}"></label><br>
+  </div><br>
+
+  <label for="stateOfHealth">Самочувствие:</label><br>
+  <div th:each="grade : ${grades}">
+    <input type="radio" id="stateOfHealth" name="stateOfHealth" th:value="${grade}" th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false" />
+    <label th:text="${grade}"></label><br>
+  </div><br>
+
+  <label for="activityAmount">Количество физической активности:</label><br>
+  <div th:each="grade : ${grades}">
+    <input type="radio" id="activityAmount" name="activityAmount" th:value="${grade}" th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false" />
+    <label th:text="${grade}"></label><br>
+  </div><br>
+
+  <label for="heartRate">Пульс:</label>
+  <input type="text" id="heartRate" name="healthEntry.heartRate" th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.heartRate} : ''"><br><br>
+
+  <label for="systolicBloodPressure">Верхнее давление:</label>
+  <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure" th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.systolicBloodPressure} : ''"><br><br>
+
+  <label for="diastolicBloodPressure">Нижнее давление:</label>
+  <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure" th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.diastolicBloodPressure} : ''"><br><br>
+
+  <input type="submit" value="Submit">
+</form>
+
+<form id="deleteForm" action="/diary/delete" method="post">
+  <input type="hidden" name="id" th:value="${diaryEntryResponse.id}" />
+  <button type="submit">Удалить запись</button>
+</form>
+</body>
+</html>

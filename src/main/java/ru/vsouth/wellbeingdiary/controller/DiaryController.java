@@ -1,6 +1,9 @@
 package ru.vsouth.wellbeingdiary.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -57,16 +60,43 @@ public class DiaryController {
         return "diary_entry";
     }
 
-//    @PutMapping("/update")
-//    public DiaryEntryResponse updateEntry(@RequestBody DiaryEntryRequest diaryEntryRequest) {
-//        return diaryManagementService.updateDiaryEntry(diaryEntryRequest);
-//    }
-//
-//    @DeleteMapping("/delete/{id}")
-//    public DiaryEntryResponse deleteEntry(@PathVariable int id) {
-//        return diaryManagementService.deleteDiaryEntry(id);
-//    }
-//
+    @GetMapping("/update/{id}")
+    public String showUpdateDiaryEntryForm(@PathVariable("id") int id, Model model) {
+        DiaryEntryResponse diaryEntryResponse = diaryManagementService.getDiaryEntry(id);
+
+        if (diaryEntryResponse == null) {
+            return "redirect:/error";
+        }
+
+        model.addAttribute("diaryEntryResponse", diaryEntryResponse);
+        model.addAttribute("grades", Arrays.asList(Grade.values()));
+
+        return "update_diary_entry";
+    }
+
+    @PostMapping("/update")
+    public String updateEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest, Model model) {
+        DiaryEntryResponse updatedEntry = diaryManagementService.updateDiaryEntry(diaryEntryRequest);
+
+        if (updatedEntry == null) {
+            return "redirect:/error";
+        }
+
+        return "redirect:/diary/"+ updatedEntry.getId();
+    }
+
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> deleteEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest) {
+        DiaryEntryResponse deletedEntry = diaryManagementService.deleteDiaryEntry(diaryEntryRequest.getId());
+
+        if (deletedEntry != null) {
+            return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/diary/list").body("Запись успешно удалена");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Запись не найдена");
+        }
+    }
+
     @GetMapping("/new")
     public String showAddEntryForm(Model model) {
         model.addAttribute("diaryEntryRequest", new DiaryEntryRequest());
