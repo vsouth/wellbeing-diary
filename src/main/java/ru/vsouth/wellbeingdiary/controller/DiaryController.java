@@ -28,11 +28,12 @@ public class DiaryController {
         this.userDetailsService = userDetailsService;
     }
 
-//    @GetMapping("/open_list")
-//    public List<OpenDiaryEntryResponse> getAllOpenEntries() {
-//        return diaryManagementService.getOpenDiaryEntries();
-//    }
-//
+    @GetMapping("/open_list")
+    public String getAllOpenEntries(Model model) {
+        model.addAttribute("diaryEntries", diaryManagementService.getOpenDiaryEntries());
+        return "open_diary_entry_list";
+    }
+
     @GetMapping("/list")
     public String getAllEntries(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
