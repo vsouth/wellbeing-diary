@@ -32,6 +32,7 @@
     <td th:text="${entry.healthEntry?.diastolicBloodPressure ?: 'N/A'}"></td>
     <td th:text="${entry.weatherEntry?.temperature ?: 'N/A'}"></td>
     <td th:text="${entry.weatherEntry?.weatherType ?: 'N/A'}"></td>
+    <td><a th:href="@{/diary/{id}(id=${entry.id})}">Просмотреть</a></td>
   </tr>
   </tbody>
 </table>

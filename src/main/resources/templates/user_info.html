@@ -16,7 +16,10 @@
 
 <a href="/user/update">Редактировать</a><br>
 <a href="/logout">Выйти</a>
-<a href="/diary/list">Get All Entries</a>
-<a href="/diary/new">Show Add Entry Form</a>
+<th:block th:if="${userResponse.role.name() == 'ANALYST'}">
+<a href="/diary/open_list">Открытые записи</a>
+</th:block>
+<a href="/diary/list">Мои записи</a>
+<a href="/diary/new">Новая запись</a>
 </body>
 </html>

@@ -29,5 +29,6 @@
 <p th:unless="${diaryEntryResponse.weatherEntry != null}">
   Данных нет
 </p>
+<a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
 </body>
 </html>
