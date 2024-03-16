@@ -9,17 +9,29 @@
   <thead>
   <tr>
     <th>Создано</th>
+    <th>Заметка</th>
     <th>Настроение</th>
     <th>Самочувствие</th>
     <th>Активность</th>
+    <th>Пульс</th>
+    <th>Верхнее давление</th>
+    <th>Нижнее давление</th>
+    <th>Температура на улице</th>
+    <th>Тип погоды</th>
   </tr>
   </thead>
   <tbody>
   <tr th:each="entry : ${diaryEntries}">
-    <td th:text="${entry.createdAt}"></td>
-    <td th:text="${entry.mood}"></td>
-    <td th:text="${entry.stateOfHealth}"></td>
-    <td th:text="${entry.activityAmount}"></td>
+    <td th:text="${entry.createdAt ?: 'N/A'}"></td>
+    <td th:text="${entry.entryText ?: 'N/A'}"></td>
+    <td th:text="${entry.mood ?: 'N/A'}"></td>
+    <td th:text="${entry.stateOfHealth ?: 'N/A'}"></td>
+    <td th:text="${entry.activityAmount ?: 'N/A'}"></td>
+    <td th:text="${entry.healthEntry?.heartRate ?: 'N/A'}"></td>
+    <td th:text="${entry.healthEntry?.systolicBloodPressure ?: 'N/A'}"></td>
+    <td th:text="${entry.healthEntry?.diastolicBloodPressure ?: 'N/A'}"></td>
+    <td th:text="${entry.weatherEntry?.temperature ?: 'N/A'}"></td>
+    <td th:text="${entry.weatherEntry?.weatherType ?: 'N/A'}"></td>
   </tr>
   </tbody>
 </table>

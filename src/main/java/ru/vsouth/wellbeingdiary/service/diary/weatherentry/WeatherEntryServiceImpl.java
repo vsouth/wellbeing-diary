@@ -69,6 +69,9 @@ public class WeatherEntryServiceImpl implements WeatherEntryService {
 
     @Override
     public WeatherEntryResponse saveNewEntry(String city, Date createdAt) throws JsonProcessingException {
+        if (city.isEmpty()) {
+            return null;
+        }
         WeatherApiGeoResponse coordinates = weatherApiClient.getCoordinatesByCity(city);
         PartOfDay partOfDay = partOfDayIdentifier.calculatePartOfDay(createdAt);
         Double lat = coordinates.getLat();

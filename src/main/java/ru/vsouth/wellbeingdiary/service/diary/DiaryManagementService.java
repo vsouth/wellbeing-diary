@@ -75,10 +75,24 @@ public class DiaryManagementService {
             Date currentDateTime = Date.from(LocalDateTime.now(zoneId).toInstant(ZoneOffset.UTC));
             diaryEntryRequest.setCreatedAt(currentDateTime);
         }
-        WeatherEntryResponse weatherEntryResponse = weatherEntryService.saveNewEntry(diaryEntryRequest.getCity(), diaryEntryRequest.getCreatedAt());
-        WeatherEntry weatherEntry = weatherEntryMapper.toWeatherEntry(weatherEntryResponse);
+        WeatherEntry weatherEntry = null;
+        if (diaryEntryRequest.getCity() != null) {
+            WeatherEntryResponse weatherEntryResponse = weatherEntryService.saveNewEntry(diaryEntryRequest.getCity(),
+                    diaryEntryRequest.getCreatedAt());
+            if (weatherEntryResponse != null) {
+                weatherEntry = weatherEntryMapper.toWeatherEntry(weatherEntryResponse);
+            }
+        }
         diaryEntryRequest.setWeatherEntry(weatherEntry);
-        healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
+        if (diaryEntryRequest.getHealthEntry() != null) {
+            HealthEntry healthEntry = diaryEntryRequest.getHealthEntry();
+            if (healthEntry.getHeartRate() == null && healthEntry.getSystolicBloodPressure() == null &&
+                healthEntry.getDiastolicBloodPressure() == null) {
+                diaryEntryRequest.setHealthEntry(null);
+            } else {
+                healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
+            }
+        }
         return diaryEntryService.saveEntry(diaryEntryRequest);
     }
 }

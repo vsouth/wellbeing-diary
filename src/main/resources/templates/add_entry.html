@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Добавить запись</title>
+</head>
+<body>
+<h1>Новая запись</h1>
+
+<form th:action="@{/diary/}" method="post">
+
+    <label for="createdAt">Создано:</label>
+    <input type="datetime-local" id="createdAt" name="createdAt"><br><br>
+
+
+    <label for="city">Город:</label>
+    <input type="text" id="city" name="city" th:value="${null}"><br><br>
+
+    <label for="entryText">Заметка:</label>
+    <textarea id="entryText" name="entryText" th:text="${null}"></textarea><br><br>
+
+    <label for="mood">Настроение:</label><br>
+    <div th:each="grade : ${grades}">
+        <input th:if="${grade != null}" type="radio" id="mood" name="mood" th:value="${grade}" th:checked="${grade == null}" />
+        <label th:if="${grade != null}" th:text="${grade}"></label><br>
+    </div><br>
+
+    <label for="stateOfHealth">Самочувствие:</label><br>
+    <div th:each="grade : ${grades}">
+        <input th:if="${grade != null}" type="radio" id="stateOfHealth" name="stateOfHealth" th:value="${grade}" th:checked="${grade == null}" />
+        <label th:if="${grade != null}" th:text="${grade}"></label><br>
+    </div><br>
+
+    <label for="activityAmount">Количество физической активности:</label><br>
+    <div th:each="grade : ${grades}">
+        <input th:if="${grade != null}" type="radio" id="activityAmount" name="activityAmount" th:value="${grade}" th:checked="${grade == null}" />
+        <label th:if="${grade != null}" th:text="${grade}"></label><br>
+    </div><br>
+
+    <label for="heartRate">Пульс:</label>
+    <input type="text" id="heartRate" name="healthEntry.heartRate" th:value="${null}"><br><br>
+
+    <label for="systolicBloodPressure">Верхнее давление:</label>
+    <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure" th:value="${null}"><br><br>
+
+    <label for="diastolicBloodPressure">Нижнее давление:</label>
+    <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure" th:value="${null}"><br><br>
+
+    <input type="submit" value="Submit">
+</form>
+</body>
+<script>
+    var now = new Date();
+    var formattedDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+    var formattedTime = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
+    document.getElementById('createdAt').value = formattedDate + 'T' + formattedTime;
+</script>
+</html>

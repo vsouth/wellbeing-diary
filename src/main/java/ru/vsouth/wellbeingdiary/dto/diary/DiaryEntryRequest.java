@@ -1,6 +1,7 @@
 package ru.vsouth.wellbeingdiary.dto.diary;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.format.annotation.DateTimeFormat;
 import ru.vsouth.wellbeingdiary.model.diary.Grade;
 import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
 import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
@@ -12,9 +13,10 @@ import java.util.Objects;
 public class DiaryEntryRequest {
     private Integer id;
     private int userId;
-    private HealthEntry healthEntry;
+    private HealthEntry healthEntry = null;
     private WeatherEntry weatherEntry;
     private String city;
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date createdAt;
     private String entryText;
     private Grade mood;

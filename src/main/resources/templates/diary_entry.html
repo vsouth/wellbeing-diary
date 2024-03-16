@@ -5,17 +5,17 @@
 </head>
 <body>
 <h1>Запись дневника</h1>
-<p>Создано: <span th:text="${diaryEntryResponse.createdAt}"></span></p>
-<p>Заметка: <span th:text="${diaryEntryResponse.entryText}"></span></p>
-<p>Настроение: <span th:text="${diaryEntryResponse.mood}"></span></p>
-<p>Самочувствие: <span th:text="${diaryEntryResponse.stateOfHealth}"></span></p>
-<p>Количество физической активности: <span th:text="${diaryEntryResponse.activityAmount}"></span></p>
+<p>Создано: <span th:text="${diaryEntryResponse.createdAt ?: 'N/A'}"></span></p>
+<p>Заметка: <span th:text="${diaryEntryResponse.entryText ?: 'N/A'}"></span></p>
+<p>Настроение: <span th:text="${diaryEntryResponse.mood ?: 'N/A'}"></span></p>
+<p>Самочувствие: <span th:text="${diaryEntryResponse.stateOfHealth ?: 'N/A'}"></span></p>
+<p>Количество физической активности: <span th:text="${diaryEntryResponse.activityAmount ?: 'N/A'}"></span></p>
 
 <h2>Здоровье</h2>
 <p th:if="${diaryEntryResponse.healthEntry != null}">
-  Пульс: <span th:text="${diaryEntryResponse.healthEntry.heartRate}"></span><br>
-  Верхнее давление: <span th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure}"></span><br>
-  Нижнее давление: <span th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure}"></span><br>
+  Пульс: <span th:text="${diaryEntryResponse.healthEntry.heartRate ?: 'N/A'}"></span><br>
+  Верхнее давление: <span th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure ?: 'N/A'}"></span><br>
+  Нижнее давление: <span th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure ?: 'N/A'}"></span><br>
 </p>
 <p th:unless="${diaryEntryResponse.healthEntry != null}">
   Данных нет
@@ -23,8 +23,8 @@
 
 <h2>Погода</h2>
 <p th:if="${diaryEntryResponse.weatherEntry != null}">
-  Температура: <span th:text="${diaryEntryResponse.weatherEntry.temperature}"></span><br>
-  Тип погоды: <span th:text="${diaryEntryResponse.weatherEntry.weatherType}"></span><br>
+  Температура: <span th:text="${diaryEntryResponse.weatherEntry.temperature ?: 'N/A'}"></span><br>
+  Тип погоды: <span th:text="${diaryEntryResponse.weatherEntry.weatherType ?: 'N/A'}"></span><br>
 </p>
 <p th:unless="${diaryEntryResponse.weatherEntry != null}">
   Данных нет
