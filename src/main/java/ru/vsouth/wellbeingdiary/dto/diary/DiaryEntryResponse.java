@@ -5,6 +5,7 @@ import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
 import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 
 import java.util.Date;
+import java.util.Objects;
 
 public class DiaryEntryResponse extends EntryResponse{
     private int id;
@@ -102,5 +103,18 @@ public class DiaryEntryResponse extends EntryResponse{
 
     public void setActivityAmount(Grade activityAmount) {
         this.activityAmount = activityAmount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DiaryEntryResponse that = (DiaryEntryResponse) o;
+        return getId() == that.getId() && getUserId() == that.getUserId() && Objects.equals(getHealthEntry(), that.getHealthEntry()) && Objects.equals(getWeatherEntry(), that.getWeatherEntry()) && getCreatedAt().equals(that.getCreatedAt()) && Objects.equals(getEntryText(), that.getEntryText()) && getMood() == that.getMood() && getStateOfHealth() == that.getStateOfHealth() && getActivityAmount() == that.getActivityAmount();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUserId(), getHealthEntry(), getWeatherEntry(), getCreatedAt(), getEntryText(), getMood(), getStateOfHealth(), getActivityAmount());
     }
 }
