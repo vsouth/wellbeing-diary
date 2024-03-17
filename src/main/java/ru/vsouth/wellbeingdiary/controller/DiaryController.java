@@ -11,11 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.diary.Grade;
 import ru.vsouth.wellbeingdiary.model.user.User;
 import ru.vsouth.wellbeingdiary.security.CustomUserDetailsService;
 import ru.vsouth.wellbeingdiary.service.diary.DiaryManagementService;
+import ru.vsouth.wellbeingdiary.service.diary.export.ExportService;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,16 +29,24 @@ import java.util.stream.Collectors;
 public class DiaryController {
     private final DiaryManagementService diaryManagementService;
     private final CustomUserDetailsService userDetailsService;
+    private final ExportService exportService;
 
-    public DiaryController(DiaryManagementService diaryManagementService, CustomUserDetailsService userDetailsService) {
+    public DiaryController(DiaryManagementService diaryManagementService, CustomUserDetailsService userDetailsService, ExportService exportService) {
         this.diaryManagementService = diaryManagementService;
         this.userDetailsService = userDetailsService;
+        this.exportService = exportService;
     }
 
     @GetMapping("/open_list")
     public String getAllOpenEntries(Model model) {
         model.addAttribute("diaryEntries", diaryManagementService.getOpenDiaryEntries());
         return "open_diary_entry_list";
+    }
+
+    @GetMapping("/open_list/export")
+    public void exportOpenToXls(HttpServletResponse response) throws IOException {
+        List<OpenDiaryEntryResponse> openDiaryEntries = diaryManagementService.getOpenDiaryEntries();
+        exportService.exportOpenEntriesToXls(openDiaryEntries, response);
     }
 
     @GetMapping("/list")
@@ -46,6 +58,16 @@ public class DiaryController {
         List<DiaryEntryResponse> diaryEntries = diaryManagementService.getDiaryEntries(userId);
         model.addAttribute("diaryEntries", diaryEntries);
         return "diary_entry_list";
+    }
+
+    @GetMapping("/list/export")
+    public void exportToXls(HttpServletResponse response) throws IOException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDetailsService.loadUserDetailsByUsername(username);
+        int userId = user.getId();
+        List<DiaryEntryResponse> diaryEntries = diaryManagementService.getDiaryEntries(userId);
+        exportService.exportEntriesToXls(diaryEntries, response);
     }
 
     @GetMapping("/{id}")
