@@ -49,8 +49,14 @@ public class DiaryController {
         exportService.exportOpenEntriesToXls(openDiaryEntries, response);
     }
 
+    @GetMapping("/open_list/stats")
+    public String getOpenEntriesStats(Model model) {
+        model.addAttribute("stats", diaryManagementService.getOpenDiaryEntriesStatistics());
+        return "statistics";
+    }
+
     @GetMapping("/list")
-    public String getAllEntries(Model model) {
+    public String getUserEntries(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         User user = userDetailsService.loadUserDetailsByUsername(username);
@@ -68,6 +74,16 @@ public class DiaryController {
         int userId = user.getId();
         List<DiaryEntryResponse> diaryEntries = diaryManagementService.getDiaryEntries(userId);
         exportService.exportEntriesToXls(diaryEntries, response);
+    }
+
+    @GetMapping("/list/stats")
+    public String getUserEntriesStats(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        User user = userDetailsService.loadUserDetailsByUsername(username);
+        int userId = user.getId();
+        model.addAttribute("stats", diaryManagementService.getDiaryEntriesStatisticsById(userId));
+        return "statistics";
     }
 
     @GetMapping("/{id}")

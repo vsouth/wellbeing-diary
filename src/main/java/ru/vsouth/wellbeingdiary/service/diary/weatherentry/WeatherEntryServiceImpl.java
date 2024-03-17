@@ -76,7 +76,7 @@ public class WeatherEntryServiceImpl implements WeatherEntryService {
         PartOfDay partOfDay = partOfDayIdentifier.calculatePartOfDay(createdAt);
         Double lat = coordinates.getLat();
         Double lon = coordinates.getLon();
-        Optional<WeatherEntry> existingEntry = weatherEntryRepository.findByLatAndLonAndDateAndPartOfDay(lat, lon, createdAt, partOfDay);
+        Optional<WeatherEntry> existingEntry = weatherEntryRepository.findByLatAndLonAndDateAndPartOfDay(lat, lon, createdAt, partOfDay).stream().findFirst();
         if (existingEntry.isPresent()) {
             return weatherEntryMapper.toWeatherEntryResponse(existingEntry.get());
         }

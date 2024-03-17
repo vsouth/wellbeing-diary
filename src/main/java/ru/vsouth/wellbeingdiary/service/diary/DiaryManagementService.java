@@ -6,10 +6,12 @@ import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.diary.WeatherEntryResponse;
+import ru.vsouth.wellbeingdiary.model.diary.Grade;
 import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
 import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
 import ru.vsouth.wellbeingdiary.service.diary.diaryentry.DiaryEntryService;
 import ru.vsouth.wellbeingdiary.service.diary.healthentry.HealthEntryService;
+import ru.vsouth.wellbeingdiary.service.diary.statistics.StatisticsService;
 import ru.vsouth.wellbeingdiary.service.diary.weatherentry.WeatherEntryService;
 import ru.vsouth.wellbeingdiary.utils.diary.WeatherEntryMapper;
 
@@ -17,7 +19,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DiaryManagementService {
@@ -25,11 +29,13 @@ public class DiaryManagementService {
     private final HealthEntryService healthEntryService;
     private final WeatherEntryService weatherEntryService;
     private final WeatherEntryMapper weatherEntryMapper;
-    public DiaryManagementService(DiaryEntryService diaryEntryService, HealthEntryService healthEntryService, WeatherEntryService weatherEntryService, WeatherEntryMapper weatherEntryMapper) {
+    private final StatisticsService statisticsService;
+    public DiaryManagementService(DiaryEntryService diaryEntryService, HealthEntryService healthEntryService, WeatherEntryService weatherEntryService, WeatherEntryMapper weatherEntryMapper, StatisticsService statisticsService) {
         this.diaryEntryService = diaryEntryService;
         this.healthEntryService = healthEntryService;
         this.weatherEntryService = weatherEntryService;
         this.weatherEntryMapper = weatherEntryMapper;
+        this.statisticsService = statisticsService;
     }
 
     public List<OpenDiaryEntryResponse> getOpenDiaryEntries() {
@@ -94,5 +100,25 @@ public class DiaryManagementService {
             }
         }
         return diaryEntryService.saveEntry(diaryEntryRequest);
+    }
+
+    public Map<String, Map<String, Map<Grade, Long>>> getDiaryEntriesStatisticsById(int userId) {
+        List<DiaryEntryResponse> entries = diaryEntryService.getEntriesByUserId(userId);
+        Map<String, Map<Grade, Long>> stateOfHealthStats = statisticsService.getStateOfHealthStatisticsByWeatherType(entries);
+        Map<String, Map<Grade, Long>> moodStats = statisticsService.getMoodStatisticsByWeatherType(entries);
+        Map<String, Map<String, Map<Grade, Long>>> combinedStats = new HashMap<>();
+        combinedStats.put("stateOfHealthStats", stateOfHealthStats);
+        combinedStats.put("moodStats", moodStats);
+        return combinedStats;
+    }
+
+    public Map<String, Map<String, Map<Grade, Long>>> getOpenDiaryEntriesStatistics() {
+        List<OpenDiaryEntryResponse> entries = diaryEntryService.getAllOpenEntries();
+        Map<String, Map<Grade, Long>> stateOfHealthStats = statisticsService.getOpenStateOfHealthStatisticsByWeatherType(entries);
+        Map<String, Map<Grade, Long>> moodStats = statisticsService.getOpenMoodStatisticsByWeatherType(entries);
+        Map<String, Map<String, Map<Grade, Long>>> combinedStats = new HashMap<>();
+        combinedStats.put("stateOfHealthStats", stateOfHealthStats);
+        combinedStats.put("moodStats", moodStats);
+        return combinedStats;
     }
 }

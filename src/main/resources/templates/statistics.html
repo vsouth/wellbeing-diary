@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Статистика</title>
+</head>
+<body>
+<h1>Статистика зависимости от погоды</h1>
+
+<div th:if="${stats}">
+  <h2>Статистика самочувствия:</h2>
+    <ul>
+        <li th:each="entry : ${stats.stateOfHealthStats}">
+            <span th:text="${entry.key}"></span>:
+            <ul>
+                <li th:each="grade : ${entry.value}">
+                    <span th:text="${grade.key}"></span> - <span th:text="${grade.value}"></span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+
+  <h2>Статистика настроения:</h2>
+    <ul>
+        <li th:each="entry : ${stats.moodStats}">
+            <span th:text="${entry.key}"></span>:
+            <ul>
+                <li th:each="grade : ${entry.value}">
+                    <span th:text="${grade.key}"></span> - <span th:text="${grade.value}"></span>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+<div th:unless="${stats}">
+  <p>Нет данных о статистике.</p>
+</div>
+</body>
+</html>
