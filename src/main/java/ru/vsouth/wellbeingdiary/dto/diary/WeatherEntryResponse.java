@@ -5,19 +5,12 @@ import ru.vsouth.wellbeingdiary.model.diary.PartOfDay;
 import java.util.Date;
 
 public class WeatherEntryResponse extends EntryResponse {
-
     private int id;
-
     private Double lat;
-
     private Double lon;
-
     private Date date;
-
     private PartOfDay partOfDay;
-
     private Double temperature;
-
     private String weatherType;
 
     public WeatherEntryResponse() {

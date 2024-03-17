@@ -131,6 +131,8 @@ class UserControllerTest {
         Mockito.when(userDetailsService.loadUserDetailsByUsername("username")).thenReturn(user);
         Mockito.when(userService.getUserById(1)).thenReturn(userResponse);
         Model model = new ConcurrentModel();
+        model.addAttribute("userResponse", userResponse);
+        model.addAttribute("roles", roles);
         String viewName = userController.userProfile(model);
         Assert.assertEquals("user_info", viewName);
         Assert.assertTrue(model.containsAttribute("userResponse"));

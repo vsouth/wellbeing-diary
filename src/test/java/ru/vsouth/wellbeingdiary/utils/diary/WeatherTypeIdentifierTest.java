@@ -9,16 +9,24 @@ class WeatherTypeIdentifierTest {
     private final WeatherTypeIdentifier weatherTypeIdentifier = new WeatherTypeIdentifier();
 
     @Test
-    void getWeatherType() {
-        assertEquals("Облачно (половина неба или менее)", weatherTypeIdentifier.getWeatherType(0));
-        assertEquals("Облачно (больше половины неба в течение части периода и половина или менее в остальное время)", weatherTypeIdentifier.getWeatherType(1));
-        assertEquals("Облачно (больше половины неба в течение всего периода)", weatherTypeIdentifier.getWeatherType(2));
-        assertEquals("Песчаная буря, пыльная буря или метель", weatherTypeIdentifier.getWeatherType(3));
-        assertEquals("Туман или ледяной туман или густой туман", weatherTypeIdentifier.getWeatherType(4));
-        assertEquals("Морось", weatherTypeIdentifier.getWeatherType(5));
-        assertEquals("Дождь", weatherTypeIdentifier.getWeatherType(6));
-        assertEquals("Снег, или дождь и снег", weatherTypeIdentifier.getWeatherType(7));
-        assertEquals("Ливень", weatherTypeIdentifier.getWeatherType(8));
-        assertEquals("Гроза с осадками или без них", weatherTypeIdentifier.getWeatherType(9));
+    void testGetWeatherType_ValidCode() {
+        assertEquals("Ясно", weatherTypeIdentifier.getWeatherType(0));
+        assertEquals("Частично облачно", weatherTypeIdentifier.getWeatherType(1));
+        assertEquals("Облачно", weatherTypeIdentifier.getWeatherType(3));
+        assertEquals("Дым", weatherTypeIdentifier.getWeatherType(4));
+        assertEquals("Мгла", weatherTypeIdentifier.getWeatherType(5));
+        assertEquals("Пыль", weatherTypeIdentifier.getWeatherType(6));
+        assertEquals("Туман", weatherTypeIdentifier.getWeatherType(10));
+        assertEquals("Гроза", weatherTypeIdentifier.getWeatherType(13));
+        assertEquals("Дождь", weatherTypeIdentifier.getWeatherType(14));
+        assertEquals("Снег", weatherTypeIdentifier.getWeatherType(22));
+        assertEquals("Ливни", weatherTypeIdentifier.getWeatherType(27));
+        assertEquals("Песчаная буря", weatherTypeIdentifier.getWeatherType(31));
+    }
+
+    @Test
+    void testGetWeatherType_InvalidCode() {
+        assertEquals("Неизвестный тип погоды", weatherTypeIdentifier.getWeatherType(100));
+        assertEquals("Неизвестный тип погоды", weatherTypeIdentifier.getWeatherType(-1));
     }
 }
