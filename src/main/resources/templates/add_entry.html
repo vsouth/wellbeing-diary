@@ -13,7 +13,7 @@
 
 
     <label for="city">Город:</label>
-    <input type="text" id="city" name="city" th:value="${null}"><br><br>
+    <input type="text" id="city" name="city"><br><br>
 
     <label for="entryText">Заметка:</label>
     <textarea id="entryText" name="entryText" th:text="${null}"></textarea><br><br>
@@ -47,11 +47,35 @@
 
     <input type="submit" value="Submit">
 </form>
-</body>
 <script>
-    var now = new Date();
-    var formattedDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
-    var formattedTime = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
-    document.getElementById('createdAt').value = formattedDate + 'T' + formattedTime;
+    function getCity() {
+        navigator.geolocation.getCurrentPosition(function(position) {
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+
+            var url = "https://nominatim.openstreetmap.org/reverse?format=json&lat=" + latitude + "&lon=" + longitude;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                var city = data.address.city;
+                document.getElementById('city').value = city;
+            })
+                .catch(error => {
+                console.error("Ошибка при определении города:", error);
+            });
+        });
+    }
+
+    function setDateTime() {
+        var now = new Date();
+        var formattedDate = now.getFullYear() + '-' + ('0' + (now.getMonth() + 1)).slice(-2) + '-' + ('0' + now.getDate()).slice(-2);
+        var formattedTime = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2);
+        document.getElementById('createdAt').value = formattedDate + 'T' + formattedTime;
+    }
+
+    getCity();
+    setDateTime();
 </script>
+</body>
 </html>
