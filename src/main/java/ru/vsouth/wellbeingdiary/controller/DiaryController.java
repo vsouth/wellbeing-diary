@@ -13,6 +13,7 @@ import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryRequest;
 import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.diary.Grade;
+import ru.vsouth.wellbeingdiary.model.user.Role;
 import ru.vsouth.wellbeingdiary.model.user.User;
 import ru.vsouth.wellbeingdiary.security.CustomUserDetailsService;
 import ru.vsouth.wellbeingdiary.service.diary.DiaryManagementService;
@@ -39,6 +40,9 @@ public class DiaryController {
 
     @GetMapping("/open_list")
     public String getAllOpenEntries(Model model) {
+        User user = getAuthorizedUser();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         model.addAttribute("diaryEntries", diaryManagementService.getOpenDiaryEntries());
         return "open_diary_entry_list";
     }
@@ -51,16 +55,19 @@ public class DiaryController {
 
     @GetMapping("/open_list/stats")
     public String getOpenEntriesStats(Model model) {
+        User user = getAuthorizedUser();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         model.addAttribute("stats", diaryManagementService.getOpenDiaryEntriesStatistics());
         return "statistics";
     }
 
     @GetMapping("/list")
     public String getUserEntries(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userDetailsService.loadUserDetailsByUsername(username);
+        User user = getAuthorizedUser();
         int userId = user.getId();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         List<DiaryEntryResponse> diaryEntries = diaryManagementService.getDiaryEntries(userId);
         model.addAttribute("diaryEntries", diaryEntries);
         return "diary_entry_list";
@@ -68,9 +75,7 @@ public class DiaryController {
 
     @GetMapping("/list/export")
     public void exportToXls(HttpServletResponse response) throws IOException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userDetailsService.loadUserDetailsByUsername(username);
+        User user = getAuthorizedUser();
         int userId = user.getId();
         List<DiaryEntryResponse> diaryEntries = diaryManagementService.getDiaryEntries(userId);
         exportService.exportEntriesToXls(diaryEntries, response);
@@ -78,48 +83,47 @@ public class DiaryController {
 
     @GetMapping("/list/stats")
     public String getUserEntriesStats(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userDetailsService.loadUserDetailsByUsername(username);
+        User user = getAuthorizedUser();
         int userId = user.getId();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         model.addAttribute("stats", diaryManagementService.getDiaryEntriesStatisticsById(userId));
         return "statistics";
     }
 
     @GetMapping("/{id}")
     public String showDiaryEntry(@PathVariable("id") int id, Model model) {
+        User user = getAuthorizedUser();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         DiaryEntryResponse diaryEntryResponse = diaryManagementService.getDiaryEntry(id);
-
         if (diaryEntryResponse == null) {
             return "error";
         }
-
         model.addAttribute("diaryEntryResponse", diaryEntryResponse);
         return "diary_entry";
     }
 
     @GetMapping("/update/{id}")
     public String showUpdateDiaryEntryForm(@PathVariable("id") int id, Model model) {
+        User user = getAuthorizedUser();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         DiaryEntryResponse diaryEntryResponse = diaryManagementService.getDiaryEntry(id);
-
         if (diaryEntryResponse == null) {
             return "redirect:/error";
         }
-
         model.addAttribute("diaryEntryResponse", diaryEntryResponse);
         model.addAttribute("grades", Arrays.asList(Grade.values()));
-
         return "update_diary_entry";
     }
 
     @PostMapping("/update")
     public String updateEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest, Model model) {
         DiaryEntryResponse updatedEntry = diaryManagementService.updateDiaryEntry(diaryEntryRequest);
-
         if (updatedEntry == null) {
             return "redirect:/error";
         }
-
         return "redirect:/diary/"+ updatedEntry.getId();
     }
 
@@ -127,7 +131,6 @@ public class DiaryController {
     @PostMapping("/delete")
     public ResponseEntity<String> deleteEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest) {
         DiaryEntryResponse deletedEntry = diaryManagementService.deleteDiaryEntry(diaryEntryRequest.getId());
-
         if (deletedEntry != null) {
             return ResponseEntity.status(HttpStatus.FOUND).header(HttpHeaders.LOCATION, "/diary/list").body("Запись успешно удалена");
         } else {
@@ -137,6 +140,9 @@ public class DiaryController {
 
     @GetMapping("/new")
     public String showAddEntryForm(Model model) {
+        User user = getAuthorizedUser();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         model.addAttribute("diaryEntryRequest", new DiaryEntryRequest());
         List<String> grades = Arrays.stream(Grade.values())
                 .map(Enum::name)
@@ -147,14 +153,16 @@ public class DiaryController {
     }
     @PostMapping("/")
     public String addEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userDetailsService.loadUserDetailsByUsername(username);
+        User user = getAuthorizedUser();
         int userId = user.getId();
-
         diaryEntryRequest.setUserId(userId);
-
         DiaryEntryResponse diaryEntryResponse = diaryManagementService.addDiaryEntry(diaryEntryRequest);
         return "redirect:/diary/"+ diaryEntryResponse.getId();
+    }
+
+    private User getAuthorizedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userDetailsService.loadUserDetailsByUsername(username);
     }
 }

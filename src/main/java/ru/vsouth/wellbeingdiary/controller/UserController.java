@@ -32,6 +32,9 @@ public class UserController {
 
     @GetMapping("/{id}")
     public String showUserInfo(@PathVariable int id, Model model) {
+        User user = getAuthorizedUser();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         UserResponse userResponse = userService.getUserById(id);
         model.addAttribute("userResponse", userResponse);
         List<String> roles = Arrays.stream(Role.values())
@@ -43,20 +46,21 @@ public class UserController {
 
     @GetMapping("/profile")
     public String userProfile(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userDetailsService.loadUserDetailsByUsername(username);
+        User user = getAuthorizedUser();
         int userId = user.getId();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         UserResponse userResponse = userService.getUserById(userId);
         model.addAttribute("userResponse", userResponse);
         return "user_info";
     }
+
     @GetMapping("/update")
     public String showUpdateUser(Model model) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        User user = userDetailsService.loadUserDetailsByUsername(username);
+        User user = getAuthorizedUser();
         int userId = user.getId();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
         UserResponse userResponse = userService.getUserById(userId);
         model.addAttribute("userResponse", userResponse);
         List<String> roles = Arrays.stream(Role.values())
@@ -95,5 +99,11 @@ public class UserController {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Пользователь не найден");
         }
+    }
+
+    private User getAuthorizedUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        return userDetailsService.loadUserDetailsByUsername(username);
     }
 }

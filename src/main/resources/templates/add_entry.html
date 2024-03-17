@@ -2,51 +2,131 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Добавить запись</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/entry.css}"/>
 </head>
 <body>
-<h1>Новая запись</h1>
+<div th:replace="~{navbar :: content}"></div>
+<div class="container">
+    <h1>Новая запись</h1>
 
-<form th:action="@{/diary/}" method="post">
+    <form th:action="@{/diary/}" method="post">
 
-    <label for="createdAt">Создано:</label>
-    <input type="datetime-local" id="createdAt" name="createdAt"><br><br>
+        <label for="createdAt">Создано:</label>
+        <input type="datetime-local" id="createdAt" name="createdAt"><br><br>
 
 
-    <label for="city">Город:</label>
-    <input type="text" id="city" name="city"><br><br>
+        <label for="city">Город:</label>
+        <input type="text" id="city" name="city"><br><br>
 
-    <label for="entryText">Заметка:</label>
-    <textarea id="entryText" name="entryText" th:text="${null}"></textarea><br><br>
+        <label for="entryText">Заметка:</label>
+        <textarea id="entryText" name="entryText" th:text="${null}"></textarea><br><br>
 
-    <label for="mood">Настроение:</label><br>
-    <div th:each="grade : ${grades}">
-        <input th:if="${grade != null}" type="radio" id="mood" name="mood" th:value="${grade}" th:checked="${grade == null}" />
-        <label th:if="${grade != null}" th:text="${grade}"></label><br>
-    </div><br>
+        <label>Настроение:</label><br>
+        <input class="radio_item" type="radio" id="mood_excellent" name="mood" value="EXCELLENT"/>
+        <label class="label_item" for="mood_excellent">
+            <span class="material-symbols-outlined">sentiment_very_satisfied</span>
+        </label>
 
-    <label for="stateOfHealth">Самочувствие:</label><br>
-    <div th:each="grade : ${grades}">
-        <input th:if="${grade != null}" type="radio" id="stateOfHealth" name="stateOfHealth" th:value="${grade}" th:checked="${grade == null}" />
-        <label th:if="${grade != null}" th:text="${grade}"></label><br>
-    </div><br>
+        <input class="radio_item" type="radio" id="mood_good" name="mood" value="GOOD"/>
+        <label class="label_item" for="mood_good">
+            <span class="material-symbols-outlined">sentiment_satisfied</span>
+        </label>
 
-    <label for="activityAmount">Количество физической активности:</label><br>
-    <div th:each="grade : ${grades}">
-        <input th:if="${grade != null}" type="radio" id="activityAmount" name="activityAmount" th:value="${grade}" th:checked="${grade == null}" />
-        <label th:if="${grade != null}" th:text="${grade}"></label><br>
-    </div><br>
+        <input class="radio_item" type="radio" id="mood_normal" name="mood" value="NORMAL"/>
+        <label class="label_item" for="mood_normal">
+            <span class="material-symbols-outlined">sentiment_neutral</span>
+        </label>
 
-    <label for="heartRate">Пульс:</label>
-    <input type="text" id="heartRate" name="healthEntry.heartRate" th:value="${null}"><br><br>
+        <input class="radio_item" type="radio" id="mood_bad" name="mood" value="BAD"/>
+        <label class="label_item" for="mood_bad">
+            <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+        </label>
 
-    <label for="systolicBloodPressure">Верхнее давление:</label>
-    <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure" th:value="${null}"><br><br>
+        <input class="radio_item" type="radio" id="mood_awful" name="mood" value="AWFUL"/>
+        <label class="label_item" for="mood_awful">
+            <span class="material-symbols-outlined">sentiment_sad</span>
+        </label>
 
-    <label for="diastolicBloodPressure">Нижнее давление:</label>
-    <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure" th:value="${null}"><br><br>
+        <input type="radio" name="mood" value="${null}" checked hidden/>
+        <br>
 
-    <input type="submit" value="Submit">
-</form>
+
+        <label>Самочувствие:</label><br>
+        <input class="radio_item" type="radio" id="stateOfHealth_excellent" name="stateOfHealth" value="EXCELLENT"/>
+        <label class="label_item" for="stateOfHealth_excellent">
+            <span class="material-symbols-outlined">sentiment_very_satisfied</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="stateOfHealth_good" name="stateOfHealth" value="GOOD"/>
+        <label class="label_item" for="stateOfHealth_good">
+            <span class="material-symbols-outlined">sentiment_satisfied</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="stateOfHealth_normal" name="stateOfHealth" value="NORMAL"/>
+        <label class="label_item" for="stateOfHealth_normal">
+            <span class="material-symbols-outlined">sentiment_neutral</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="stateOfHealth_bad" name="stateOfHealth" value="BAD"/>
+        <label class="label_item" for="stateOfHealth_bad">
+            <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="stateOfHealth_awful" name="stateOfHealth" value="AWFUL"/>
+        <label class="label_item" for="stateOfHealth_awful">
+            <span class="material-symbols-outlined">sentiment_sad</span>
+        </label>
+
+        <input type="radio" name="stateOfHealth" value="${null}" checked hidden/>
+        <br>
+
+        <label>Количество физической активности:</label><br>
+        <input class="radio_item" type="radio" id="activity_excellent" name="activityAmount" value="EXCELLENT"/>
+        <label class="label_item" for="activity_excellent">
+            <span class="material-symbols-outlined">sentiment_very_satisfied</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="activity_good" name="activityAmount" value="GOOD"/>
+        <label class="label_item" for="activity_good">
+            <span class="material-symbols-outlined">sentiment_satisfied</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="activity_normal" name="activityAmount" value="NORMAL"/>
+        <label class="label_item" for="activity_normal">
+            <span class="material-symbols-outlined">sentiment_neutral</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="activity_bad" name="activityAmount" value="BAD"/>
+        <label class="label_item" for="activity_bad">
+            <span class="material-symbols-outlined">sentiment_dissatisfied</span>
+        </label>
+
+        <input class="radio_item" type="radio" id="activity_awful" name="activityAmount" value="AWFUL"/>
+        <label class="label_item" for="activity_awful">
+            <span class="material-symbols-outlined">sentiment_sad</span>
+        </label>
+
+        <input type="radio" name="activityAmount" value="${null}" checked hidden/>
+        <br>
+
+        <label for="heartRate">Пульс:</label>
+        <input type="text" id="heartRate" name="healthEntry.heartRate" th:value="${null}"><br><br>
+
+        <label for="systolicBloodPressure">Верхнее давление:</label>
+        <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure"
+               th:value="${null}"><br><br>
+
+        <label for="diastolicBloodPressure">Нижнее давление:</label>
+        <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure" th:value="${null}"><br><br>
+
+        <input type="submit" value="Submit">
+    </form>
+</div>
 <script>
     function getCity() {
         navigator.geolocation.getCurrentPosition(function(position) {

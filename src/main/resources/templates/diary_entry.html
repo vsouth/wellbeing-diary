@@ -1,34 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Запись дневника</title>
+    <title>Запись дневника</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
 </head>
 <body>
-<h1>Запись дневника</h1>
-<p>Создано: <span th:text="${diaryEntryResponse.createdAt ?: 'N/A'}"></span></p>
-<p>Заметка: <span th:text="${diaryEntryResponse.entryText ?: 'N/A'}"></span></p>
-<p>Настроение: <span th:text="${diaryEntryResponse.mood ?: 'N/A'}"></span></p>
-<p>Самочувствие: <span th:text="${diaryEntryResponse.stateOfHealth ?: 'N/A'}"></span></p>
-<p>Количество физической активности: <span th:text="${diaryEntryResponse.activityAmount ?: 'N/A'}"></span></p>
+<div th:replace="~{navbar :: content}"></div>
+<div class="container">
+    <h1>Запись дневника</h1>
+    <p>Создано: <span th:text="${diaryEntryResponse.createdAt ?: 'N/A'}"></span></p>
+    <p>Заметка: <span th:text="${diaryEntryResponse.entryText ?: 'N/A'}"></span></p>
+    <p>Настроение: <span th:text="${diaryEntryResponse.mood ?: 'N/A'}"></span></p>
+    <p>Самочувствие: <span th:text="${diaryEntryResponse.stateOfHealth ?: 'N/A'}"></span></p>
+    <p>Количество физической активности: <span th:text="${diaryEntryResponse.activityAmount ?: 'N/A'}"></span></p>
 
-<h2>Здоровье</h2>
-<p th:if="${diaryEntryResponse.healthEntry != null}">
-  Пульс: <span th:text="${diaryEntryResponse.healthEntry.heartRate ?: 'N/A'}"></span><br>
-  Верхнее давление: <span th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure ?: 'N/A'}"></span><br>
-  Нижнее давление: <span th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure ?: 'N/A'}"></span><br>
-</p>
-<p th:unless="${diaryEntryResponse.healthEntry != null}">
-  Данных нет
-</p>
+    <h2>Здоровье</h2>
+    <p th:if="${diaryEntryResponse.healthEntry != null}">
+        Пульс: <span th:text="${diaryEntryResponse.healthEntry.heartRate ?: 'N/A'}"></span><br>
+        Верхнее давление: <span th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure ?: 'N/A'}"></span><br>
+        Нижнее давление: <span th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure ?: 'N/A'}"></span><br>
+    </p>
+    <p th:unless="${diaryEntryResponse.healthEntry != null}">
+        Данных нет
+    </p>
 
-<h2>Погода</h2>
-<p th:if="${diaryEntryResponse.weatherEntry != null}">
-  Температура: <span th:text="${diaryEntryResponse.weatherEntry.temperature ?: 'N/A'}"></span><br>
-  Тип погоды: <span th:text="${diaryEntryResponse.weatherEntry.weatherType ?: 'N/A'}"></span><br>
-</p>
-<p th:unless="${diaryEntryResponse.weatherEntry != null}">
-  Данных нет
-</p>
-<a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
+    <h2>Погода</h2>
+    <p th:if="${diaryEntryResponse.weatherEntry != null}">
+        Температура: <span th:text="${diaryEntryResponse.weatherEntry.temperature ?: 'N/A'}"></span><br>
+        Тип погоды: <span th:text="${diaryEntryResponse.weatherEntry.weatherType ?: 'N/A'}"></span><br>
+    </p>
+    <p th:unless="${diaryEntryResponse.weatherEntry != null}">
+        Данных нет
+    </p>
+    <a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
+</div>
 </body>
 </html>
