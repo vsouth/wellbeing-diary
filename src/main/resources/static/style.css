@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+}
+
+.nav {
+    margin-top: 20px;
+    display: flex;
+}
+
+.navbar {
+    margin-top: 50px;
+    width: 200px;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.navbar div ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar div li {
+    padding: 10px;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    width: 1000px;
+}
+
+.inline-icon {
+    vertical-align: middle;
+    padding-right: 5px;
+}
