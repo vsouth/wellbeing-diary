@@ -7,6 +7,29 @@
 
 Интеграция с погодой.
 
+# Запуск
+загрузить зависимости maven
+
+postgresql:
+
+- spring.datasource.username=postgres
+
+- spring.datasource.password=admin
+
+- spring.datasource.url=jdbc:postgresql://localhost:5432/wellbeing-diary
+
+
+запустить WellbeingDiaryApplication.java
+
+localhost:8080/login
+- user (analyst): admin 
+- - password: admin
+
+- user (user): admin
+- - password: adm
+
+
+
 # STATUS
 ## Пользователь может:
 - ☑️ зайти
