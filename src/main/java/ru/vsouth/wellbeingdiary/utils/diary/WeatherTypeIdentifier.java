@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Наименования типов погоды для сайтов взяты с:
  * https://worldweather.wmo.int/schema/Annex1-BulletinFormat-v1.0.pdf
- * HashMap используется из-за того, что некоторые типы погоды не используются (2, 19)
+ * HashMap используется из-за того, что некоторые типы погоды не используются (19)
  */
 @Component
 public class WeatherTypeIdentifier {
@@ -16,7 +16,8 @@ public class WeatherTypeIdentifier {
 
     public WeatherTypeIdentifier() {
         weatherTypes.put(0, "Ясно");
-        weatherTypes.put(1, "Частично облачно");
+        weatherTypes.put(1, "Переменная облачность");
+        weatherTypes.put(2, "Облачно");
         weatherTypes.put(3, "Облачно");
         weatherTypes.put(4, "Дым");
         weatherTypes.put(5, "Мгла");
