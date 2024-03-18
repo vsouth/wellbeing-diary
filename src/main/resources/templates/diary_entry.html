@@ -20,7 +20,7 @@
         <p>Заметка: <span th:text="${diaryEntryResponse.entryText ?: 'N/A'}"></span></p>
         <p>
         <span th:if="${diaryEntryResponse.mood != null}">
-                Настроение:
+            Настроение:
                 <span th:switch="${diaryEntryResponse.mood.name()}">
                 <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
                 <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
@@ -28,22 +28,21 @@
                 <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
                 <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
             </span>
-            <span th:unless="${diaryEntryResponse.mood != null}">Настроение: N/A</span>
-
         </span>
+            <span th:unless="${diaryEntryResponse.mood != null}">Настроение: N/A</span>
         </p>
 
         <p>
-    <span th:if="${diaryEntryResponse.stateOfHealth != null}">
-        Самочувствие:
-        <span th:switch="${diaryEntryResponse.stateOfHealth.name()}">
-            <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
-            <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
-            <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
-            <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
-            <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
+        <span th:if="${diaryEntryResponse.stateOfHealth != null}">
+            Самочувствие:
+            <span th:switch="${diaryEntryResponse.stateOfHealth.name()}">
+                <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
+                <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
+                <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
+                <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
+                <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
+            </span>
         </span>
-    </span>
             <span th:unless="${diaryEntryResponse.stateOfHealth != null}">Самочувствие: N/A</span>
         </p>
 

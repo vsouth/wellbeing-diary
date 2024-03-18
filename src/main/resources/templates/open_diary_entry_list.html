@@ -15,6 +15,29 @@
     <div th:replace="~{navbar :: content}"></div>
     <div class="content">
         <h1>Записи дневника</h1>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a  class="nav-link" href="/diary/open_list/export" download>
+                <span>
+                    <span class="material-symbols-outlined">
+                    table_view
+                    </span>
+                    <span>Экспорт в .xls</span>
+                </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/diary/list/stats">
+                <span>
+                    <span class="material-symbols-outlined">
+                    query_stats
+                    </span>
+                    <span>Статистика</span>
+                </span>
+                </a>
+            </li>
+        </ul>
+
         <table class="table">
             <thead>
             <tr>
@@ -43,24 +66,7 @@
             </tr>
             </tbody>
         </table>
-        <div>
-            <a href="/diary/open_list/export" download>
-                <div>
-                    <span class="material-symbols-outlined">
-                    table_view
-                    </span>
-                    <span>Экспорт в .xls</span>
-                </div>
-            </a>
-            <a href="/diary/open_list/stats">
-                <div>
-                    <span class="material-symbols-outlined">
-                    query_stats
-                    </span>
-                    <span>Статистика</span>
-                </div>
-            </a>
-        </div>
+
     </div>
 </div>
 </body>

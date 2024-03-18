@@ -15,9 +15,32 @@
     <div th:replace="~{navbar :: content}"></div>
     <div class="content">
         <h1>Записи дневника</h1>
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a  class="nav-link" href="/diary/list/export" download>
+                <span>
+                    <span class="material-symbols-outlined">
+                    table_view
+                    </span>
+                    <span>Экспорт в .xls</span>
+                </span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/diary/list/stats">
+                <span>
+                    <span class="material-symbols-outlined">
+                    query_stats
+                    </span>
+                    <span>Статистика</span>
+                </span>
+                </a>
+            </li>
+        </ul>
         <table class="table">
             <thead>
             <tr>
+                <th scope="col"></th>
                 <th scope="col">Создано</th>
                 <th scope="col">Заметка</th>
                 <th scope="col">Настроение</th>
@@ -32,6 +55,13 @@
             </thead>
             <tbody>
             <tr th:each="entry : ${diaryEntries}">
+                <td><a th:href="@{/diary/{id}(id=${entry.id})}">
+                    <div>
+                        <span class="material-symbols-outlined">
+                        mystery
+                        </span>
+                    </div>
+                </a></td>
                 <td th:text="${#dates.format(entry.createdAt, 'dd.MM.yyyy HH:mm')}"></td>
                 <td th:if="${entry.entryText != null and not #strings.isEmpty(entry.entryText)}">
                     <span th:if="${#strings.length(entry.entryText) > 20}"
@@ -50,32 +80,9 @@
                 <td th:text="${entry.healthEntry?.diastolicBloodPressure ?: 'N/A'}"></td>
                 <td th:text="${entry.weatherEntry?.temperature ?: 'N/A'}"></td>
                 <td th:text="${entry.weatherEntry?.weatherType ?: 'N/A'}"></td>
-                <td><a th:href="@{/diary/{id}(id=${entry.id})}">
-                    <div>
-                        <span class="material-symbols-outlined">
-                        mystery
-                        </span>
-                    </div>
-                </a></td>
             </tr>
             </tbody>
         </table>
-        <a href="/diary/list/export" download>
-            <div>
-                <span class="material-symbols-outlined">
-                table_view
-                </span>
-                <span>Экспорт в .xls</span>
-            </div>
-        </a>
-        <a href="/diary/list/stats">
-            <div>
-                <span class="material-symbols-outlined">
-                query_stats
-                </span>
-                <span>Статистика</span>
-            </div>
-        </a>
     </div>
 </div>
 <script></script>

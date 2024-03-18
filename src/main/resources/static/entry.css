@@ -4,8 +4,13 @@
 
 .label_item {
     opacity: 0.1;
+    color: #0d6efd;
 }
 
 .radio_item:checked + label {
     opacity: 1;
+}
+
+.material-symbols-outlined {
+    color: #0d6efd;
 }
