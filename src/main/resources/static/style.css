@@ -42,3 +42,22 @@
     vertical-align: middle;
     padding-right: 5px;
 }
+
+.delete-button {
+    color: red;
+    background-color: transparent;
+    border: none;
+}
+
+.delete-button:hover {
+    color:darkred;
+}
+
+.update-password-button {
+    color: #0d6efd;
+    background-color: transparent;
+    border: none;
+}
+.update-password-button:hover {
+    color: #074db7;
+}

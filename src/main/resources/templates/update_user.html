@@ -31,14 +31,14 @@
             <input type="checkbox" id="allowsDataAccess" name="allowsDataAccess"
                    th:checked="${userResponse.allowsDataAccess}"/><br>
 
-            <button type="submit">Сохранить</button>
+            <input class="btn btn-primary" type="submit" value="Сохранить">
         </form>
+        <a href="/user/update_password">Изменить пароль</a>
 
-        <div th:replace="~{update_password :: content}"></div>
 
         <form id="deleteForm" action="/user/delete" method="post">
             <input type="hidden" name="id" th:value="${userResponse.id}"/>
-            <button type="submit">Удалить профиль</button>
+            <button class="delete-button" type="submit">Удалить профиль</button>
         </form>
     </div>
 </div>

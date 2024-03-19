@@ -69,6 +69,18 @@ public class UserController {
         model.addAttribute("roles", roles);
         return "update_user";
     }
+
+    @GetMapping("/update_password")
+    public String showUpdateUserPassword(Model model) {
+        User user = getAuthorizedUser();
+        int userId = user.getId();
+        Role role = user.getRole();
+        model.addAttribute("role", role);
+        UserResponse userResponse = userService.getUserById(userId);
+        model.addAttribute("userResponse", userResponse);
+        return "update_password";
+    }
+
     @PostMapping("/update")
     public String updateUser(@ModelAttribute("userRequest") UserRequest user, Model model, RedirectAttributes redirectAttributes) {
         UserResponse updatedUser = userService.updateUser(user);
@@ -82,22 +94,21 @@ public class UserController {
     }
 
     @PostMapping("/update_password")
-    public ResponseEntity<String> updateUserPassword(@ModelAttribute("userRequest") UserRequest user) {
+    public String updateUserPassword(@ModelAttribute("userRequest") UserRequest user) {
         UserResponse userResponse = userService.updateUserPassword(user);
         if (userResponse != null) {
-            return ResponseEntity.ok("Пароль изменен");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Пользователь не найден");
+            return "redirect:/user/profile";
         }
+        return "redirect:/user/update";
     }
 
     @PostMapping("/delete")
-    public ResponseEntity<String> deleteUser(@ModelAttribute("userRequest") UserRequest user) {
+    public String deleteUser(@ModelAttribute("userRequest") UserRequest user) {
         UserResponse deletedUser = userService.deleteUser(user.getId());
         if (deletedUser != null) {
-            return ResponseEntity.ok("Пользователь успешно удален");
+            return "redirect:/logout";
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Пользователь не найден");
+            return "redirect:/user/update";
         }
     }
 
