@@ -16,145 +16,136 @@
     <div th:replace="~{navbar :: content}"></div>
     <div class="content">
         <h1>Обновить запись</h1>
-
-        <label>Создано: <span th:text="${diaryEntryResponse.createdAt}"></span></label><br><br>
-
-        <form th:action="@{/diary/update}" th:object="${diaryEntryResponse}" method="post">
+        <form th:action="@{/diary/update}" th:object="${diaryEntryResponse}" method="post"
+              class="border p-4 rounded shadow-sm">
             <input type="hidden" id="id" name="id" th:value="${diaryEntryResponse.id}"/>
             <input type="hidden" id="userid" name="userId" th:value="${diaryEntryResponse.userId}"/>
+            <label>Создано: <span th:text="${diaryEntryResponse.createdAt}"></span></label><br><br>
             <input type="hidden" id="createdAt" name="createdAt"
                    th:value="${#dates.format(diaryEntryResponse.createdAt, 'yyyy-MM-dd''T''HH:mm')}">
 
-            <label for="entryText">Заметка:</label>
-            <textarea id="entryText" name="entryText" th:text="${diaryEntryResponse.entryText}"></textarea><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Заметка</span>
+                <textarea id="entryText" name="entryText" class="form-control"
+                          th:text="${diaryEntryResponse.entryText}"></textarea>
+            </div>
 
             <label>Настроение:</label><br>
-            <input class="radio_item" type="radio" id="mood_excellent" name="mood" value="EXCELLENT"
-                   th:checked="${diaryEntryResponse.mood != null} ? ${grade == diaryEntryResponse.mood} : false"/>
+            <input class="radio_item" type="radio" id="mood_excellent" name="mood" value="EXCELLENT"/>
             <label class="label_item" for="mood_excellent">
                 <span class="material-symbols-outlined">sentiment_very_satisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="mood_good" name="mood" value="GOOD"
-                   th:checked="${diaryEntryResponse.mood != null} ? ${grade == diaryEntryResponse.mood} : false"/>
+            <input class="radio_item" type="radio" id="mood_good" name="mood" value="GOOD"/>
             <label class="label_item" for="mood_good">
                 <span class="material-symbols-outlined">sentiment_satisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="mood_normal" name="mood" value="NORMAL"
-                   th:checked="${diaryEntryResponse.mood != null} ? ${grade == diaryEntryResponse.mood} : false"/>
+            <input class="radio_item" type="radio" id="mood_normal" name="mood" value="NORMAL"/>
             <label class="label_item" for="mood_normal">
                 <span class="material-symbols-outlined">sentiment_neutral</span>
             </label>
 
-            <input class="radio_item" type="radio" id="mood_bad" name="mood" value="BAD"
-                   th:checked="${diaryEntryResponse.mood != null} ? ${grade == diaryEntryResponse.mood} : false"/>
+            <input class="radio_item" type="radio" id="mood_bad" name="mood" value="BAD"/>
             <label class="label_item" for="mood_bad">
                 <span class="material-symbols-outlined">sentiment_dissatisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="mood_awful" name="mood" value="AWFUL"
-                   th:checked="${diaryEntryResponse.mood != null} ? ${grade == diaryEntryResponse.mood} : false"/>
+            <input class="radio_item" type="radio" id="mood_awful" name="mood" value="AWFUL"/>
             <label class="label_item" for="mood_awful">
                 <span class="material-symbols-outlined">sentiment_sad</span>
             </label>
 
-            <input type="radio" name="mood" value="${null}" hidden
-                   th:checked="${diaryEntryResponse.mood != null} ? ${grade == diaryEntryResponse.mood} : false"/>
+            <input type="radio" name="mood" th:value="null" checked hidden/>
             <br>
 
 
             <label>Самочувствие:</label><br>
-            <input class="radio_item" type="radio" id="stateOfHealth_excellent" name="stateOfHealth" value="EXCELLENT"
-                   th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false"/>
+            <input class="radio_item" type="radio" id="stateOfHealth_excellent" name="stateOfHealth" value="EXCELLENT"/>
             <label class="label_item" for="stateOfHealth_excellent">
                 <span class="material-symbols-outlined">sentiment_very_satisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="stateOfHealth_good" name="stateOfHealth" value="GOOD"
-                   th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false"/>
+            <input class="radio_item" type="radio" id="stateOfHealth_good" name="stateOfHealth" value="GOOD"/>
             <label class="label_item" for="stateOfHealth_good">
                 <span class="material-symbols-outlined">sentiment_satisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="stateOfHealth_normal" name="stateOfHealth" value="NORMAL"
-                   th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false"/>
+            <input class="radio_item" type="radio" id="stateOfHealth_normal" name="stateOfHealth" value="NORMAL"/>
             <label class="label_item" for="stateOfHealth_normal">
                 <span class="material-symbols-outlined">sentiment_neutral</span>
             </label>
 
-            <input class="radio_item" type="radio" id="stateOfHealth_bad" name="stateOfHealth" value="BAD"
-                   th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false"/>
+            <input class="radio_item" type="radio" id="stateOfHealth_bad" name="stateOfHealth" value="BAD"/>
             <label class="label_item" for="stateOfHealth_bad">
                 <span class="material-symbols-outlined">sentiment_dissatisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="stateOfHealth_awful" name="stateOfHealth" value="AWFUL"
-                   th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false"/>
+            <input class="radio_item" type="radio" id="stateOfHealth_awful" name="stateOfHealth" value="AWFUL"/>
             <label class="label_item" for="stateOfHealth_awful">
                 <span class="material-symbols-outlined">sentiment_sad</span>
             </label>
 
-            <input type="radio" name="stateOfHealth" value="${null}" hidden
-                   th:checked="${diaryEntryResponse.stateOfHealth != null} ? ${grade == diaryEntryResponse.stateOfHealth} : false"/>
+            <input type="radio" name="stateOfHealth" th:value="null" checked hidden/>
             <br>
 
             <label>Количество физической активности:</label><br>
-            <input class="radio_item" type="radio" id="activity_excellent" name="activityAmount" value="EXCELLENT"
-                   th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false"/>
+            <input class="radio_item" type="radio" id="activity_excellent" name="activityAmount" value="EXCELLENT"/>
             <label class="label_item" for="activity_excellent">
                 <span class="material-symbols-outlined">sentiment_very_satisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="activity_good" name="activityAmount" value="GOOD"
-                   th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false"/>
+            <input class="radio_item" type="radio" id="activity_good" name="activityAmount" value="GOOD"/>
             <label class="label_item" for="activity_good">
                 <span class="material-symbols-outlined">sentiment_satisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="activity_normal" name="activityAmount" value="NORMAL"
-                   th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false"/>
+            <input class="radio_item" type="radio" id="activity_normal" name="activityAmount" value="NORMAL"/>
             <label class="label_item" for="activity_normal">
                 <span class="material-symbols-outlined">sentiment_neutral</span>
             </label>
 
-            <input class="radio_item" type="radio" id="activity_bad" name="activityAmount" value="BAD"
-                   th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false"/>
+            <input class="radio_item" type="radio" id="activity_bad" name="activityAmount" value="BAD"/>
             <label class="label_item" for="activity_bad">
                 <span class="material-symbols-outlined">sentiment_dissatisfied</span>
             </label>
 
-            <input class="radio_item" type="radio" id="activity_awful" name="activityAmount" value="AWFUL"
-                   th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false"/>
+            <input class="radio_item" type="radio" id="activity_awful" name="activityAmount" value="AWFUL"/>
             <label class="label_item" for="activity_awful">
                 <span class="material-symbols-outlined">sentiment_sad</span>
             </label>
 
-            <input type="radio" name="activityAmount" value="${null}" hidden
-                   th:checked="${diaryEntryResponse.activityAmount != null} ? ${grade == diaryEntryResponse.activityAmount} : false"/>
+            <input type="radio" name="activityAmount" th:value="null" checked hidden/>
+            <br>
 
 
+            <div class="input-group mb-3">
+                <span class="input-group-text">Пульс</span>
+                <input type="text" id="heartRate" name="healthEntry.heartRate" class="form-control"
+                       th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.heartRate} : ''">
+            </div>
 
-            <label for="heartRate">Пульс:</label>
-            <input type="text" id="heartRate" name="healthEntry.heartRate"
-                   th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.heartRate} : ''"><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Верхнее давление:</span>
+                <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure"
+                       class="form-control"
+                       th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.systolicBloodPressure} : ''">
+            </div>
 
-            <label for="systolicBloodPressure">Верхнее давление:</label>
-            <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure"
-                   th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.systolicBloodPressure} : ''"><br><br>
-
-            <label for="diastolicBloodPressure">Нижнее давление:</label>
-            <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure"
-                   th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.diastolicBloodPressure} : ''"><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Нижнее давление:</span>
+                <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure"
+                       class="form-control"
+                       th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.diastolicBloodPressure} : ''">
+            </div>
 
             <input class="btn btn-primary" type="submit" value="Сохранить">
         </form>
-
-        <form id="deleteForm" action="/diary/delete" method="post">
-            <input type="hidden" name="id" th:value="${diaryEntryResponse.id}"/>
-            <button class="delete-button" type="submit">Удалить запись</button>
-        </form>
     </div>
+    <form id="deleteForm" action="/diary/delete" method="post">
+        <input type="hidden" name="id" th:value="${diaryEntryResponse.id}"/>
+        <button class="delete-button" type="submit">Удалить запись</button>
+    </form>
 </div>
 </body>
 </html>

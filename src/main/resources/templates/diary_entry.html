@@ -16,72 +16,91 @@
     <div th:replace="~{navbar :: content}"></div>
     <div class="content">
         <h1>Запись дневника</h1>
-        <p>Создано: <span th:text="${#dates.format(diaryEntryResponse.createdAt, 'dd.MM.yyyy HH:mm')}"></span></p>
-        <p>Заметка: <span th:text="${diaryEntryResponse.entryText ?: 'N/A'}"></span></p>
-        <p>
-        <span th:if="${diaryEntryResponse.mood != null}">
-            Настроение:
-                <span th:switch="${diaryEntryResponse.mood.name()}">
-                <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
-                <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
-                <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
-                <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
-                <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
-            </span>
-        </span>
-            <span th:unless="${diaryEntryResponse.mood != null}">Настроение: N/A</span>
-        </p>
+        <div class="border p-4 rounded shadow-sm">
+            <div class="mb-3">
+                <label class="fw-bold">Создано:</label>
+                <p><span th:text="${#dates.format(diaryEntryResponse.createdAt, 'dd.MM.yyyy HH:mm')}"></span></p>
+            </div>
 
-        <p>
-        <span th:if="${diaryEntryResponse.stateOfHealth != null}">
-            Самочувствие:
-            <span th:switch="${diaryEntryResponse.stateOfHealth.name()}">
-                <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
-                <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
-                <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
-                <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
-                <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
-            </span>
-        </span>
-            <span th:unless="${diaryEntryResponse.stateOfHealth != null}">Самочувствие: N/A</span>
-        </p>
+            <div class="mb-3">
+                <label class="fw-bold">Заметка:</label>
+                <p><span th:text="${diaryEntryResponse.entryText ?: 'N/A'}"></span></p>
+            </div>
+            <p>
+            <div class="mb-3">
+                <label class="fw-bold">Настроение:</label>
+                <p>
+                <span th:if="${diaryEntryResponse.mood != null}">
+                    <span th:switch="${diaryEntryResponse.mood.name()}">
+                        <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
+                        <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
+                        <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
+                        <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
+                        <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
+                    </span>
+                </span>
+                    <span th:unless="${diaryEntryResponse.mood != null}">N/A</span>
+                </p>
+            </div>
+            </p>
+            <p>
+            <div class="mb-3">
+                <label class="fw-bold">Самочувствие:</label>
+                <p>
+                <span th:if="${diaryEntryResponse.stateOfHealth != null}">
+                    <span th:switch="${diaryEntryResponse.stateOfHealth.name()}">
+                        <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
+                        <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
+                        <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
+                        <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
+                        <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
+                    </span>
+                </span>
+                    <span th:unless="${diaryEntryResponse.stateOfHealth != null}">N/A</span>
+                </p>
+            </div>
+            </p>
+            <p>
+            <div class="mb-3">
+                <label class="fw-bold">Количество физической активности:</label>
+                <p>
+                <span th:if="${diaryEntryResponse.activityAmount != null}">
+                    <span th:switch="${diaryEntryResponse.activityAmount.name()}">
+                        <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
+                        <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
+                        <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
+                        <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
+                        <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
+                    </span>
+                </span>
+                    <span th:unless="${diaryEntryResponse.activityAmount != null}">Количество физической активности: N/A</span>
+                </p>
+            </div>
 
-        <p>
-    <span th:if="${diaryEntryResponse.activityAmount != null}">
-        Количество физической активности:
-        <span th:switch="${diaryEntryResponse.activityAmount.name()}">
-            <span th:case="'EXCELLENT'" class="material-symbols-outlined">sentiment_very_satisfied</span>
-            <span th:case="'GOOD'" class="material-symbols-outlined">sentiment_satisfied</span>
-            <span th:case="'NORMAL'" class="material-symbols-outlined">sentiment_neutral</span>
-            <span th:case="'BAD'" class="material-symbols-outlined">sentiment_dissatisfied</span>
-            <span th:case="'AWFUL'" class="material-symbols-outlined">sentiment_sad</span>
-        </span>
-    </span>
-            <span th:unless="${diaryEntryResponse.activityAmount != null}">Количество физической активности: N/A</span>
-        </p>
+            <h2>Здоровье</h2>
+            <p th:if="${diaryEntryResponse.healthEntry != null}">
+                <strong>Пульс: </strong><span th:text="${diaryEntryResponse.healthEntry.heartRate ?: 'N/A'}"></span><br>
+                <strong>Верхнее давление: </strong><span
+                    th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure ?: 'N/A'}"></span><br>
+                <strong>Нижнее давление: </strong><span
+                    th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure ?: 'N/A'}"></span><br>
+            </p>
+            <p th:unless="${diaryEntryResponse.healthEntry != null}">
+                Данных нет
+            </p>
 
-        <h2>Здоровье</h2>
-        <p th:if="${diaryEntryResponse.healthEntry != null}">
-            Пульс: <span th:text="${diaryEntryResponse.healthEntry.heartRate ?: 'N/A'}"></span><br>
-            Верхнее давление: <span
-                th:text="${diaryEntryResponse.healthEntry.systolicBloodPressure ?: 'N/A'}"></span><br>
-            Нижнее давление: <span
-                th:text="${diaryEntryResponse.healthEntry.diastolicBloodPressure ?: 'N/A'}"></span><br>
-        </p>
-        <p th:unless="${diaryEntryResponse.healthEntry != null}">
-            Данных нет
-        </p>
-
-        <h2>Погода</h2>
-        <p th:if="${diaryEntryResponse.weatherEntry != null}">
-            Температура: <span th:text="${diaryEntryResponse.weatherEntry.temperature ?: 'N/A'}"></span><br>
-            Тип погоды: <span th:text="${diaryEntryResponse.weatherEntry.weatherType ?: 'N/A'}"></span><br>
-        </p>
-        <p th:unless="${diaryEntryResponse.weatherEntry != null}">
-            Данных нет
-        </p>
-        <a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
-
+            <h2>Погода</h2>
+            <p th:if="${diaryEntryResponse.weatherEntry != null}">
+                <strong>Температура: </strong><span
+                    th:text="${diaryEntryResponse.weatherEntry.temperature ?: 'N/A'}"></span><br>
+                <strong>Тип погоды: </strong><span
+                    th:text="${diaryEntryResponse.weatherEntry.weatherType ?: 'N/A'}"></span><br>
+            </p>
+            <p th:unless="${diaryEntryResponse.weatherEntry != null}">
+                Данных нет
+            </p>
+            <a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
+        </div>
     </div>
 </div>
 </body>

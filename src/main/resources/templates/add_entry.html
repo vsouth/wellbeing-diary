@@ -17,17 +17,22 @@
     <div class="content">
         <h1>Новая запись</h1>
 
-        <form th:action="@{/diary/}" method="post">
+        <form th:action="@{/diary/}" method="post" class="border p-4 rounded shadow-sm">
 
-            <label for="createdAt">Создано:</label>
-            <input type="datetime-local" id="createdAt" name="createdAt"><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Создано</span>
+                <input type="datetime-local" id="createdAt" name="createdAt" class="form-control" disabled>
+            </div>
 
+            <div class="input-group mb-3">
+                <span class="input-group-text">Город</span>
+                <input type="text" id="city" name="city" class="form-control">
+            </div>
 
-            <label for="city">Город:</label>
-            <input type="text" id="city" name="city"><br><br>
-
-            <label for="entryText">Заметка:</label>
-            <textarea id="entryText" name="entryText" th:attr="placeholder=${null}"></textarea><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Заметка</span>
+                <textarea id="entryText" name="entryText" class="form-control" th:attr="placeholder=${null}"></textarea>
+            </div>
 
             <label>Настроение:</label><br>
             <input class="radio_item" type="radio" id="mood_excellent" name="mood" value="EXCELLENT"/>
@@ -117,17 +122,25 @@
             <input type="radio" name="activityAmount" th:value="null" checked hidden/>
             <br>
 
-            <label for="heartRate">Пульс:</label>
-            <input type="text" id="heartRate" name="healthEntry.heartRate" th:value="${null}"><br><br>
 
-            <label for="systolicBloodPressure">Верхнее давление:</label>
-            <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure"
-                   th:value="${null}"><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Пульс</span>
+                <input type="text" id="heartRate" name="healthEntry.heartRate" class="form-control">
+            </div>
 
-            <label for="diastolicBloodPressure">Нижнее давление:</label>
-            <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure" th:value="${null}"><br><br>
+            <div class="input-group mb-3">
+                <span class="input-group-text">Верхнее давление:</span>
+                <input type="text" id="systolicBloodPressure" name="healthEntry.systolicBloodPressure"
+                       class="form-control">
+            </div>
 
-            <input type="submit" value="Submit">
+            <div class="input-group mb-3">
+                <span class="input-group-text">Нижнее давление:</span>
+                <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure"
+                       class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
         </form>
     </div>
 </div>
