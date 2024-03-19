@@ -16,7 +16,7 @@
     <div th:replace="~{navbar_unauthorized :: content}"></div>
     <div class="content">
         <h2>Регистрация</h2>
-        <form th:action="@{/register_user}" method="post">
+        <form th:action="@{/register_user}" method="post" class="border p-4 rounded shadow-sm">
             <div class="mb-3">
                 <label class="form-label" for="username">Логин:</label>
                 <input type="text" class="form-control" id="username" name="username" required>

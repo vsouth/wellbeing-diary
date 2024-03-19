@@ -16,25 +16,31 @@
     <div th:replace="~{navbar :: content}"></div>
     <div class="content">
         <h1>Редактирование профиля</h1>
-        <form action="/user/update" method="post">
-            <input type="hidden" name="id" th:value="${userResponse.id}"/>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" th:value="${userResponse.username}"/><br>
+        <form action="/user/update" method="post" class="border p-4 rounded shadow-sm">
+            <input type="hidden" name="id" th:value="${userResponse.id}" />
 
-            <label for="role">Роль:</label>
-            <select id="role" name="role">
-                <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"
-                        th:selected="${role == userResponse.role.name()}"></option>
-            </select><br>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input type="text" id="username" name="username" class="form-control" th:value="${userResponse.username}" />
+            </div>
 
-            <label for="allowsDataAccess">Даю согласие на доступ к данным:</label>
-            <input type="checkbox" id="allowsDataAccess" name="allowsDataAccess"
-                   th:checked="${userResponse.allowsDataAccess}"/><br>
+            <div class="mb-3">
+                <label for="role" class="form-label">Роль:</label>
+                <select id="role" name="role" class="form-select">
+                    <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"
+                            th:selected="${role == userResponse.role.name()}"></option>
+                </select>
+            </div>
 
-            <input class="btn btn-primary" type="submit" value="Сохранить">
+            <div class="mb-3 form-check">
+                <input type="checkbox" id="allowsDataAccess" name="allowsDataAccess" class="form-check-input"
+                       th:checked="${userResponse.allowsDataAccess}" />
+                <label for="allowsDataAccess" class="form-check-label">Даю согласие на доступ к данным</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+            <a href="/user/update_password">Изменить пароль</a>
         </form>
-        <a href="/user/update_password">Изменить пароль</a>
-
 
         <form id="deleteForm" action="/user/delete" method="post">
             <input type="hidden" name="id" th:value="${userResponse.id}"/>

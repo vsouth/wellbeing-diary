@@ -15,16 +15,24 @@
     <div th:replace="~{navbar :: content}"></div>
     <div class="content">
         <h1>Информация о пользователе</h1>
-        <label>Логин:</label>
-        <p th:text="${userResponse.username}"></p>
+        <div class="border p-4 rounded shadow-sm">
+            <div class="mb-3">
+                <label class="fw-bold">Логин:</label>
+                <p th:text="${userResponse.username}"></p>
+            </div>
 
-        <label>Роль:</label>
-        <p th:text="${userResponse.role.name()}"></p>
+            <div class="mb-3">
+                <label class="fw-bold">Роль:</label>
+                <p th:text="${userResponse.role.name()}"></p>
+            </div>
 
-        <label>Даю согласие на доступ к данным:</label>
-        <p th:text="${userResponse.allowsDataAccess ? 'Да' : 'Нет'}"></p>
+            <div class="mb-3">
+                <label class="fw-bold">Даю согласие на доступ к данным:</label>
+                <p th:text="${userResponse.allowsDataAccess ? 'Да' : 'Нет'}"></p>
+            </div>
 
-        <a href="/user/update">Редактировать</a><br>
+            <a href="/user/update" class="btn btn-primary">Редактировать</a>
+        </div>
     </div>
 </div>
 </body>

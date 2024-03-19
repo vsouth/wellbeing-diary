@@ -61,3 +61,11 @@
 .update-password-button:hover {
     color: #074db7;
 }
+
+label {
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 0;
+}

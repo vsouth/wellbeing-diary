@@ -147,12 +147,12 @@
             <input type="text" id="diastolicBloodPressure" name="healthEntry.diastolicBloodPressure"
                    th:value="${diaryEntryResponse.healthEntry != null} ? ${diaryEntryResponse.healthEntry.diastolicBloodPressure} : ''"><br><br>
 
-            <input type="submit" value="Submit">
+            <input class="btn btn-primary" type="submit" value="Сохранить">
         </form>
 
         <form id="deleteForm" action="/diary/delete" method="post">
             <input type="hidden" name="id" th:value="${diaryEntryResponse.id}"/>
-            <button type="submit">Удалить запись</button>
+            <button class="delete-button" type="submit">Удалить запись</button>
         </form>
     </div>
 </div>
