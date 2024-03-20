@@ -76,8 +76,8 @@
                     <span th:unless="${diaryEntryResponse.activityAmount != null}">Количество физической активности: N/A</span>
                 </p>
             </div>
-
-            <h2>Здоровье</h2>
+            <div class="mb-4">
+            <p class="fw-bold"><strong>Здоровье</strong></p>
             <p th:if="${diaryEntryResponse.healthEntry != null}">
                 <strong>Пульс: </strong><span th:text="${diaryEntryResponse.healthEntry.heartRate ?: 'N/A'}"></span><br>
                 <strong>Верхнее давление: </strong><span
@@ -88,8 +88,9 @@
             <p th:unless="${diaryEntryResponse.healthEntry != null}">
                 Данных нет
             </p>
-
-            <h2>Погода</h2>
+            </div>
+            <div class="mb-4">
+            <p class="fw-bold"><strong>Погода</strong></p>
             <p th:if="${diaryEntryResponse.weatherEntry != null}">
                 <strong>Температура: </strong><span
                     th:text="${diaryEntryResponse.weatherEntry.temperature ?: 'N/A'}"></span><br>
@@ -99,8 +100,9 @@
             <p th:unless="${diaryEntryResponse.weatherEntry != null}">
                 Данных нет
             </p>
-            <a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
+            </div>
         </div>
+        <a th:href="@{/diary/update/{id}(id=${diaryEntryResponse.id})}">Обновить запись</a>
     </div>
 </div>
 </body>

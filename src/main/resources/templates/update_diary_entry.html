@@ -141,11 +141,12 @@
 
             <input class="btn btn-primary" type="submit" value="Сохранить">
         </form>
+        <form id="deleteForm" action="/diary/delete" method="post">
+            <input type="hidden" name="id" th:value="${diaryEntryResponse.id}"/>
+            <button class="delete-button" type="submit">Удалить запись</button>
+        </form>
     </div>
-    <form id="deleteForm" action="/diary/delete" method="post">
-        <input type="hidden" name="id" th:value="${diaryEntryResponse.id}"/>
-        <button class="delete-button" type="submit">Удалить запись</button>
-    </form>
+
 </div>
 </body>
 </html>
