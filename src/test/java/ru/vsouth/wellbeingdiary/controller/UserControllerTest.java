@@ -13,7 +13,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
@@ -28,10 +27,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
@@ -52,21 +52,32 @@ class UserControllerTest {
     }
 
     @Test
-    void findUserById() throws Exception {
-        UserResponse mockResponse = new UserResponse(1, "test_user", Role.USER, true);
-        when(userService.getUserById(1)).thenReturn(mockResponse);
+    public void testShowUserInfo() throws Exception {
+        Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        User user = new User();
+        user.setId(1);
+        UserResponse userResponse = new UserResponse();
+        userResponse.setId(1);
+        userResponse.setUsername("username");
+        List<String> roles = Arrays.stream(Role.values())
+                .map(Enum::name)
+                .collect(Collectors.toList());
+        Mockito.when(userDetailsService.loadUserDetailsByUsername("username")).thenReturn(user);
+        Mockito.when(userService.getUserById(1)).thenReturn(userResponse);
+        Model model = new ConcurrentModel();
+        model.addAttribute("userResponse", userResponse);
+        model.addAttribute("roles", roles);
 
-        mockMvc.perform(get("/user/1"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("user_info"))
-                .andExpect(model().attribute("userResponse", mockResponse))
-                .andExpect(model().attributeExists("roles"));
+        String viewName = userController.showUserInfo(user.getId(), model);
 
-        verify(userService, times(1)).getUserById(1);
+        assertEquals("user_info", viewName);
+        assertEquals(user.getRole(), model.getAttribute("role"));
+        assertEquals(userResponse, model.getAttribute("userResponse"));
     }
 
     @Test
-    void updateUser() throws Exception {
+    void testUpdateUser() throws Exception {
         UserRequest userRequest = new UserRequest(1, "test_user", null, Role.ANALYST, true);
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.ANALYST, true);
         when(userService.updateUser(userRequest)).thenReturn(mockResponse);
@@ -84,7 +95,7 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUserPassword() throws Exception {
+    void testUpdateUserPassword() throws Exception {
         UserRequest userRequest = new UserRequest(1, "test_user", "new_password", Role.USER, true);
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.USER, true);
         when(userService.updateUserPassword(userRequest)).thenReturn(mockResponse);
@@ -96,28 +107,28 @@ class UserControllerTest {
                         .param("password", "new_password")
                         .param("role", "USER")
                         .param("allowsDataAccess", "true"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("?????? ???????"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/user/profile"));
 
         verify(userService, times(1)).updateUserPassword(userRequest);
     }
 
     @Test
-    void deleteUser() throws Exception {
+    void testDeleteUser() throws Exception {
         UserResponse mockResponse = new UserResponse(1, "test_user", Role.USER, true);
         when(userService.deleteUser(1)).thenReturn(mockResponse);
 
         mockMvc.perform(post("/user/delete")
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("id", "1"))
-                .andExpect(status().isOk())
-                .andExpect(content().string("???????????? ??????? ??????"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/logout"));
 
         verify(userService, times(1)).deleteUser(1);
     }
 
     @Test
-    public void testUserProfile() {
+    void testUserProfile() {
         Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = new User();

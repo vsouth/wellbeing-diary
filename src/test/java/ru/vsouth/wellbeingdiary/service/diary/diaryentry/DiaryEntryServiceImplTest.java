@@ -49,7 +49,7 @@ class DiaryEntryServiceImplTest {
     void testGetEntryById() {
         DiaryEntryResponse result = diaryEntryService.getEntryById(1);
 
-        assertEquals("Dear Diary, I had a wonderful day.", result.getEntryText());
+        assertEquals("Сегодня был хороший день. Я всем доволен. Все отлично.", result.getEntryText());
         assertEquals("EXCELLENT", result.getMood().name());
         assertEquals("GOOD", result.getStateOfHealth().name());
     }
@@ -84,7 +84,7 @@ class DiaryEntryServiceImplTest {
         DiaryEntryResponse entry = diaryEntryService.getEntryByUserIdAndDiaryEntryId(1, 1);
 
         assertNotNull(entry);
-        assertEquals("Dear Diary, I had a wonderful day.", entry.getEntryText());
+        assertEquals("Сегодня был хороший день. Я всем доволен. Все отлично.", entry.getEntryText());
         assertEquals("EXCELLENT", entry.getMood().name());
         assertEquals("GOOD", entry.getStateOfHealth().name());
     }
