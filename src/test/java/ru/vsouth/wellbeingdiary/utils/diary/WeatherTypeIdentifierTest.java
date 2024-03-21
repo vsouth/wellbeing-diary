@@ -11,7 +11,7 @@ class WeatherTypeIdentifierTest {
     @Test
     void testGetWeatherType_ValidCode() {
         assertEquals("Ясно", weatherTypeIdentifier.getWeatherType(0));
-        assertEquals("Частично облачно", weatherTypeIdentifier.getWeatherType(1));
+        assertEquals("Переменная облачность", weatherTypeIdentifier.getWeatherType(1));
         assertEquals("Облачно", weatherTypeIdentifier.getWeatherType(3));
         assertEquals("Дым", weatherTypeIdentifier.getWeatherType(4));
         assertEquals("Мгла", weatherTypeIdentifier.getWeatherType(5));
