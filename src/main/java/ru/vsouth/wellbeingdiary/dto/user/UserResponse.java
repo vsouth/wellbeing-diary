@@ -2,6 +2,8 @@ package ru.vsouth.wellbeingdiary.dto.user;
 
 import ru.vsouth.wellbeingdiary.model.user.Role;
 
+import java.util.Objects;
+
 public class UserResponse {
     private int id;
     private String username;
@@ -48,5 +50,18 @@ public class UserResponse {
 
     public void setAllowsDataAccess(boolean allowsDataAccess) {
         this.allowsDataAccess = allowsDataAccess;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserResponse that = (UserResponse) o;
+        return getId() == that.getId() && isAllowsDataAccess() == that.isAllowsDataAccess() && Objects.equals(getUsername(), that.getUsername()) && getRole() == that.getRole();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(), getUsername(), getRole(), isAllowsDataAccess());
     }
 }
