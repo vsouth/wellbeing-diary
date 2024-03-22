@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.vsouth.wellbeingdiary.dto.diary.DiaryEntryResponse;
+import ru.vsouth.wellbeingdiary.dto.diary.OpenDiaryEntryResponse;
 import ru.vsouth.wellbeingdiary.model.diary.Grade;
 import ru.vsouth.wellbeingdiary.model.diary.PartOfDay;
 import ru.vsouth.wellbeingdiary.model.diary.WeatherEntry;
@@ -74,16 +75,16 @@ class StatisticsServiceImplTest {
 
     @Test
     void testGetOpenStateOfHealthStatisticsByWeatherType() {
-        List<DiaryEntryResponse> entries = Arrays.asList(
-                new DiaryEntryResponse(3, 2, null,
+        List<OpenDiaryEntryResponse> entries = Arrays.asList(
+                new OpenDiaryEntryResponse(3, null,
                         new WeatherEntry(13.0, 13.0, new Date(11111), PartOfDay.MORNING, 12.1, "Ясно"),
-                        new Date(11111), "", Grade.BAD, Grade.AWFUL, Grade.BAD),
-                new DiaryEntryResponse(3, 2, null,
+                        new Date(11111), Grade.BAD, Grade.AWFUL, Grade.BAD),
+                new OpenDiaryEntryResponse(3, null,
                         new WeatherEntry(13.0, 13.0, new Date(11111), PartOfDay.MORNING, 10.1, "Облачно"),
-                        new Date(11111), "", Grade.EXCELLENT, Grade.GOOD, Grade.EXCELLENT)
+                        new Date(11111), Grade.EXCELLENT, Grade.GOOD, Grade.EXCELLENT)
         );
 
-        Map<String, Map<Grade, Long>> result = statisticsService.getStateOfHealthStatisticsByWeatherType(entries);
+        Map<String, Map<Grade, Long>> result = statisticsService.getOpenStateOfHealthStatisticsByWeatherType(entries);
 
         Map<String, Map<Grade, Long>> expected = new HashMap<>();
 
@@ -100,16 +101,16 @@ class StatisticsServiceImplTest {
 
     @Test
     void testGetOpenMoodStatisticsByWeatherType() {
-        List<DiaryEntryResponse> entries = Arrays.asList(
-                new DiaryEntryResponse(3, 2, null,
+        List<OpenDiaryEntryResponse> entries = Arrays.asList(
+                new OpenDiaryEntryResponse(3, null,
                         new WeatherEntry(13.0, 13.0, new Date(11111), PartOfDay.MORNING, 12.1, "Ясно"),
-                        new Date(11111), "", Grade.BAD, Grade.AWFUL, Grade.BAD),
-                new DiaryEntryResponse(3, 2, null,
+                        new Date(11111), Grade.BAD, Grade.AWFUL, Grade.BAD),
+                new OpenDiaryEntryResponse(3, null,
                         new WeatherEntry(13.0, 13.0, new Date(11111), PartOfDay.MORNING, 10.1, "Облачно"),
-                        new Date(11111), "", Grade.EXCELLENT, Grade.GOOD, Grade.EXCELLENT)
+                        new Date(11111), Grade.EXCELLENT, Grade.GOOD, Grade.EXCELLENT)
         );
 
-        Map<String, Map<Grade, Long>> result = statisticsService.getMoodStatisticsByWeatherType(entries);
+        Map<String, Map<Grade, Long>> result = statisticsService.getOpenMoodStatisticsByWeatherType(entries);
 
         Map<String, Map<Grade, Long>> expected = new HashMap<>();
 
