@@ -49,7 +49,7 @@ public class DiaryControllerTest {
     private ExportService exportService;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         diaryManagementService = mock(DiaryManagementService.class);
         userDetailsService = mock(CustomUserDetailsService.class);
         exportService = mock(ExportService.class);
@@ -58,7 +58,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testGetAllOpenEntries() {
+    void testGetAllOpenEntries() {
         User user = new User(1, "testuser", "password", Role.ANALYST, true);
         List<OpenDiaryEntryResponse> openDiaryEntries = new ArrayList<>();
 
@@ -78,13 +78,13 @@ public class DiaryControllerTest {
 
 
     @Test
-    public void testExportOpenToXls() throws IOException {
+    void testExportOpenToXls() throws IOException {
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         diaryController.exportOpenToXls(response);
     }
 
     @Test
-    public void testGetOpenEntriesStats() {
+    void testGetOpenEntriesStats() {
         User user = new User(1, "testuser", "password", Role.ANALYST, true);
         Map<String, Map<String, Map<Grade, Long>>> openDiaryEntryStatistics = new HashMap<String, Map<String, Map<Grade, Long>>>();
 
@@ -103,7 +103,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testGetAllEntries() {
+    void testGetAllEntries() {
         User user = new User(1, "testuser", "password", Role.ANALYST, true);
         List<OpenDiaryEntryResponse> openDiaryEntries = new ArrayList<>();
         when(userDetailsService.loadUserDetailsByUsername("testuser")).thenReturn(user);
@@ -121,7 +121,7 @@ public class DiaryControllerTest {
 
 
     @Test
-    public void testExportToXls() throws IOException {
+    void testExportToXls() throws IOException {
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         User user = new User(1, "testuser", "password", Role.ANALYST, true);
         Authentication authentication = new UsernamePasswordAuthenticationToken("testuser", "password");
@@ -131,7 +131,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testShowDiaryEntry() {
+    void testShowDiaryEntry() {
         int id = 1;
         DiaryEntryResponse diaryEntryResponse = new DiaryEntryResponse();
         Mockito.when(diaryManagementService.getDiaryEntry(id)).thenReturn(diaryEntryResponse);
@@ -149,7 +149,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testShowUpdateDiaryEntryForm() {
+    void testShowUpdateDiaryEntryForm() {
         int id = 1;
         DiaryEntryResponse diaryEntryResponse = new DiaryEntryResponse();
         Mockito.when(diaryManagementService.getDiaryEntry(id)).thenReturn(diaryEntryResponse);
@@ -169,7 +169,7 @@ public class DiaryControllerTest {
 
 
     @Test
-    public void testUpdateEntry() {
+    void testUpdateEntry() {
         DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest();
         DiaryEntryResponse updatedEntry = new DiaryEntryResponse();
         Mockito.when(diaryManagementService.updateDiaryEntry(diaryEntryRequest)).thenReturn(updatedEntry);
@@ -180,7 +180,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testDeleteEntry() {
+    void testDeleteEntry() {
         DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest();
         diaryEntryRequest.setId(1);
         diaryEntryRequest.setUserId(10);
@@ -206,7 +206,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testShowAddEntryForm() {
+    void testShowAddEntryForm() {
         Model model = new ConcurrentModel();
 
         User user = new User(1, "testuser", "password", Role.ANALYST, true);
@@ -223,7 +223,7 @@ public class DiaryControllerTest {
     }
 
     @Test
-    public void testAddEntry() throws JsonProcessingException {
+    void testAddEntry() throws JsonProcessingException {
         DiaryEntryRequest diaryEntryRequest = new DiaryEntryRequest();
         diaryEntryRequest.setId(1);
         diaryEntryRequest.setUserId(10);

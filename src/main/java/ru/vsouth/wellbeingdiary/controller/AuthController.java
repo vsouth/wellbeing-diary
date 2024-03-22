@@ -1,4 +1,4 @@
-package ru.vsouth.wellbeingdiary.security;
+package ru.vsouth.wellbeingdiary.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -52,7 +52,7 @@ class UserControllerTest {
     }
 
     @Test
-    public void testShowUserInfo() throws Exception {
+    void testShowUserInfo() throws Exception {
         Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = new User();

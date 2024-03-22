@@ -7,6 +7,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ui.Model;
+import ru.vsouth.wellbeingdiary.controller.AuthController;
 import ru.vsouth.wellbeingdiary.dto.user.UserRequest;
 import ru.vsouth.wellbeingdiary.dto.user.UserResponse;
 import ru.vsouth.wellbeingdiary.model.user.Role;
