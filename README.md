@@ -14,7 +14,7 @@
 
 создать базу данных wellbeing-diary в postgresql.
 
-в properties.properties заменить на свои данные пользователя postgresql
+в application.properties заменить на свои данные пользователя postgresql
 
 - spring.datasource.username=**postgres**
 
