@@ -18,8 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 class HealthEntryServiceImplTest {
     @Autowired
     private HealthEntryRepository healthEntryRepository;
-    @Autowired
-    private UserRepository userRepository;
 
     private final HealthEntryMapper healthEntryMapper = new HealthEntryMapper();
 
