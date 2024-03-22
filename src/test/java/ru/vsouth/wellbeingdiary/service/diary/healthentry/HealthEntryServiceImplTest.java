@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ru.vsouth.wellbeingdiary.dto.diary.HealthEntryResponse;
 import ru.vsouth.wellbeingdiary.model.diary.HealthEntry;
 import ru.vsouth.wellbeingdiary.repository.HealthEntryRepository;
-import ru.vsouth.wellbeingdiary.repository.UserRepository;
 import ru.vsouth.wellbeingdiary.utils.diary.HealthEntryMapper;
 
 import java.util.List;
