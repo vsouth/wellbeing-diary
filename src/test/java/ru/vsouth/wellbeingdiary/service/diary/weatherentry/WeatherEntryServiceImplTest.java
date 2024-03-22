@@ -20,21 +20,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+
 @SpringBootTest
 class WeatherEntryServiceImplTest {
-    @Autowired
-    private WeatherEntryRepository weatherEntryRepository;
-
     private final WeatherEntryMapper weatherEntryMapper = new WeatherEntryMapper();
-
-    private WeatherEntryServiceImpl weatherEntryService;
     private final WeatherApiClient weatherApiClient = new WeatherApiClient(new WeatherApiMapper());
     private final WeatherTypeIdentifier weatherTypeIdentifier = new WeatherTypeIdentifier();
     private final PartOfDayIdentifier partOfDayIdentifier = new PartOfDayIdentifier();
+    @Autowired
+    private WeatherEntryRepository weatherEntryRepository;
+    private WeatherEntryServiceImpl weatherEntryService;
 
     @BeforeEach
     public void setUp() {
-        weatherEntryService = new WeatherEntryServiceImpl(weatherEntryRepository, weatherEntryMapper, weatherApiClient, weatherTypeIdentifier, partOfDayIdentifier);
+        weatherEntryService = new WeatherEntryServiceImpl(weatherEntryRepository,
+                weatherEntryMapper, weatherApiClient, weatherTypeIdentifier, partOfDayIdentifier);
     }
 
     @Test
