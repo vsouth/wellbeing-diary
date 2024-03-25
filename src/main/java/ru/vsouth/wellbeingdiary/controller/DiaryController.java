@@ -25,6 +25,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Контроллер дневника. Отвечает за записи и работу с ними
+ */
 @Controller
 @RequestMapping("diary")
 public class DiaryController {
@@ -38,6 +41,12 @@ public class DiaryController {
         this.exportService = exportService;
     }
 
+    /**
+     * Метод для отображения списка открытых записей
+     *
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница "Открытые записи"
+     */
     @GetMapping("/open_list")
     public String getAllOpenEntries(Model model) {
         User user = getAuthorizedUser();
@@ -47,12 +56,24 @@ public class DiaryController {
         return "open_diary_entry_list";
     }
 
+    /**
+     * Метод для экспорта списка открытых записей в формате .xls
+     *
+     * @param response      Ответ HTTP для передачи файла
+     * @throws IOException  Исключение, которое может возникнуть при работе с потоками
+     */
     @GetMapping("/open_list/export")
     public void exportOpenToXls(HttpServletResponse response) throws IOException {
         List<OpenDiaryEntryResponse> openDiaryEntries = diaryManagementService.getOpenDiaryEntries();
         exportService.exportOpenEntriesToXls(openDiaryEntries, response);
     }
 
+    /**
+     * Метод для получения статистики по открытым записям
+     *
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница статистики по открытым записям
+     */
     @GetMapping("/open_list/stats")
     public String getOpenEntriesStats(Model model) {
         User user = getAuthorizedUser();
@@ -62,6 +83,12 @@ public class DiaryController {
         return "statistics";
     }
 
+    /**
+     * Метод для отображения списка записей авторизованного пользователя
+     *
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница "Мои записи"
+     */
     @GetMapping("/list")
     public String getUserEntries(Model model) {
         User user = getAuthorizedUser();
@@ -73,6 +100,12 @@ public class DiaryController {
         return "diary_entry_list";
     }
 
+    /**
+     * Метод для экспорта списка записей авторизованного пользователя в формате .xls
+     *
+     * @param response Ответ HTTP для передачи файла
+     * @throws IOException Исключение, которое может возникнуть при работе с потоками
+     */
     @GetMapping("/list/export")
     public void exportToXls(HttpServletResponse response) throws IOException {
         User user = getAuthorizedUser();
@@ -81,6 +114,12 @@ public class DiaryController {
         exportService.exportEntriesToXls(diaryEntries, response);
     }
 
+    /**
+     * Метод для получения статистики по записям авторизованного пользователя
+     *
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница статистики по записям пользователя
+     */
     @GetMapping("/list/stats")
     public String getUserEntriesStats(Model model) {
         User user = getAuthorizedUser();
@@ -91,6 +130,13 @@ public class DiaryController {
         return "statistics";
     }
 
+    /**
+     * Метод для отображения конкретной записи
+     *
+     * @param id    Идентификатор записи
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница записи
+     */
     @GetMapping("/{id}")
     public String showDiaryEntry(@PathVariable("id") int id, Model model) {
         User user = getAuthorizedUser();
@@ -104,6 +150,13 @@ public class DiaryController {
         return "diary_entry";
     }
 
+    /**
+     * Метод для отображения страницы обновления (изменения) конкретной записи
+     *
+     * @param id    Идентификатор записи в дневнике
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница обновления записи
+     */
     @GetMapping("/update/{id}")
     public String showUpdateDiaryEntryForm(@PathVariable("id") int id, Model model) {
         User user = getAuthorizedUser();
@@ -118,16 +171,28 @@ public class DiaryController {
         return "update_diary_entry";
     }
 
+    /**
+     * Метод обновления записи
+     *
+     * @param diaryEntryRequest Запрос на обновление записи в дневнике (запись с обновленными полями)
+     * @param model             Модель для передачи данных на страницу
+     * @return                  Страница записи
+     */
     @PostMapping("/update")
     public String updateEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest, Model model) {
         DiaryEntryResponse updatedEntry = diaryManagementService.updateDiaryEntry(diaryEntryRequest);
         if (updatedEntry == null) {
             return "redirect:/error";
         }
-        return "redirect:/diary/"+ updatedEntry.getId();
+        return "redirect:/diary/" + updatedEntry.getId();
     }
 
-
+    /**
+     * Метод удаления записи
+     *
+     * @param diaryEntryRequest Запрос на удаление записи в дневнике (запись, которую необходимо удалить)
+     * @return                  Страница "Мои записи"
+     */
     @PostMapping("/delete")
     public ResponseEntity<String> deleteEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest) {
         DiaryEntryResponse deletedEntry = diaryManagementService.deleteDiaryEntry(diaryEntryRequest.getId());
@@ -138,6 +203,12 @@ public class DiaryController {
         }
     }
 
+    /**
+     * Метод для отображения страницы добавления новой записи
+     *
+     * @param model Модель для передачи данных на страницу
+     * @return      Страница добавления новой записи
+     */
     @GetMapping("/new")
     public String showAddEntryForm(Model model) {
         User user = getAuthorizedUser();
@@ -151,15 +222,26 @@ public class DiaryController {
         model.addAttribute("grades", grades);
         return "add_entry";
     }
+    /**
+     * Метод добавления новой записи
+     *
+     * @param diaryEntryRequest Запрос на добавление записи
+     * @return                  Страница добавленной записи
+     */
     @PostMapping("/")
     public String addEntry(@ModelAttribute("diaryEntryRequest") DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
         User user = getAuthorizedUser();
         int userId = user.getId();
         diaryEntryRequest.setUserId(userId);
         DiaryEntryResponse diaryEntryResponse = diaryManagementService.addDiaryEntry(diaryEntryRequest);
-        return "redirect:/diary/"+ diaryEntryResponse.getId();
+        return "redirect:/diary/" + diaryEntryResponse.getId();
     }
 
+    /**
+     * Вспомогательный метод для получения авторизованного пользователя
+     *
+     * @return Авторизованный пользователь
+     */
     private User getAuthorizedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
