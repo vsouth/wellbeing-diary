@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для работы с записями дневника
+ */
 @Service
 public class DiaryEntryServiceImpl implements DiaryEntryService {
     private final DiaryEntryRepository diaryEntryRepository;
@@ -22,16 +25,32 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         this.diaryEntryMapper = diaryEntryMapper;
     }
 
+    /**
+     * Метод для получения всех записей
+     *
+     * @return Список записей дневника
+     */
     @Override
     public List<DiaryEntryResponse> getAllEntries() {
         return diaryEntryRepository.findAll().stream().map(diaryEntryMapper::toDiaryEntryResponse).collect(Collectors.toList());
     }
 
+    /**
+     * Метод для получения открытых записей
+     *
+     * @return Список открытых записей дневника
+     */
     @Override
     public List<OpenDiaryEntryResponse> getAllOpenEntries() {
         return diaryEntryRepository.findOpenDiaryEntries().stream().map(diaryEntryMapper::toOpenDiaryEntryResponse).collect(Collectors.toList());
     }
 
+    /**
+     * Метод для получения записи дневника по идентификатору
+     *
+     * @param id Идентификатор записи дневника
+     * @return Запись дневника, или null, если запись не найдена
+     */
     @Override
     public DiaryEntryResponse getEntryById(int id) {
         Optional<DiaryEntry> optionalDiaryEntry = diaryEntryRepository.findById(id);
@@ -43,11 +62,24 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         }
     }
 
+    /**
+     * Метод для получения записей дневника по идентификатору пользователя
+     *
+     * @param userId Идентификатор пользователя
+     * @return Список записей дневника
+     */
     @Override
     public List<DiaryEntryResponse> getEntriesByUserId(int userId) {
         return diaryEntryRepository.findByUserId(userId).stream().map(diaryEntryMapper::toDiaryEntryResponse).collect(Collectors.toList());
     }
 
+    /**
+     * Метод для получения записи дневника по идентификаторам пользователя и записи
+     *
+     * @param userId       Идентификатор пользователя
+     * @param diaryEntryId Идентификатор записи дневника
+     * @return Запись дневника, или null, если запись не найдена
+     */
     @Override
     public DiaryEntryResponse getEntryByUserIdAndDiaryEntryId(int userId, int diaryEntryId) {
         Optional<DiaryEntry> optionalEntry = diaryEntryRepository.findByUserIdAndId(userId, diaryEntryId);
@@ -59,6 +91,12 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         }
     }
 
+    /**
+     * Метод для сохранения записи дневника
+     *
+     * @param diaryEntryRequest Запрос на сохранение записи дневника
+     * @return Сохраненная запись
+     */
     @Override
     public DiaryEntryResponse saveEntry(DiaryEntryRequest diaryEntryRequest) {
         DiaryEntry diaryEntryToSave = diaryEntryMapper.toDiaryEntry(diaryEntryRequest);
@@ -66,6 +104,12 @@ public class DiaryEntryServiceImpl implements DiaryEntryService {
         return diaryEntryMapper.toDiaryEntryResponse(savedEntry);
     }
 
+    /**
+     * Метод для удаления записи дневника по идентификатору
+     *
+     * @param id Идентификатор записи дневника
+     * @return Удаленная запись, или null, если запись не найдена
+     */
     @Override
     public DiaryEntryResponse deleteEntry(int id) {
         Optional<DiaryEntry> optionalEntry = diaryEntryRepository.findById(id);

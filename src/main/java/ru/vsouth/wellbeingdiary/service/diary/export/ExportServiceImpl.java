@@ -15,9 +15,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Сервис экспорта записей в формате .xls
+ */
 @Service
 public class ExportServiceImpl implements ExportService {
-
+    /**
+     * Метод для экспорта записей в формат .xls
+     *
+     * @param entries  Список записей для экспорта
+     * @param response Объект HttpServletResponse для отправки файла
+     * @throws IOException Исключение в случае ошибки ввода-вывода
+     */
     @Override
     public void exportEntriesToXls(List<DiaryEntryResponse> entries, HttpServletResponse response) throws IOException {
         try (HSSFWorkbook workbook = new HSSFWorkbook()) {
@@ -42,6 +51,13 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
+    /**
+     * Метод для экспорта открытых записей в формат .xls
+     *
+     * @param entries  Список открытых записей для экспорта
+     * @param response Объект HttpServletResponse для отправки файла
+     * @throws IOException Исключение в случае ошибки ввода-вывода
+     */
     @Override
     public void exportOpenEntriesToXls(List<OpenDiaryEntryResponse> entries, HttpServletResponse response) throws IOException {
         try (HSSFWorkbook workbook = new HSSFWorkbook()) {
@@ -66,6 +82,9 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
+    /**
+     * Вспомогательный метод для создания заголовков таблицы
+     */
     private void createHeaders(Sheet sheet, String[] headers) {
         Row headerRow = sheet.createRow(0);
         for (int i = 0; i < headers.length; i++) {
@@ -74,6 +93,9 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
+    /**
+     * Вспомогательный метод для заполнения строки таблицы информацией из обычной записи
+     */
     private void fillRowWithData(Row row, DiaryEntryResponse entry) {
         row.createCell(0).setCellValue(row.getRowNum());
         row.createCell(1).setCellValue(entry.getCreatedAt().toString());
@@ -108,6 +130,9 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
+    /**
+     * Вспомогательный метод для создания заголовков таблицы информацией из открытой записи
+     */
     private void fillRowWithData(Row row, OpenDiaryEntryResponse entry) {
         row.createCell(0).setCellValue(row.getRowNum());
         row.createCell(1).setCellValue(entry.getCreatedAt().toString());
@@ -141,6 +166,9 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
+    /**
+     * Вспомогательный метод для установления пустого значения числовым (integer) ячейкам
+     */
     private void setCellValueOrBlank(Cell cell, Integer value) {
         if (value != null) {
             cell.setCellValue(value);
@@ -149,6 +177,9 @@ public class ExportServiceImpl implements ExportService {
         }
     }
 
+    /**
+     * Вспомогательный метод для установления пустого значения числовым (double) ячейкам
+     */
     private void setCellValueOrBlank(Cell cell, Double value) {
         if (value != null) {
             cell.setCellValue(value);

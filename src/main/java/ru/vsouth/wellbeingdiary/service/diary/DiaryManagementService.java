@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Сервис управления дневником. Отвечает за координацию работы с записями
+ */
 @Service
 public class DiaryManagementService {
     private final DiaryEntryService diaryEntryService;
@@ -30,6 +33,7 @@ public class DiaryManagementService {
     private final WeatherEntryService weatherEntryService;
     private final WeatherEntryMapper weatherEntryMapper;
     private final StatisticsService statisticsService;
+
     public DiaryManagementService(DiaryEntryService diaryEntryService, HealthEntryService healthEntryService, WeatherEntryService weatherEntryService, WeatherEntryMapper weatherEntryMapper, StatisticsService statisticsService) {
         this.diaryEntryService = diaryEntryService;
         this.healthEntryService = healthEntryService;
@@ -38,26 +42,61 @@ public class DiaryManagementService {
         this.statisticsService = statisticsService;
     }
 
+    /**
+     * Метод для получения списка открытых записей
+     *
+     * @return Список открытых записей
+     */
     public List<OpenDiaryEntryResponse> getOpenDiaryEntries() {
         return diaryEntryService.getAllOpenEntries();
     }
 
+    /**
+     * Метод для получения списка всех записей
+     *
+     * @return Список всех записей
+     */
     public List<DiaryEntryResponse> getDiaryEntries() {
         return diaryEntryService.getAllEntries();
     }
 
+    /**
+     * Метод для получения списка записей определенного пользователя
+     *
+     * @param userId Идентификатор пользователя
+     * @return Список записей пользователя
+     */
     public List<DiaryEntryResponse> getDiaryEntries(int userId) {
         return diaryEntryService.getEntriesByUserId(userId);
     }
 
+    /**
+     * Метод для получения записи по идентификаторам пользователя и записи
+     *
+     * @param userId       Идентификатор пользователя
+     * @param diaryEntryId Идентификатор записи в дневнике
+     * @return Запись
+     */
     public DiaryEntryResponse getDiaryEntry(int userId, int diaryEntryId) {
         return diaryEntryService.getEntryByUserIdAndDiaryEntryId(userId, diaryEntryId);
     }
 
+    /**
+     * Метод для получения записи по идентификатору записи
+     *
+     * @param id Идентификатор записи
+     * @return Запись
+     */
     public DiaryEntryResponse getDiaryEntry(int id) {
         return diaryEntryService.getEntryById(id);
     }
 
+    /**
+     * Метод для обновления записи в дневнике
+     *
+     * @param diaryEntryRequest Запрос на обновление записи в дневнике
+     * @return Обновленная запись
+     */
     public DiaryEntryResponse updateDiaryEntry(DiaryEntryRequest diaryEntryRequest) {
         DiaryEntryResponse diaryEntry = diaryEntryService.getEntryById(diaryEntryRequest.getId());
         HealthEntry healthEntry = diaryEntry.getHealthEntry();
@@ -71,10 +110,23 @@ public class DiaryManagementService {
         return diaryEntryService.saveEntry(diaryEntryRequest);
     }
 
+    /**
+     * Метод для удаления записи из дневника по идентификатору
+     *
+     * @param id Идентификатор записи для удаления
+     * @return Удаленная запись
+     */
     public DiaryEntryResponse deleteDiaryEntry(int id) {
         return diaryEntryService.deleteEntry(id);
     }
 
+    /**
+     * Метод для добавления новой записи
+     *
+     * @param diaryEntryRequest Запрос на добавление новой записи в дневник
+     * @return Добавленная запись
+     * @throws JsonProcessingException Исключение при обработке JSON
+     */
     public DiaryEntryResponse addDiaryEntry(DiaryEntryRequest diaryEntryRequest) throws JsonProcessingException {
         if (diaryEntryRequest.getCreatedAt() == null) {
             ZoneId zoneId = ZoneId.of("UTC+3");
@@ -93,7 +145,7 @@ public class DiaryManagementService {
         if (diaryEntryRequest.getHealthEntry() != null) {
             HealthEntry healthEntry = diaryEntryRequest.getHealthEntry();
             if (healthEntry.getHeartRate() == null && healthEntry.getSystolicBloodPressure() == null &&
-                healthEntry.getDiastolicBloodPressure() == null) {
+                    healthEntry.getDiastolicBloodPressure() == null) {
                 diaryEntryRequest.setHealthEntry(null);
             } else {
                 healthEntryService.saveEntry(diaryEntryRequest.getHealthEntry());
@@ -102,6 +154,12 @@ public class DiaryManagementService {
         return diaryEntryService.saveEntry(diaryEntryRequest);
     }
 
+    /**
+     * Метод для получения статистики по записям определенного пользователя
+     *
+     * @param userId Идентификатор пользователя
+     * @return Статистика записей
+     */
     public Map<String, Map<String, Map<Grade, Long>>> getDiaryEntriesStatisticsById(int userId) {
         List<DiaryEntryResponse> entries = diaryEntryService.getEntriesByUserId(userId);
         Map<String, Map<Grade, Long>> stateOfHealthStats = statisticsService.getStateOfHealthStatisticsByWeatherType(entries);
@@ -112,6 +170,11 @@ public class DiaryManagementService {
         return combinedStats;
     }
 
+    /**
+     * Метод для получения статистики по открытым записям
+     *
+     * @return Статистика по открытым записям
+     */
     public Map<String, Map<String, Map<Grade, Long>>> getOpenDiaryEntriesStatistics() {
         List<OpenDiaryEntryResponse> entries = diaryEntryService.getAllOpenEntries();
         Map<String, Map<Grade, Long>> stateOfHealthStats = statisticsService.getOpenStateOfHealthStatisticsByWeatherType(entries);

@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис работы с пользователями
+ */
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
@@ -24,11 +27,23 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Метод для проверки существования пользователя по имени
+     *
+     * @param username Имя пользователя
+     * @return true, если пользователь с указанным именем существует, false, если нет
+     */
     @Override
     public Boolean existsByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
 
+    /**
+     * Метод для регистрации пользователя
+     *
+     * @param userRequest Запрос на регистрацию нового пользователя
+     * @return Информация о пользователе, или null, если пользователь уже существует
+     */
     public UserResponse registerUser(UserRequest userRequest) {
         if (!existsByUsername(userRequest.getUsername())) {
             User user = userMapper.toUser(userRequest);
@@ -40,6 +55,11 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    /**
+     * Метод для получения списка всех пользователей
+     *
+     * @return Список информации о пользователях
+     */
     @Override
     public List<UserResponse> getAllUsers() {
         return userRepository.findAll().stream()
@@ -47,6 +67,12 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Метод для получения пользователя по идентификатору
+     *
+     * @param id Идентификатор пользователя
+     * @return Информация о пользователе, или null, если пользователь не найден
+     */
     @Override
     public UserResponse getUserById(int id) {
         Optional<User> optionalFoundUser = userRepository.findById(id);
@@ -58,6 +84,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Метод для получения пользователя по имени
+     *
+     * @param username Имя пользователя
+     * @return Информация о пользователе, или null, если пользователь не найден
+     */
     @Override
     public UserResponse getUserByUsername(String username) {
         Optional<User> optionalFoundUser = userRepository.findByUsername(username);
@@ -69,6 +101,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Метод для добавления нового пользователя
+     *
+     * @param userRequest Запрос на сохранение нового пользователя
+     * @return Информация о сохраненном пользователе
+     */
     @Override
     public UserResponse saveUser(UserRequest userRequest) {
         User user = userMapper.toUser(userRequest);
@@ -76,6 +114,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResponse(savedUser);
     }
 
+    /**
+     * Метод для удаления пользователя по идентификатору
+     *
+     * @param id Идентификатор пользователя
+     * @return Информация об удаленном пользователе, или null, если пользователь не найден
+     */
     @Override
     public UserResponse deleteUser(int id) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -88,6 +132,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Метод для обновления информации о пользователе
+     *
+     * @param user Запрос на обновление информации о пользователе
+     * @return Обновленная информация о пользователе, или null, если пользователь не найден
+     */
     @Override
     public UserResponse updateUser(UserRequest user) {
         Optional<User> optionalExistingUser = userRepository.findById(user.getId());
@@ -105,6 +155,12 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Метод для обновления пароля пользователя
+     *
+     * @param user Запрос на обновление пароля пользователя
+     * @return Информация о пользователе, или null, если пользователь не найден
+     */
     @Override
     public UserResponse updateUserPassword(UserRequest user) {
         Optional<User> optionalExistingUser = userRepository.findById(user.getId());
@@ -121,6 +177,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    /**
+     * Метод для получения общего количества зарегистрированных пользователей
+     *
+     * @return Общее количество зарегистрированных пользователей
+     */
     @Override
     public Integer getUsersCount() {
         return getAllUsers().size();
